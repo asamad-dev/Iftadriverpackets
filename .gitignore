@@ -27,8 +27,7 @@ env/
 # =============================================================================
 
 # OCR Results and processed data
-processed_driver_packet.json
-ocr_results.json
+
 ocr_output/
 processed_packets/
 extracted_data/
@@ -53,7 +52,7 @@ Master/
 Filtered/
 
 # Temporary processing files
-temp_*.json
+
 temp_ocr_*.txt
 processing_*.log
 
@@ -122,15 +121,15 @@ ipython_config.py
 # =============================================================================
 
 # Large image files (uncomment if files are too large for git)
-*.jpg
-*.jpeg
+# *.jpg
+# *.jpeg
 *.png
 *.tiff
 *.bmp
 
 # Specifically ignore large input files
-input/*.jpg
-input/*.jpeg
+# input/*.jpg
+# input/*.jpeg
 input/*.png
 input/*.tiff
 input/*.bmp
