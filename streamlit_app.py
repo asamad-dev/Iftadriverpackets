@@ -251,6 +251,8 @@ def upload_and_process_tab(processor, use_here_api):
         
         # Process button
         if st.button("🚀 Process Images", type="primary", use_container_width=True):
+            # Store use_here_api setting in session state for later use
+            st.session_state['use_here_api'] = use_here_api
             process_images(uploaded_files, processor, use_here_api)
 
 def process_images(uploaded_files, processor, use_here_api):
@@ -402,51 +404,277 @@ def show_summary_metrics(results):
             st.metric("📊 Average Miles per Trip", f"{avg_miles:,.0f}")
 
 def show_result_card(result, show_validation_warnings):
-    """Show individual result card"""
-    with st.expander(f"📄 {result['source_image']}", expanded=False):
+    """Show individual result card with editable fields"""
+    source_image = result['source_image']
+    
+    with st.expander(f"📄 {source_image}", expanded=False):
         if not result.get('processing_success'):
             st.error(f"❌ Processing failed: {result.get('error', 'Unknown error')}")
             return
         
-        # Basic info
+        # Initialize session state for this result if not exists
+        if f"edited_{source_image}" not in st.session_state:
+            st.session_state[f"edited_{source_image}"] = result.copy()
+        
+        if f"original_{source_image}" not in st.session_state:
+            st.session_state[f"original_{source_image}"] = result.copy()
+        
+        # Get current edited values
+        edited_result = st.session_state[f"edited_{source_image}"]
+        original_result = st.session_state[f"original_{source_image}"]
+        
+        st.markdown("### ✏️ Editable Gemini Extracted Fields")
+        st.info("💡 Edit any field below and click 'Recalculate Distances' to update HERE API calculations")
+        
+        # Define all fields from Gemini extraction prompt
+        gemini_fields = {
+            'drivers_name': {'label': '👤 Driver Name', 'type': 'text'},
+            'unit': {'label': '🚛 Unit #', 'type': 'text'},
+            'trailer': {'label': '🚚 Trailer #', 'type': 'text'},
+            'date_trip_started': {'label': '📅 Date Trip Started', 'type': 'text'},
+            'date_trip_ended': {'label': '📅 Date Trip Ended', 'type': 'text'},
+            'trip': {'label': '🆔 Trip #', 'type': 'text'},
+            'trip_started_from': {'label': '🏁 Trip Started From', 'type': 'text'},
+            'first_drop': {'label': '📍 1st Drop', 'type': 'text'},
+            'second_drop': {'label': '📍 2nd Drop', 'type': 'text'},
+            'third_drop': {'label': '📍 3rd Drop', 'type': 'text'},
+            'forth_drop': {'label': '📍 4th Drop', 'type': 'text'},
+            'inbound_pu': {'label': '📍 Inbound PU', 'type': 'text'},
+            'drop_off': {'label': '🏁 Drop Off', 'type': 'text'},
+            'total_miles': {'label': '📏 Total Miles', 'type': 'text'}
+        }
+        
+        # Create editable form
         col1, col2 = st.columns(2)
+        has_changes = False
         
         with col1:
-            st.write("**Driver Information:**")
-            st.write(f"👤 **Name:** {result.get('drivers_name', 'N/A')}")
-            st.write(f"🚛 **Unit:** {result.get('unit', 'N/A')}")
-            st.write(f"🚚 **Trailer:** {result.get('trailer', 'N/A')}")
-            st.write(f"📅 **Trip Started:** {result.get('date_trip_started', 'N/A')}")
-            st.write(f"📅 **Trip Ended:** {result.get('date_trip_ended', 'N/A')}")
+            st.markdown("**Driver & Trip Information:**")
+            for field in ['drivers_name', 'unit', 'trailer', 'date_trip_started', 'date_trip_ended', 'trip', 'total_miles']:
+                field_info = gemini_fields[field]
+                current_value = str(edited_result.get(field, '')) if edited_result.get(field) else ''
+                original_value = str(original_result.get(field, '')) if original_result.get(field) else ''
+                
+                new_value = st.text_input(
+                    field_info['label'],
+                    value=current_value,
+                    key=f"{source_image}_{field}",
+                    placeholder=f"Enter {field_info['label'].split(' ', 1)[1].lower()}" if ' ' in field_info['label'] else "Enter value"
+                )
+                
+                # Update session state if changed
+                if new_value != current_value:
+                    st.session_state[f"edited_{source_image}"][field] = new_value
+                    has_changes = True
+                
+                # Check if this field was changed from original
+                if new_value != original_value and new_value.strip():
+                    has_changes = True
         
         with col2:
-            st.write("**Trip Details:**")
-            st.write(f"🏁 **Started From:** {result.get('trip_started_from', 'N/A')}")
-            st.write(f"📍 **1st Drop:** {result.get('first_drop', 'N/A')}")
-            st.write(f"📍 **2nd Drop:** {result.get('second_drop', 'N/A')}")
-            st.write(f"📍 **Inbound PU:** {result.get('inbound_pu', 'N/A')}")
-            st.write(f"🏁 **Drop Off:** {result.get('drop_off', 'N/A')}")
-            st.write(f"📏 **Total Miles:** {result.get('total_miles', 'N/A')}")
+            st.markdown("**Location Information:**")
+            for field in ['trip_started_from', 'first_drop', 'second_drop', 'third_drop', 'forth_drop', 'inbound_pu', 'drop_off']:
+                field_info = gemini_fields[field]
+                current_value = edited_result.get(field, '')
+                original_value = original_result.get(field, '')
+                
+                # Handle drop_off as list or string
+                if isinstance(current_value, list):
+                    current_value = ', '.join(current_value) if current_value else ''
+                else:
+                    current_value = str(current_value) if current_value else ''
+                
+                if isinstance(original_value, list):
+                    original_value = ', '.join(original_value) if original_value else ''
+                else:
+                    original_value = str(original_value) if original_value else ''
+                
+                new_value = st.text_input(
+                    field_info['label'],
+                    value=current_value,
+                    key=f"{source_image}_{field}",
+                    placeholder=f"Enter {field_info['label'].split(' ', 1)[1].lower()}" if ' ' in field_info['label'] else "Enter location"
+                )
+                
+                # Update session state if changed
+                if new_value != current_value:
+                    # Handle drop_off conversion back to array if needed
+                    if field == 'drop_off' and ' to ' in new_value.lower():
+                        st.session_state[f"edited_{source_image}"][field] = [loc.strip() for loc in new_value.split(' to ') if loc.strip()]
+                    else:
+                        st.session_state[f"edited_{source_image}"][field] = new_value
+                    has_changes = True
+                
+                # Check if this field was changed from original
+                if new_value != original_value and new_value.strip():
+                    has_changes = True
         
-        # Distance calculations
-        if 'distance_calculations' in result:
-            distance_data = result['distance_calculations']
+        # Check if any field has been modified from the original
+        current_edited = st.session_state[f"edited_{source_image}"]
+        for field in gemini_fields.keys():
+            original_val = str(original_result.get(field, '')) if original_result.get(field) else ''
+            current_val = str(current_edited.get(field, '')) if current_edited.get(field) else ''
+            
+            # Special handling for drop_off arrays
+            if field == 'drop_off':
+                if isinstance(original_result.get(field), list):
+                    original_val = ', '.join(original_result.get(field, []))
+                if isinstance(current_edited.get(field), list):
+                    current_val = ', '.join(current_edited.get(field, []))
+            
+            if current_val != original_val:
+                has_changes = True
+                break
+        
+        # Recalculate button
+        st.markdown("---")
+        col_btn1, col_btn2 = st.columns([1, 1])
+        
+        with col_btn1:
+            if st.button(
+                "🔄 Recalculate Distances", 
+                disabled=not has_changes,
+                key=f"recalc_{source_image}",
+                help="Recalculate HERE API distances with updated values" if has_changes else "Make changes to fields above to enable recalculation"
+            ):
+                recalculate_distances_for_result(source_image)
+        
+        with col_btn2:
+            if st.button(
+                "↶ Reset to Original", 
+                key=f"reset_{source_image}",
+                help="Reset all fields to original Gemini extracted values"
+            ):
+                st.session_state[f"edited_{source_image}"] = original_result.copy()
+                st.rerun()
+        
+        # Show changes indicator
+        if has_changes:
+            st.success("✅ Fields have been modified. Click 'Recalculate Distances' to update calculations.")
+        
+        # Display current distance calculations (non-editable)
+        st.markdown("---")
+        st.markdown("### 🗺️ Distance Calculations (FROM HERE API)")
+        
+        if 'distance_calculations' in current_edited:
+            distance_data = current_edited['distance_calculations']
             if distance_data.get('calculation_success'):
-                st.write("**🗺️ Distance Calculations:**")
-                st.write(f"📊 **Calculated Distance:** {distance_data.get('total_distance_miles', 0)} miles")
-                st.write(f"🔗 **Successful Legs:** {distance_data.get('successful_calculations', 0)}/{distance_data.get('total_legs', 0)}")
+                col_d1, col_d2 = st.columns(2)
+                
+                with col_d1:
+                    st.metric("📊 Calculated Distance", f"{distance_data.get('total_distance_miles', 0)} miles")
+                    st.metric("🔗 Successful Legs", f"{distance_data.get('successful_calculations', 0)}/{distance_data.get('total_legs', 0)}")
+                
+                with col_d2:
+                    # Compare with extracted miles
+                    extracted_miles = current_edited.get('total_miles', '')
+                    if extracted_miles:
+                        try:
+                            extracted_miles_num = float(str(extracted_miles).replace(',', ''))
+                            calculated_miles = distance_data.get('total_distance_miles', 0)
+                            diff_percent = abs((extracted_miles_num - calculated_miles) / calculated_miles * 100) if calculated_miles > 0 else 0
+                            st.metric("📏 Extracted Miles", f"{extracted_miles_num:,.0f}")
+                            st.metric("📊 Difference", f"{diff_percent:.1f}%")
+                        except ValueError:
+                            st.metric("📏 Extracted Miles", extracted_miles)
                 
                 # State mileage breakdown
-                if 'state_mileage' in distance_data:
-                    st.write("**🇺🇸 State Mileage Breakdown:**")
+                if 'state_mileage' in distance_data and distance_data['state_mileage']:
+                    st.markdown("**🇺🇸 State Mileage Breakdown:**")
                     for state_data in distance_data['state_mileage']:
                         st.write(f"  • {state_data['state']}: {state_data['miles']} miles ({state_data['percentage']}%)")
+            else:
+                st.warning("⚠️ Distance calculation failed or no coordinates available")
+        else:
+            st.info("ℹ️ No distance calculations available")
         
         # Validation warnings
-        if show_validation_warnings and result.get('validation_warnings'):
-            st.write("**⚠️ Validation Warnings:**")
-            for warning in result['validation_warnings']:
+        if show_validation_warnings and current_edited.get('validation_warnings'):
+            st.markdown("---")
+            st.markdown("**⚠️ Validation Warnings:**")
+            for warning in current_edited['validation_warnings']:
                 st.warning(warning)
+
+def recalculate_distances_for_result(source_image):
+    """Recalculate distances for a specific result using edited values"""
+    if not st.session_state.processor:
+        st.error("❌ Processor not initialized")
+        return
+    
+    # Get edited result from session state
+    edited_result = st.session_state[f"edited_{source_image}"]
+    
+    try:
+        with st.spinner(f"🔄 Recalculating distances for {source_image}..."):
+            # Step 4: Get coordinates for the edited locations
+            use_here_api = st.session_state.get('use_here_api', True)
+            coordinates_data = st.session_state.processor.get_coordinates_for_stops(edited_result, use_here_api)
+            
+            if coordinates_data:
+                # Update coordinates in the edited result
+                edited_result['coordinates'] = coordinates_data
+                
+                # Step 6: Calculate distances using new coordinates
+                distance_data = st.session_state.processor.calculate_trip_distances(coordinates_data)
+                edited_result['distance_calculations'] = distance_data
+                
+                # Compare extracted miles with new calculated miles
+                extracted_miles = edited_result.get('total_miles', '')
+                calculated_miles = distance_data.get('total_distance_miles', 0)
+                
+                if extracted_miles and calculated_miles > 0:
+                    try:
+                        extracted_miles_num = float(str(extracted_miles).replace(',', ''))
+                        percentage_diff = abs((extracted_miles_num - calculated_miles) / calculated_miles * 100)
+                        
+                        # Update validation warnings
+                        if 'validation_warnings' not in edited_result:
+                            edited_result['validation_warnings'] = []
+                        
+                        # Remove old distance warnings
+                        edited_result['validation_warnings'] = [
+                            w for w in edited_result['validation_warnings'] 
+                            if not w.startswith("Suspicious total miles:")
+                        ]
+                        
+                        # Add new warning if needed
+                        if percentage_diff > 5:
+                            warning = f"Suspicious total miles: extracted ({extracted_miles_num}) differs from calculated ({calculated_miles:.1f}) by {percentage_diff:.1f}%"
+                            edited_result['validation_warnings'].append(warning)
+                    except ValueError:
+                        pass
+                
+                # Update session state
+                st.session_state[f"edited_{source_image}"] = edited_result
+                
+                # Also update the main processing results
+                for i, result in enumerate(st.session_state.processing_results):
+                    if result.get('source_image') == source_image:
+                        st.session_state.processing_results[i] = edited_result.copy()
+                        break
+                
+                st.success(f"✅ Distances recalculated successfully for {source_image}!")
+                st.balloons()
+                
+                # Display summary of new calculations
+                if distance_data.get('calculation_success'):
+                    st.info(f"📊 New calculated distance: **{calculated_miles} miles** with {distance_data.get('successful_calculations', 0)} successful route calculations")
+                    
+                    # Show state mileage summary
+                    if distance_data.get('state_mileage'):
+                        state_summary = ", ".join([f"{s['state']}: {s['miles']}mi" for s in distance_data['state_mileage'][:3]])
+                        if len(distance_data['state_mileage']) > 3:
+                            state_summary += f" + {len(distance_data['state_mileage']) - 3} more states"
+                        st.info(f"🇺🇸 State breakdown: {state_summary}")
+                else:
+                    st.warning("⚠️ Distance recalculation completed but some routes failed")
+            else:
+                st.error("❌ Failed to get coordinates for the edited locations")
+                
+    except Exception as e:
+        st.error(f"❌ Error recalculating distances: {str(e)}")
+        import traceback
+        st.error(traceback.format_exc())
 
 def validation_report_tab():
     """Validation report tab"""
