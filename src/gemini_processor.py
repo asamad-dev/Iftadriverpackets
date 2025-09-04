@@ -16,6 +16,7 @@ import time
 import glob
 import csv
 from pathlib import Path
+import re
 
 # Load environment variables from .env file (look in parent directory)
 load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), '..', '.env'))
@@ -25,7 +26,8 @@ class GeminiDriverPacketProcessor:
     Process driver packet images using Gemini API with intelligent prompt engineering
     """
     
-    def __init__(self, api_key: Optional[str] = None, here_api_key: Optional[str] = None):
+    def __init__(self, api_key: Optional[str] = None, here_api_key: Optional[str] = None, yard_location: Optional[str] = None ):
+        self.yard_replace = yard_location or "Yard"
         # Configure Gemini API
         if api_key:
             genai.configure(api_key=api_key)
@@ -40,7 +42,9 @@ class GeminiDriverPacketProcessor:
         
         # Configure HERE API key for geocoding
         self.here_api_key = here_api_key or os.getenv('HERE_API_KEY')
-        
+       # self.yard_location = yard_location 
+
+      #  print("Sufyiannnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn",self.yard_location)
         # Geocoding cache to avoid repeated API calls
         self.geocoding_cache = {}
         
@@ -76,7 +80,7 @@ LOCATION FORMAT AND CORRECTIONS:
 
 CRITICAL LOCATION CORRECTIONS:
 - "Bloomington" (any state) → Always "Bloomington, CA"
-- "Yard" or "yard" → Always "San Bernardino, CA"
+- "Yard" or "yard" → "yard"
 - "Jaredo" → "Laredo"
 - "Corona" → "Fontana"
 - "FFA/ON" → "FULTON"
@@ -111,6 +115,16 @@ TOTAL MILES EXTRACTION:
 - If extracted number seems unreasonable (too high like 23513 or too low like 220), double-check the image
 - Extract the number exactly as written
 
+FUEL Details:
+-I Need help fuel details data extraction from image handwritng Doc
+-Ensure all numeric values (gallons, price, amount) are returned as numbers (not strings).
+-Keep "cash_advance" as "YES" or "NO" exactly as written in the table.
+-Extract all rows under the Fuel Details section of the image, excluding the header row.
+-Preserve the original order of rows.
+-Ensure the city & state are combined as shown (e.g., "Coachella, CA").
+-It return JSON formate each Row is a seprate object in array.
+
+
 IMPORTANT: Return ONLY a valid JSON object with these exact field names:
 {
     "drivers_name": "driver's full name - EXACTLY as written, apply common sense spelling corrections",
@@ -127,6 +141,16 @@ IMPORTANT: Return ONLY a valid JSON object with these exact field names:
     "inbound_pu": "inbound pickup city name and state abbreviation with comma (e.g., San Bernardino, CA)",
     "drop_off": "final drop off - can be string or array if multiple values separated by 'to'",
     "total_miles": "total miles driven from OFFICE USE ONLY section - extract carefully"
+
+    FUEL Details:Share as it is in image in JSON array of objects extracted each object contail whole row values
+    "fuel_details": "all of the fuel details rows as array of objects"
+    "Date/Invoice": "Data invoice number MM/DD/YY",
+    "Vendor": "Vendor name from tabel in fuel details section each row",
+    "City&State": "city name and state abbreviation with comma (e.g., south Hutchinson, KS)",
+    "# Gal.": "number of gallons as number",
+    "Price": "Integer value for price per gallon",
+    "Amount": "Total amount as number price * number of gallons",
+    "CashAdv": "Cash in advance - YES or NO"
 }
 
 CRITICAL RULES:
@@ -136,7 +160,7 @@ CRITICAL RULES:
 4. If you see an empty line or box on the form, that field should be empty string ""
 5. DO NOT swap field values - pay careful attention to field positioning on the form
 6. Apply trailer number validation (200-299 range)
-7. Apply location corrections (Bloomington→CA, Yard→San Bernardino, etc.)
+7. Apply location corrections (Bloomington→CA etc.)
 8. Apply date format standardization (MM/DD/YY)
 9. Handle drop_off as potential array
 10. Extract total_miles carefully from OFFICE USE ONLY section
@@ -873,7 +897,7 @@ Analyze the image carefully and extract all CLEARLY VISIBLE information with int
         # 2. Fix location corrections
         location_corrections = {
             'bloomington': 'Bloomington, CA',
-            'yard': 'San Bernardino, CA',
+            'yard': ' Yard',
             'jaredo': 'Laredo',
             'corona': 'Fontana',
             'ffa/on': 'Jefferson City',
@@ -985,8 +1009,7 @@ Analyze the image carefully and extract all CLEARLY VISIBLE information with int
             if wrong_name in location_lower:
                 if wrong_name == 'bloomington':
                     return 'Bloomington, CA'
-                elif wrong_name == 'yard':
-                    return 'San Bernardino, CA'
+                
                 elif wrong_name == 'jaredo':
                     # Replace Jaredo with Laredo but keep the state
                     if ',' in location:
@@ -1080,7 +1103,11 @@ Analyze the image carefully and extract all CLEARLY VISIBLE information with int
                 img = Image.open(image_path)
                 response = self.model.generate_content([self.extraction_prompt, img])
                 extracted_text = response.text
-                
+              #  print(response)
+              #  self.replace_yard(extracted_text)
+              #  print("Sufyian update",self.replace_yard(extracted_text))
+                extracted_text= self.replace_word(extracted_text,"Yard",self.yard_replace)
+
                 # Parse JSON from the response
                 try:
                     # Remove markdown code block syntax if present
@@ -1090,6 +1117,8 @@ Analyze the image carefully and extract all CLEARLY VISIBLE information with int
                         extracted_text = extracted_text.split('```')[0]
                     
                     extracted_data = json.loads(extracted_text.strip())
+                    print(extracted_data)
+
                 except json.JSONDecodeError as je:
                     return {
                         'processing_success': False,
@@ -1123,7 +1152,7 @@ Analyze the image carefully and extract all CLEARLY VISIBLE information with int
                 'processing_timestamp': time.strftime('%Y-%m-%d %H:%M:%S'),
                 **corrected_data
             }
-            
+
             # Validate extraction data
             warnings = self._validate_extraction(result)
             
@@ -1222,7 +1251,49 @@ Analyze the image carefully and extract all CLEARLY VISIBLE information with int
                 'processing_success': False,
                 'error': f"Batch processing error: {str(e)} at line {line_no} in {os.path.basename(fname)}"
             }]
+    """     
+    def replace_yard(self, data):
+     if isinstance(data, dict):
+         new_dict = {}
+         for key, value in data.items():
+             # Replace "yard" in keys (case-insensitive)
+                new_key = re.sub(r'yard', self.yard_replace, key, flags=re.IGNORECASE)
+                # Recursively apply to values
+                new_dict[new_key] = self.replace_yard(value)
+         return new_dict
+     elif isinstance(data, list):
+             # Apply replacement to each item in the list
+            return [self.replace_yard(item) for item in data]
+     elif isinstance(data, str):
+            # Replace "yard" in string values (case-insensitive)
+            return re.sub(r'yard', self.yard_replace, data, flags=re.IGNORECASE)
+     else:
+            # Return the value as-is for non-dict, non-list, non-str types (e.g., int, float, None)
+            return data
+    """
 
+
+    def replace_word(self, Orignal_text, old_word, new_word):
+     print("Sufyian Replace function execute")
+    
+    # Define a function to preserve the original casing if needed (optional)
+     def match_case(match):
+        matched_text = match.group()
+        if matched_text.isupper():
+            return new_word.upper()
+        elif matched_text[0].isupper():
+            return new_word.capitalize()
+        else:
+            return new_word.lower()
+     pattern = r'\b' + re.escape(old_word) + r'\b'
+     replaced_text = re.sub(pattern, match_case, Orignal_text, flags=re.IGNORECASE)
+     return replaced_text
+
+
+
+
+
+    
     def validate_against_reference(self, extracted_data: Dict, reference_csv_path: Optional[str] = None) -> Dict:
         """
         Validate extracted data against reference CSV file
@@ -1495,5 +1566,5 @@ Analyze the image carefully and extract all CLEARLY VISIBLE information with int
                 warnings.append(f"🟡 MEDIUM: {field} mismatch - extracted: '{extracted}' ≠ reference: '{reference}'")
             else:
                 warnings.append(f"🔵 LOW: {field} formatting difference - extracted: '{extracted}' ≠ reference: '{reference}'")
-        
-        return warnings
+
+        return warnings       

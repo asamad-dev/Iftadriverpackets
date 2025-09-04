@@ -143,6 +143,12 @@ def main():
             help="For enhanced geocoding and distance calculation. Get from: https://developer.here.com/",
             placeholder="Enter your HERE API key..."
         )
+        yard_Set = st.text_input(
+            "Enter you Yard Value (San Bernardino, CA)",
+            type="default",
+           # help="For enhanced geocoding and distance calculation. Get from: https://developer.here.com/",
+            placeholder="Enter your YArd Name..."
+        )
         
         # Validation options
         st.subheader("🔍 Validation Options")
@@ -169,7 +175,8 @@ def main():
                 if not st.session_state.processor or not st.session_state.api_configured:
                     st.session_state.processor = GeminiDriverPacketProcessor(
                         api_key=gemini_key,
-                        here_api_key=here_key if here_key else None
+                        here_api_key=here_key if here_key else None,
+                        yard_location= yard_Set if yard_Set else 'Yard'
                     )
                     st.session_state.api_configured = True
                     st.success("✅ Processor initialized successfully!")
@@ -179,6 +186,19 @@ def main():
         else:
             st.warning("⚠️ Please enter your Gemini API key to continue")
             st.session_state.api_configured = False
+
+        if yard_Set:
+            try:
+                if not st.session_state.processor :
+                    st.session_state.processor = GeminiDriverPacketProcessor(
+                        yard_location= yard_Set if yard_Set else 'Yard'
+                    )
+                    st.success("✅ Processor initialized successfully!")
+            except Exception as e:
+                st.error(f"❌ Error initializing processor: {str(e)}")
+                st.session_state.api_configured = False
+        else:
+            st.warning("⚠️ Please enter your Yard Location")
     
     # Main content
     if not st.session_state.api_configured:
@@ -447,6 +467,12 @@ def show_result_card(result, show_validation_warnings):
             st.write("**⚠️ Validation Warnings:**")
             for warning in result['validation_warnings']:
                 st.warning(warning)
+
+        # fuel_details
+        if 'fuel_details' in result:
+            st.write("**Fuel Details State by state:**")
+            for fuel in result["fuel_details"]:
+             st.write(f"📍 **City and State:** {fuel['City&State']}, **Number of Gal:** {fuel['# Gal.']}")
 
 def validation_report_tab():
     """Validation report tab"""
