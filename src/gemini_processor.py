@@ -27,7 +27,7 @@ class GeminiDriverPacketProcessor:
     """
     
     def __init__(self, api_key: Optional[str] = None, here_api_key: Optional[str] = None, yard_location: Optional[str] = None ):
-        self.yard_replace = yard_location or "Yard"
+       # self.yard_replace = yard_location or "Yard"
         # Configure Gemini API
         if api_key:
             genai.configure(api_key=api_key)
@@ -124,6 +124,10 @@ FUEL Details:
 -Ensure the city & state are combined as shown (e.g., "Coachella, CA").
 -It return JSON formate each Row is a seprate object in array.
 
+Company Name
+-I need help to extract company name from image
+-and it is on the Top center of the form like "ASF Carrier Inc".
+-"Company_Name" field should be extracted exactly as written, preserving capitalization and spacing.
 
 IMPORTANT: Return ONLY a valid JSON object with these exact field names:
 {
@@ -1103,10 +1107,22 @@ Analyze the image carefully and extract all CLEARLY VISIBLE information with int
                 img = Image.open(image_path)
                 response = self.model.generate_content([self.extraction_prompt, img])
                 extracted_text = response.text
-              #  print(response)
-              #  self.replace_yard(extracted_text)
-              #  print("Sufyian update",self.replace_yard(extracted_text))
-                extracted_text= self.replace_word(extracted_text,"Yard",self.yard_replace)
+                #Convert into JSON format because we can not used get function on string
+                if '```json' in extracted_text:
+                        extracted_text = extracted_text.split('```json')[1]
+                if '```' in extracted_text:
+                        extracted_text = extracted_text.split('```')[0]
+                        text_to_json = json.loads(extracted_text.strip())
+                # Get Company_Name from Image Top       
+                company_name = text_to_json.get("Company_Name", "").strip()
+                #Read file which contain Company name and Yard location Like   "ASF Carrier Inc": "San Bernardino, CA"
+                with open('company_yard_map.json', 'r') as f:
+                 company_yard_map = json.load(f)
+                #It compare the company name from image and give the specific yard location 
+                specific_value = company_yard_map.get(company_name, "").strip().lower()
+                #Replace whole string "Yard" with specific yard location
+                extracted_text= self.replace_word(extracted_text,"Yard",specific_value)
+
 
                 # Parse JSON from the response
                 try:
@@ -1117,8 +1133,12 @@ Analyze the image carefully and extract all CLEARLY VISIBLE information with int
                         extracted_text = extracted_text.split('```')[0]
                     
                     extracted_data = json.loads(extracted_text.strip())
-                    print(extracted_data)
-
+                    #print("Sufyian type",type(extracted_data))
+                 #   specific_value = "yard"
+                 #   matching_keys = [k for k, v in extracted_data.items() if isinstance(v, str) and v.strip().lower() == specific_value.lower()]
+                 #   print("Sufyian Keys with value 'yard':", matching_keys)
+                   
+                    # Now find all keys in extracted_data with that value (case-insensitive)
                 except json.JSONDecodeError as je:
                     return {
                         'processing_success': False,

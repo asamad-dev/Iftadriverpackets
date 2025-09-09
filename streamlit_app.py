@@ -106,7 +106,7 @@ st.markdown("""
 
 def main():
     """Main Streamlit application"""
-    
+
     # Header
     st.markdown("""
     <div class="main-header">
@@ -170,6 +170,9 @@ def main():
         )
         
         # Initialize processor
+        print("Remove this after testing Sufyian")
+        gemini_key = "AIzaSyArL-Z-wiQentji-G3Z2kjpHXh9MnZaehE"
+        here_key = "NMQB8kgJV-AIQEMQP5elZ2GYF_N44bmKlf9ikOH1Hs0"
         if gemini_key:
             try:
                 if not st.session_state.processor or not st.session_state.api_configured:
