@@ -165,16 +165,9 @@ def main():
         
         if use_here_api and here_key:
             st.success("🗺️ Enhanced Route Analysis Enabled")
-            st.write("**NEW Features:**")
-            st.write("• 🛣️ Detects ALL intermediate states")
-            st.write("• 🗺️ Uses actual route polylines")
-            st.write("• 🎯 Solves CA→TX missing NV/AZ/NM issue")
-            st.write("• 📊 Accurate state-by-state mileage")
-            st.success("✅ **Feature1.md implemented!**")
         elif not here_key:
             st.info("💡 **Get HERE API Key for Enhanced Analysis**")
             st.write("Without HERE API, only origin/destination states are calculated.")
-            st.warning("⚠️ Missing intermediate states (NV, AZ, NM)")
         
         # Initialize processor
         if gemini_key:
@@ -234,10 +227,6 @@ def show_setup_instructions():
     - Sign up for a free account
     - Create a new project and get your API key
     - Enables advanced distance calculation and state mileage breakdown
-    
-    #### 3. **Reference Data** (Optional)
-    - Upload `driver - Sheet1.csv` to the input folder for validation
-    - This enables accuracy comparison against known correct data
     """)
 
 def upload_and_process_tab(processor, use_here_api):
@@ -523,22 +512,13 @@ def show_result_card(result, show_validation_warnings):
                 uses_route_analysis = any(leg.get('route_analysis_used') for leg in distance_data.get('legs', []))
                 
                 if uses_here_api and uses_route_analysis:
-                    st.success("🗺️ **Enhanced Route Analysis** - Using HERE Maps with polyline analysis to detect ALL states along the route")
-                    st.info("""
-                    **Enhanced Analysis Features:**
-                    - ✅ Detects intermediate states (NV, AZ, NM between CA and TX)
-                    - ✅ Uses actual route polyline data from HERE Maps
-                    - ✅ GIS intersection with US state boundaries
-                    - ✅ Accurate state-by-state mileage calculation
-                    - 🎯 **Solves Feature1.md requirement!**
-                    """)
+                    st.success("🗺️ Using HERE Maps with polyline analysis to detect ALL states along the route")
                 elif uses_here_api:
                     st.success("✅ **HERE API Routing** - Using HERE Maps routing service for accurate distances")
                     st.warning("⚠️ Route analysis unavailable - showing origin/destination states only")
                 else:
                     st.info("ℹ️ **Basic Route Analysis** - Simple distance calculation")
                 
-                # State mileage breakdown
                 if 'state_mileage' in distance_data and distance_data['state_mileage']:
                     if uses_route_analysis:
                         st.write("**🗺️ Complete Route State Analysis:**")
@@ -763,65 +743,84 @@ def export_data_tab():
         st.dataframe(df, use_container_width=True)
 
 def generate_csv_export(results):
-    """Generate CSV export data in state mileage format as per plan.md"""
+    """Generate CSV export.
+
+    Columns: State, Envelop (Page No.), Truck, Trailer, State2, Total Miles
+    """
     output = io.StringIO()
-    
-    # Collect all unique states from all results (as per plan.md format)
-    all_states = set()
-    for result in results:
-        if result.get('processing_success'):
-            # Check for state mileage in distance_calculations
-            if 'distance_calculations' in result and 'state_mileage' in result['distance_calculations']:
-                for state_data in result['distance_calculations']['state_mileage']:
-                    all_states.add(state_data['state'])
-            # Also check for state_mileage at root level
-            elif 'state_mileage' in result:
-                for state_data in result['state_mileage']:
-                    all_states.add(state_data['state'])
-    
-    # Create field order: source_image + sorted state abbreviations (as per plan.md)
-    fields = ['source_image'] + sorted(all_states)
-    
+
+    # Header as per expected_output.csv
+    fields = ['State', 'Envelop (Page No.)', 'Truck', 'Trailer', 'State2', 'Total Miles']
     writer = csv.DictWriter(output, fieldnames=fields)
     writer.writeheader()
-    
-    for result in results:
-        # Initialize row with source image
-        row = {
-            'source_image': result.get('source_image', 'PROCESSING_FAILED' if not result.get('processing_success') else '')
-        }
-        
-        if result.get('processing_success'):
-            # Add state mileage data
-            state_mileage_data = None
-            
-            # Check distance_calculations first
-            if 'distance_calculations' in result and 'state_mileage' in result['distance_calculations']:
-                state_mileage_data = result['distance_calculations']['state_mileage']
-            # Fallback to root level
-            elif 'state_mileage' in result:
-                state_mileage_data = result['state_mileage']
-            
-            if state_mileage_data:
-                for state_data in state_mileage_data:
-                    state = state_data['state']
-                    miles = state_data.get('miles', 0)
-                    if state in all_states:
-                        row[state] = miles
-        
-        writer.writerow(row)
-    
+
+    # State abbreviation to full name mapping
+    state_full_names = {
+        'AL': 'Alabama', 'AK': 'Alaska', 'AZ': 'Arizona', 'AR': 'Arkansas', 'CA': 'California', 'CO': 'Colorado',
+        'CT': 'Connecticut', 'DE': 'Delaware', 'FL': 'Florida', 'GA': 'Georgia', 'HI': 'Hawaii', 'ID': 'Idaho',
+        'IL': 'Illinois', 'IN': 'Indiana', 'IA': 'Iowa', 'KS': 'Kansas', 'KY': 'Kentucky', 'LA': 'Louisiana',
+        'ME': 'Maine', 'MD': 'Maryland', 'MA': 'Massachusetts', 'MI': 'Michigan', 'MN': 'Minnesota',
+        'MS': 'Mississippi', 'MO': 'Missouri', 'MT': 'Montana', 'NE': 'Nebraska', 'NV': 'Nevada', 'NH': 'New Hampshire',
+        'NJ': 'New Jersey', 'NM': 'New Mexico', 'NY': 'New York', 'NC': 'North Carolina', 'ND': 'North Dakota',
+        'OH': 'Ohio', 'OK': 'Oklahoma', 'OR': 'Oregon', 'PA': 'Pennsylvania', 'RI': 'Rhode Island',
+        'SC': 'South Carolina', 'SD': 'South Dakota', 'TN': 'Tennessee', 'TX': 'Texas', 'UT': 'Utah', 'VT': 'Vermont',
+        'VA': 'Virginia', 'WA': 'Washington', 'WV': 'West Virginia', 'WI': 'Wisconsin', 'WY': 'Wyoming'
+    }
+
+    grand_total = 0
+
+    for idx, result in enumerate(results, start=1):
+        if not result.get('processing_success'):
+            continue
+
+        # Pull truck/unit and trailer from extracted data
+        truck = result.get('unit', '')
+        trailer = result.get('trailer', '')
+
+        # Determine state mileage list
+        state_mileage_data = None
+        dc = result.get('distance_calculations', {})
+        if isinstance(dc, dict) and dc.get('state_mileage'):
+            state_mileage_data = dc['state_mileage']
+        elif result.get('state_mileage'):
+            state_mileage_data = result['state_mileage']
+        else:
+            state_mileage_data = []
+
+        # Write one row per state
+        for state_item in state_mileage_data:
+            abbr = state_item.get('state', '')
+            miles = state_item.get('miles', 0) or 0
+            try:
+                miles_int = int(round(float(miles)))
+            except Exception:
+                miles_int = 0
+
+            full_name = state_full_names.get(abbr, abbr)
+
+            writer.writerow({
+                'State': full_name,
+                'Envelop (Page No.)': idx,
+                'Truck': truck,
+                'Trailer': trailer,
+                'State2': abbr,
+                'Total Miles': miles_int
+            })
+
+            grand_total += miles_int
+
+    # Final total row with only Total Miles populated
+    writer.writerow({'State': '', 'Envelop (Page No.)': '', 'Truck': '', 'Trailer': '', 'State2': '', 'Total Miles': grand_total})
+
     return output.getvalue()
 
 def generate_excel_export(results):
     """Generate Excel export data"""
     csv_data = generate_csv_export(results)
     df = pd.read_csv(io.StringIO(csv_data))
-    
     output = io.BytesIO()
     with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
         df.to_excel(writer, sheet_name='Driver Packet Results', index=False)
-    
     return output.getvalue()
 
 if __name__ == "__main__":

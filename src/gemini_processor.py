@@ -17,6 +17,9 @@ import glob
 import csv
 from pathlib import Path
 import urllib.parse
+import logging
+from logging.handlers import RotatingFileHandler
+import io
 # Optional GIS dependencies for enhanced route analysis
 try:
     import geopandas as gpd
@@ -42,6 +45,66 @@ except ImportError as e:
     class Point:
         pass
     flexpolyline = None
+
+def _init_file_logging():
+    """Initialize logging to file under project temp directory and redirect stdout/stderr."""
+    try:
+        base_dir = Path(__file__).resolve().parents[1]
+        log_dir = base_dir / 'temp'
+        log_dir.mkdir(parents=True, exist_ok=True)
+        log_file = log_dir / 'driver_packet.log'
+
+        logger = logging.getLogger('driver_packet')
+        logger.setLevel(logging.DEBUG)
+
+        if not any(isinstance(h, RotatingFileHandler) for h in logger.handlers):
+            handler = RotatingFileHandler(log_file, maxBytes=5 * 1024 * 1024, backupCount=3, encoding='utf-8')
+            formatter = logging.Formatter('%(asctime)s %(levelname)s %(name)s: %(message)s')
+            handler.setFormatter(formatter)
+            logger.addHandler(handler)
+            logger.propagate = False
+
+        class _StreamToLogger(io.TextIOBase):
+            def __init__(self, _logger: logging.Logger, level: int):
+                self._logger = _logger
+                self._level = level
+            def write(self, buf):
+                if not buf:
+                    return 0
+                for line in str(buf).rstrip().splitlines():
+                    if line:
+                        self._logger.log(self._level, line)
+                return len(buf)
+            def flush(self):
+                pass
+
+        # Redirect prints
+        sys.stdout = _StreamToLogger(logger, logging.INFO)
+        sys.stderr = _StreamToLogger(logger, logging.ERROR)
+    except Exception as _e:
+        # As a last resort, fall back silently to default stdout
+        pass
+
+_init_file_logging()
+
+# Module-level logger and print override to ensure all logs go to file even if stdout changes
+_LOGGER = logging.getLogger('driver_packet')
+
+def print(*args, **kwargs):  # type: ignore[override]
+    try:
+        sep = kwargs.get('sep', ' ')
+        end = kwargs.get('end', '')
+        msg = sep.join(str(a) for a in args) + end
+        # Heuristic for level based on emojis/keywords
+        level = logging.INFO
+        text = ''.join(str(a) for a in args)
+        if '❌' in text or 'ERROR' in text or 'Error' in text:
+            level = logging.ERROR
+        elif '⚠️' in text or 'Warning' in text or 'warning' in text:
+            level = logging.WARNING
+        _LOGGER.log(level, msg)
+    except Exception:
+        pass
 
 # Load environment variables from .env file (look in parent directory)
 load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), '..', '.env'))
@@ -123,10 +186,11 @@ DATE FORMAT STANDARDIZATION:
 - Keep only 2-digit year format
 
 FIELD VALIDATION RULES:
-- third_drop and forth_drop are OPTIONAL fields - leave empty if not clearly visible
-- DO NOT copy values from inbound_pu or drop_off into third_drop or forth_drop
+- second_drop, third_drop and forth_drop are OPTIONAL fields - leave empty if not clearly visible
+- DO NOT copy values from inbound_pu or drop_off into second_drop, third_drop or forth_drop
 - inbound_pu and drop_off should ALWAYS have values if visible
-- If third_drop or forth_drop appear to have the same value as inbound_pu, leave them empty
+- If second_drop, third_drop or forth_drop appear to have the same value as inbound_pu, leave them empty
+- If the trip starts and ends at the SAME city/state, DO NOT place that same city/state in any middle drop; leave that middle drop empty
 
 DROP OFF ARRAY HANDLING:
 - drop_off can have multiple values separated by "to"
@@ -238,7 +302,7 @@ Analyze the image carefully and extract all CLEARLY VISIBLE information with int
         
         return self._state_boundaries
 
-    def calculate_state_miles_from_polyline(self, polyline_str: str, total_distance_miles: float) -> Dict[str, float]:
+    def calculate_state_miles_from_polyline(self, polyline_str, total_distance_miles: float) -> Dict[str, float]:
         """
         Calculate miles driven in each state using HERE polyline and state boundary intersection
         This is the core method that solves Feature1.md - finding ALL states along a route
@@ -263,22 +327,33 @@ Analyze the image carefully and extract all CLEARLY VISIBLE information with int
                 print("⚠️  State boundaries not available - cannot perform intersection")
                 return {}
             
-            # Decode HERE's flexible polyline
-            print(f"🗺️ Decoding HERE polyline ({len(polyline_str)} chars)")
-            decoded_coords = flexpolyline.decode(polyline_str)
-            print(f"🗺️ Decoded to {len(decoded_coords)} coordinate points")
-            
-            if not decoded_coords or len(decoded_coords) < 2:
-                print("⚠️  Insufficient decoded coordinates")
+            # Support either a single polyline string or a list of polyline strings
+            polylines = polyline_str if isinstance(polyline_str, list) else [polyline_str]
+
+            combined_line_geoms = []
+            total_points = 0
+            for pl in polylines:
+                if not pl:
+                    continue
+                # Decode HERE's flexible polyline
+                print(f"🗺️ Decoding HERE polyline segment ({len(pl)} chars)")
+                decoded_coords = flexpolyline.decode(pl)
+                total_points += len(decoded_coords)
+                if not decoded_coords or len(decoded_coords) < 2:
+                    continue
+                # HERE flexpolyline returns [lat, lng, elevation] tuples
+                # Convert to [(lng, lat)] for shapely (note: reversed order)
+                line_coords = [(coord[1], coord[0]) for coord in decoded_coords]
+                # Create route line geometry per segment
+                combined_line_geoms.append(LineString(line_coords))
+
+            if not combined_line_geoms:
+                print("⚠️  No valid decoded polyline segments")
                 return {}
-                
-            # HERE flexpolyline returns [lat, lng, elevation] tuples
-            # Convert to [(lng, lat)] for shapely (note: reversed order)
-            line_coords = [(coord[1], coord[0]) for coord in decoded_coords]
-            
-            # Create route line geometry
-            route_line = LineString(line_coords)
-            print(f"🌍 Created route line with {len(line_coords)} points")
+
+            # Merge segments into a single multilinestring/linestring
+            route_line = combined_line_geoms[0] if len(combined_line_geoms) == 1 else geom.MultiLineString(combined_line_geoms)
+            print(f"🌍 Created route geometry from {len(combined_line_geoms)} segment(s), {total_points} points total")
             
             # Convert to GeoDataFrame with WGS84 CRS
             route_gdf = gpd.GeoDataFrame([1], geometry=[route_line], crs="EPSG:4326")
@@ -323,6 +398,13 @@ Analyze the image carefully and extract all CLEARLY VISIBLE information with int
             
             # Filter out very small segments (< 1 mile)
             state_miles = {state: miles for state, miles in state_miles.items() if miles >= 1.0}
+
+            # Keep only contiguous US states to reduce noise
+            contiguous_states = {
+                'AL','AZ','AR','CA','CO','CT','DE','FL','GA','ID','IL','IN','IA','KS','KY','LA','ME','MD','MA','MI','MN','MS','MO',
+                'MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR','PA','RI','SC','SD','TN','TX','UT','VT','VA','WA','WV','WI','WY'
+            }
+            state_miles = {state: miles for state, miles in state_miles.items() if state in contiguous_states}
             
             print(f"🎯 State miles calculated: {len(state_miles)} states")
             for state, miles in state_miles.items():
@@ -558,8 +640,8 @@ Analyze the image carefully and extract all CLEARLY VISIBLE information with int
             params = {
                 'origin': f"{origin_coords[0]},{origin_coords[1]}",
                 'destination': f"{destination_coords[0]},{destination_coords[1]}",
-                'transportMode': 'car',  # Use car mode - reliable and works well
-                'return': 'summary,polyline',  # Request polyline for route analysis
+                'transportMode': 'truck',
+                'return': 'summary,polyline',
                 'apikey': self.here_api_key
             }
             
@@ -593,7 +675,8 @@ Analyze the image carefully and extract all CLEARLY VISIBLE information with int
                 
                 # Extract polyline for route analysis
                 if 'sections' in route and len(route['sections']) > 0:
-                    polyline_data = route['sections'][0].get('polyline')
+                    # Collect all section polylines for complete path coverage
+                    polyline_data = [section.get('polyline') for section in route['sections'] if section.get('polyline')]
                 
                 # Convert to miles
                 distance_miles = distance_meters / 1609.34
@@ -1344,6 +1427,7 @@ Analyze the image carefully and extract all CLEARLY VISIBLE information with int
             legs = []
             total_distance = 0
             state_distances = {}  # Track distances by state
+            trip_polylines: List[str] = []  # Collect all polylines across legs
             
             for i in range(len(valid_stops) - 1):
                 origin = valid_stops[i]
@@ -1378,6 +1462,12 @@ Analyze the image carefully and extract all CLEARLY VISIBLE information with int
                     leg_data['api_used'] = distance_info['api_used']
                     distance_miles = distance_info['distance_miles']
                     total_distance += distance_miles
+                    # Collect polylines for trip-level analysis
+                    polyline_value = distance_info.get('polyline')
+                    if isinstance(polyline_value, list):
+                        trip_polylines.extend([pl for pl in polyline_value if pl])
+                    elif isinstance(polyline_value, str) and polyline_value:
+                        trip_polylines.append(polyline_value)
                     
                     # Use state miles from route analysis if available
                     if distance_info.get('state_miles'):
@@ -1411,9 +1501,20 @@ Analyze the image carefully and extract all CLEARLY VISIBLE information with int
             # Prepare summary
             successful_legs = sum(1 for leg in legs if not leg.get('calculation_failed', False))
             
+            # Prefer trip-level state analysis using combined polylines if available (most accurate)
+            combined_state_miles: Dict[str, float] = {}
+            if trip_polylines and total_distance > 0:
+                try:
+                    combined_state_miles = self.calculate_state_miles_from_polyline(trip_polylines, total_distance)
+                except Exception as e:
+                    print(f"   ⚠️  Trip-level state analysis failed, using per-leg aggregation: {e}")
+
+            # Choose data source for state mileage
+            state_miles_source = combined_state_miles if combined_state_miles else state_distances
+
             # Format state distances for output
             state_mileage = []
-            for state, distance in state_distances.items():
+            for state, distance in state_miles_source.items():
                 state_mileage.append({
                     'state': state,
                     'miles': round(distance, 1),
@@ -1898,6 +1999,16 @@ Analyze the image carefully and extract all CLEARLY VISIBLE information with int
         
         if (not extracted_data.get('third_drop') and extracted_data.get('forth_drop')):
             warnings.append("Suspicious: 4th drop filled but 3rd drop empty (possible field swap)")
+
+        # If trip starts and ends at the same location, warn if any middle drop equals that location
+        start_loc = extracted_data.get('trip_started_from', '').strip()
+        end_loc_value = extracted_data.get('drop_off', '')
+        end_loc = ', '.join(end_loc_value) if isinstance(end_loc_value, list) else str(end_loc_value)
+        end_loc = end_loc.strip()
+        if start_loc and end_loc and start_loc == end_loc:
+            for middle_field in ['second_drop', 'third_drop', 'forth_drop']:
+                if extracted_data.get(middle_field) and extracted_data[middle_field].strip() == start_loc:
+                    warnings.append(f"Middle drop equals start/end location: {middle_field}='{start_loc}' (cleared automatically)")
         
         # Check for duplicate locations among all stops
         all_locations = []
@@ -1923,6 +2034,58 @@ Analyze the image carefully and extract all CLEARLY VISIBLE information with int
         if duplicate_locations:
             for dup_loc in duplicate_locations:
                 warnings.append(f"Duplicate location found: '{dup_loc}' appears in multiple fields")
+
+        # Check for same city used with different states across fields (e.g., Antioch, CA vs Antioch, TN)
+        try:
+            location_fields = ['trip_started_from', 'first_drop', 'second_drop', 'third_drop', 'forth_drop', 'inbound_pu', 'drop_off']
+            city_to_states = {}
+            city_field_examples = {}
+
+            def _extract_city_state(value_str: str):
+                if not isinstance(value_str, str):
+                    return None, None
+                parts = [p.strip() for p in value_str.split(',')]
+                if not parts or not parts[0]:
+                    return None, None
+                city = parts[0].strip()
+                state_part = parts[1].strip() if len(parts) > 1 else ''
+                if state_part:
+                    # Normalize to 2-letter state code when possible
+                    state_norm = state_part.upper()
+                    if len(state_norm) != 2:
+                        state_norm = self.get_state_abbreviation(state_part)
+                else:
+                    state_norm = ''
+                return city, state_norm
+
+            for field in location_fields:
+                value = extracted_data.get(field)
+                values_to_check = []
+                if isinstance(value, list):
+                    values_to_check = [v for v in value if isinstance(v, str) and v.strip()]
+                elif isinstance(value, str) and value.strip():
+                    values_to_check = [value]
+
+                for loc in values_to_check:
+                    city, state = _extract_city_state(loc)
+                    if not city:
+                        continue
+                    city_key = city.strip().lower()
+                    if city_key not in city_to_states:
+                        city_to_states[city_key] = set()
+                        city_field_examples[city_key] = []
+                    if state:
+                        city_to_states[city_key].add(state)
+                    city_field_examples[city_key].append(f"{field}: {loc}")
+
+            for city_key, states in city_to_states.items():
+                if len(states) > 1:
+                    city_display = city_key.title()
+                    examples = '; '.join(city_field_examples.get(city_key, [])[:4])
+                    warnings.append(f"City used with different states: '{city_display}' in {sorted(states)} ({examples})")
+        except Exception:
+            # Non-fatal; do not block extraction
+            pass
         
         # Validate office use only section
         office_data = extracted_data.get('office_use_only', {})
@@ -2015,7 +2178,12 @@ Analyze the image carefully and extract all CLEARLY VISIBLE information with int
         else:
             drop_off_str = drop_off
         
-        # Check if third_drop or forth_drop match inbound_pu or drop_off
+        # Check if second_drop, third_drop or forth_drop match inbound_pu or drop_off
+        if corrected_data.get('second_drop') and corrected_data['second_drop'] in [inbound_pu, drop_off_str]:
+            original_value = corrected_data['second_drop']
+            corrected_data['second_drop'] = ""
+            correction_warnings.append(f"second_drop cleared (matched inbound_pu/drop_off): {original_value} → empty")
+        
         if corrected_data.get('third_drop') and corrected_data['third_drop'] in [inbound_pu, drop_off_str]:
             original_value = corrected_data['third_drop']
             corrected_data['third_drop'] = ""
@@ -2025,8 +2193,20 @@ Analyze the image carefully and extract all CLEARLY VISIBLE information with int
             original_value = corrected_data['forth_drop']
             corrected_data['forth_drop'] = ""
             correction_warnings.append(f"forth_drop cleared (matched inbound_pu/drop_off): {original_value} → empty")
+
+        # 6. If trip starts and ends at the SAME city/state, do not allow a middle drop equal to that city/state
+        start_loc = corrected_data.get('trip_started_from', '').strip()
+        end_loc = drop_off_str.strip()
+        if isinstance(corrected_data.get('drop_off'), list) and corrected_data['drop_off']:
+            end_loc = corrected_data['drop_off'][0]
+        if start_loc and end_loc and start_loc == end_loc:
+            for middle_field in ['second_drop', 'third_drop', 'forth_drop']:
+                if corrected_data.get(middle_field) and corrected_data[middle_field].strip() == start_loc:
+                    original_value = corrected_data[middle_field]
+                    corrected_data[middle_field] = ""
+                    correction_warnings.append(f"{middle_field} cleared (same as start/end location {start_loc})")
         
-        # 6. Validate total miles for reasonableness
+        # 7. Validate total miles for reasonableness
         if corrected_data.get('total_miles'):
             total_miles = str(corrected_data['total_miles']).replace(',', '')
             try:
