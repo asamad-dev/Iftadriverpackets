@@ -111,7 +111,7 @@ def main():
     st.markdown("""
     <div class="main-header">
         <h1>🚛 Driver Packet Processing System</h1>
-        <p>AI-Powered OCR and Distance Calculation for Driver Trip Sheets</p>
+        <p>AI-Powered OCR with Enhanced Route Analysis - Now detects ALL states along truck routes!</p>
     </div>
     """, unsafe_allow_html=True)
     
@@ -157,11 +157,17 @@ def main():
         st.subheader("📊 Processing Options")
         
         use_here_api = st.checkbox(
-            "Use HERE API for Distance Calculation",
+            "Use HERE API for Enhanced Route Analysis",
             value=bool(here_key),
             disabled=not bool(here_key),
-            help="Enable advanced distance calculation and state mileage breakdown"
+            help="Enable HERE Maps API with polyline analysis to detect ALL states along truck routes"
         )
+        
+        if use_here_api and here_key:
+            st.success("🗺️ Enhanced Route Analysis Enabled")
+        elif not here_key:
+            st.info("💡 **Get HERE API Key for Enhanced Analysis**")
+            st.write("Without HERE API, only origin/destination states are calculated.")
         
         # Initialize processor
         if gemini_key:
@@ -391,7 +397,41 @@ def show_summary_metrics(results):
         total_miles = sum(safe_float_conversion(r.get('total_miles')) for r in successful if r.get('total_miles'))
         total_distance_calculated = sum(safe_float_conversion(r.get('distance_calculations', {}).get('total_distance_miles', 0)) for r in successful)
         
-        col1, col2, col3 = st.columns(3)
+        # Count distance calculation success and enhanced analysis usage
+        distance_calc_success_count = 0
+        here_api_count = 0
+        route_analysis_count = 0
+        total_unique_states = set()
+        
+        for result in successful:
+            distance_data = result.get('distance_calculations', {})
+            
+            # Count successful distance calculations
+            if distance_data.get('calculation_success'):
+                distance_calc_success_count += 1
+            
+            # Count HERE API usage and route analysis usage
+            uses_here_api = False
+            uses_route_analysis = False
+            
+            if distance_data.get('legs'):
+                for leg in distance_data['legs']:
+                    if leg.get('api_used') == 'HERE':
+                        uses_here_api = True
+                    if leg.get('route_analysis_used'):
+                        uses_route_analysis = True
+                        
+            if uses_here_api:
+                here_api_count += 1
+            if uses_route_analysis:
+                route_analysis_count += 1
+            
+            # Collect all unique states found (only from successful calculations)
+            if distance_data.get('state_mileage') and distance_data.get('calculation_success'):
+                for state_data in distance_data['state_mileage']:
+                    total_unique_states.add(state_data['state'])
+        
+        col1, col2, col3, col4 = st.columns(4)
         
         with col1:
             st.metric("📏 Total Extracted Miles", f"{total_miles:,.0f}")
@@ -402,6 +442,40 @@ def show_summary_metrics(results):
         with col3:
             avg_miles = total_miles / len(successful) if successful else 0
             st.metric("📊 Average Miles per Trip", f"{avg_miles:,.0f}")
+        
+        with col4:
+            st.metric("🇺🇸 Unique States Found", len(total_unique_states))
+        
+        # Show enhanced analysis metrics
+        if route_analysis_count > 0:
+            st.subheader("🗺️ Enhanced Route Analysis Summary")
+            
+            col1, col2, col3 = st.columns(3)
+            
+            with col1:
+                st.metric("🛣️ Enhanced Analysis Used", f"{route_analysis_count}/{len(successful)}")
+            
+            with col2:
+                here_api_rate = (here_api_count / len(successful)) * 100 if successful else 0
+                st.metric("📡 HERE API Usage", f"{here_api_rate:.1f}%")
+                
+            with col3:
+                route_analysis_rate = (route_analysis_count / len(successful)) * 100 if successful else 0
+                st.metric("🎯 Full Route Coverage", f"{route_analysis_rate:.1f}%")
+            
+            st.success("🎉 **Feature1.md Implemented!** The system now detects ALL states along truck routes, including intermediate states like Nevada, Arizona, and New Mexico between California and Texas.")
+            
+        else:
+            # Show distance calculation issues if any
+            if distance_calc_success_count < len(successful):
+                failed_distance_count = len(successful) - distance_calc_success_count
+                st.warning(f"⚠️ **Distance Calculation Issues:** {failed_distance_count} out of {len(successful)} trips failed distance calculation.")
+            
+            # Show HERE API usage info
+            if here_api_count > 0:
+                here_api_rate = (here_api_count / len(successful)) * 100 if successful else 0
+                st.info(f"✅ HERE Maps API used for {here_api_count} out of {len(successful)} trips ({here_api_rate:.1f}%) for accurate routing.")
+                st.warning("⚠️ Route analysis unavailable - install required GIS dependencies (geopandas, shapely, flexpolyline) for full state detection.")
 
 def show_result_card(result, show_validation_warnings):
     """Show individual result card with editable fields"""
@@ -580,11 +654,64 @@ def show_result_card(result, show_validation_warnings):
                 
                 # State mileage breakdown
                 if 'state_mileage' in distance_data and distance_data['state_mileage']:
-                    st.markdown("**🇺🇸 State Mileage Breakdown:**")
+                    uses_here_api = any(leg.get('api_used') == 'HERE' for leg in distance_data.get('legs', []))
+                    uses_route_analysis = any(leg.get('route_analysis_used') for leg in distance_data.get('legs', []))
+                    
+                    if uses_route_analysis:
+                        st.write("**🗺️ Complete Route State Analysis:**")
+                        st.caption("This includes ALL states the truck passes through, not just origin/destination")
+                    else:
+                        st.write("**🇺🇸 State Mileage Breakdown:**")
+                    
                     for state_data in distance_data['state_mileage']:
-                        st.write(f"  • {state_data['state']}: {state_data['miles']} miles ({state_data['percentage']}%)")
+                        if uses_route_analysis:
+                            st.write(f"  🛣️ **{state_data['state']}:** {state_data['miles']} miles ({state_data['percentage']}%)")
+                        else:
+                            st.write(f"  📍 **{state_data['state']}:** {state_data['miles']} miles ({state_data['percentage']}%)")
+                            
+                    # Show route analysis details
+                    if uses_route_analysis:
+                        with st.expander("🔍 Route Analysis Details", expanded=False):
+                            for i, leg in enumerate(distance_data.get('legs', [])):
+                                if leg.get('route_analysis_used') and leg.get('state_assignment'):
+                                    st.write(f"**Leg {i+1}:** {leg['origin']['location']} → {leg['destination']['location']}")
+                                    st.write(f"  • Distance: {leg.get('distance_miles', 0)} miles")
+                                    st.write(f"  • States traversed:")
+                                    for state, miles in leg['state_assignment'].items():
+                                        st.write(f"    - {state}: {miles} miles")
+                                    st.write("---")
             else:
-                st.warning("⚠️ Distance calculation failed or no coordinates available")
+                # Show distance calculation errors
+                st.error("❌ **Distance Calculation Failed**")
+                
+                if distance_data.get('error_summary'):
+                    st.write(f"**Error:** {distance_data['error_summary']}")
+                
+                if distance_data.get('primary_error'):
+                    st.write(f"**Primary Issue:** {distance_data['primary_error']}")
+                
+                # Show detailed errors for each leg
+                if distance_data.get('legs'):
+                    with st.expander("🔍 Detailed Error Information", expanded=True):
+                        for i, leg in enumerate(distance_data['legs']):
+                            if leg.get('calculation_failed'):
+                                st.write(f"**❌ Leg {i+1}:** {leg['origin']['location']} → {leg['destination']['location']}")
+                                if leg.get('error'):
+                                    st.write(f"  • Error: {leg['error']}")
+                            else:
+                                st.write(f"**✅ Leg {i+1}:** {leg['origin']['location']} → {leg['destination']['location']}")
+                
+                # Show troubleshooting help
+                st.info("""
+                **💡 Troubleshooting Distance Calculation Issues:**
+                
+                - **Check HERE API Key:** Ensure your HERE API key is valid and has routing permissions
+                - **API Limits:** You might have exceeded your API quota or rate limits
+                - **Coordinate Issues:** Verify that geocoding found valid coordinates for all stops
+                - **Service Status:** HERE API services might be temporarily unavailable
+                
+                **What happens now:** The system will still show extracted data, but without calculated distances and enhanced state analysis.
+                """)
         else:
             st.info("ℹ️ No distance calculations available")
         
@@ -837,54 +964,75 @@ def export_data_tab():
         st.dataframe(df, use_container_width=True)
 
 def generate_csv_export(results):
-    """Generate CSV export data in state mileage format as per plan.md"""
+    """Generate CSV export.
+
+    Columns: State, Envelop (Page No.), Truck, Trailer, State2, Total Miles
+    """
     output = io.StringIO()
-    
-    # Collect all unique states from all results (as per plan.md format)
-    all_states = set()
-    for result in results:
-        if result.get('processing_success'):
-            # Check for state mileage in distance_calculations
-            if 'distance_calculations' in result and 'state_mileage' in result['distance_calculations']:
-                for state_data in result['distance_calculations']['state_mileage']:
-                    all_states.add(state_data['state'])
-            # Also check for state_mileage at root level
-            elif 'state_mileage' in result:
-                for state_data in result['state_mileage']:
-                    all_states.add(state_data['state'])
-    
-    # Create field order: source_image + sorted state abbreviations (as per plan.md)
-    fields = ['source_image'] + sorted(all_states)
-    
+
+    # Header as per expected_output.csv
+    fields = ['State', 'Envelop (Page No.)', 'Truck', 'Trailer', 'State2', 'Total Miles']
     writer = csv.DictWriter(output, fieldnames=fields)
     writer.writeheader()
-    
-    for result in results:
-        # Initialize row with source image
-        row = {
-            'source_image': result.get('source_image', 'PROCESSING_FAILED' if not result.get('processing_success') else '')
-        }
-        
-        if result.get('processing_success'):
-            # Add state mileage data
-            state_mileage_data = None
-            
-            # Check distance_calculations first
-            if 'distance_calculations' in result and 'state_mileage' in result['distance_calculations']:
-                state_mileage_data = result['distance_calculations']['state_mileage']
-            # Fallback to root level
-            elif 'state_mileage' in result:
-                state_mileage_data = result['state_mileage']
-            
-            if state_mileage_data:
-                for state_data in state_mileage_data:
-                    state = state_data['state']
-                    miles = state_data.get('miles', 0)
-                    if state in all_states:
-                        row[state] = miles
-        
-        writer.writerow(row)
-    
+
+    # State abbreviation to full name mapping
+    state_full_names = {
+        'AL': 'Alabama', 'AK': 'Alaska', 'AZ': 'Arizona', 'AR': 'Arkansas', 'CA': 'California', 'CO': 'Colorado',
+        'CT': 'Connecticut', 'DE': 'Delaware', 'FL': 'Florida', 'GA': 'Georgia', 'HI': 'Hawaii', 'ID': 'Idaho',
+        'IL': 'Illinois', 'IN': 'Indiana', 'IA': 'Iowa', 'KS': 'Kansas', 'KY': 'Kentucky', 'LA': 'Louisiana',
+        'ME': 'Maine', 'MD': 'Maryland', 'MA': 'Massachusetts', 'MI': 'Michigan', 'MN': 'Minnesota',
+        'MS': 'Mississippi', 'MO': 'Missouri', 'MT': 'Montana', 'NE': 'Nebraska', 'NV': 'Nevada', 'NH': 'New Hampshire',
+        'NJ': 'New Jersey', 'NM': 'New Mexico', 'NY': 'New York', 'NC': 'North Carolina', 'ND': 'North Dakota',
+        'OH': 'Ohio', 'OK': 'Oklahoma', 'OR': 'Oregon', 'PA': 'Pennsylvania', 'RI': 'Rhode Island',
+        'SC': 'South Carolina', 'SD': 'South Dakota', 'TN': 'Tennessee', 'TX': 'Texas', 'UT': 'Utah', 'VT': 'Vermont',
+        'VA': 'Virginia', 'WA': 'Washington', 'WV': 'West Virginia', 'WI': 'Wisconsin', 'WY': 'Wyoming'
+    }
+
+    grand_total = 0
+
+    for idx, result in enumerate(results, start=1):
+        if not result.get('processing_success'):
+            continue
+
+        # Pull truck/unit and trailer from extracted data
+        truck = result.get('unit', '')
+        trailer = result.get('trailer', '')
+
+        # Determine state mileage list
+        state_mileage_data = None
+        dc = result.get('distance_calculations', {})
+        if isinstance(dc, dict) and dc.get('state_mileage'):
+            state_mileage_data = dc['state_mileage']
+        elif result.get('state_mileage'):
+            state_mileage_data = result['state_mileage']
+        else:
+            state_mileage_data = []
+
+        # Write one row per state
+        for state_item in state_mileage_data:
+            abbr = state_item.get('state', '')
+            miles = state_item.get('miles', 0) or 0
+            try:
+                miles_int = int(round(float(miles)))
+            except Exception:
+                miles_int = 0
+
+            full_name = state_full_names.get(abbr, abbr)
+
+            writer.writerow({
+                'State': full_name,
+                'Envelop (Page No.)': idx,
+                'Truck': truck,
+                'Trailer': trailer,
+                'State2': abbr,
+                'Total Miles': miles_int
+            })
+
+            grand_total += miles_int
+
+    # Final total row with only Total Miles populated
+    writer.writerow({'State': '', 'Envelop (Page No.)': '', 'Truck': '', 'Trailer': '', 'State2': '', 'Total Miles': grand_total})
+
     return output.getvalue()
 
 def generate_excel_export(results):
