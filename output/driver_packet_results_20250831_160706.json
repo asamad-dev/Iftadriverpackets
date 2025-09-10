@@ -1,0 +1,2261 @@
+[
+  {
+    "source_image": "1Q 2024 Trip Envelope Jalf Express 04.02.2024_Page_1_Image_0001.jpg",
+    "processing_success": true,
+    "processing_timestamp": "2025-08-31 15:59:56",
+    "drivers_name": "GURDIT SINGH",
+    "unit": "1322",
+    "trailer": "227",
+    "date_trip_started": "01/11/24",
+    "date_trip_ended": "01/15/24",
+    "trip": "",
+    "trip_started_from": "San Bernardino, CA",
+    "first_drop": "Whitestown, IN",
+    "second_drop": "Indianapolis, IN",
+    "third_drop": "Whitestown, IN",
+    "forth_drop": "",
+    "inbound_pu": "Indianapolis, IN",
+    "drop_off": "San Bernardino, CA",
+    "total_miles": "",
+    "validation_warnings": [
+      "Possible field duplication: second_drop and inbound_pu have same value",
+      "Duplicate location found: 'San Bernardino, CA' appears in multiple fields",
+      "Duplicate location found: 'Whitestown, IN' appears in multiple fields",
+      "Duplicate location found: 'Indianapolis, IN' appears in multiple fields",
+      "forth_drop cleared (matched inbound_pu/drop_off): San Bernardino, CA → empty"
+    ],
+    "coordinates": {
+      "trip_started_from": {
+        "location": "San Bernardino, CA",
+        "latitude": 34.10524,
+        "longitude": -117.29412
+      },
+      "first_drop": {
+        "location": "Whitestown, IN",
+        "latitude": 39.99545,
+        "longitude": -86.34592
+      },
+      "second_drop": {
+        "location": "Indianapolis, IN",
+        "latitude": 39.76691,
+        "longitude": -86.15012
+      },
+      "third_drop": {
+        "location": "Whitestown, IN",
+        "latitude": 39.99545,
+        "longitude": -86.34592
+      },
+      "forth_drop": {
+        "location": "",
+        "latitude": null,
+        "longitude": null
+      },
+      "inbound_pu": {
+        "location": "Indianapolis, IN",
+        "latitude": 39.76691,
+        "longitude": -86.15012
+      },
+      "drop_off": {
+        "location": "San Bernardino, CA",
+        "latitude": 34.10524,
+        "longitude": -117.29412
+      },
+      "geocoding_summary": {
+        "total_locations": 6,
+        "successful_geocoding": 6,
+        "geocoding_success_rate": 1.0,
+        "api_used": "HERE"
+      }
+    },
+    "distance_calculations": {
+      "legs": [
+        {
+          "leg_number": 1,
+          "origin": {
+            "stop_type": "trip_started_from",
+            "location": "San Bernardino, CA",
+            "state": "CA",
+            "coordinates": [
+              34.10524,
+              -117.29412
+            ]
+          },
+          "destination": {
+            "stop_type": "first_drop",
+            "location": "Whitestown, IN",
+            "state": "IN",
+            "coordinates": [
+              39.99545,
+              -86.34592
+            ]
+          },
+          "distance_miles": 2070.2,
+          "api_used": "HERE",
+          "state_assignment": {
+            "CA": 182.5,
+            "MO": 246.4,
+            "CO": 451.2,
+            "UT": 365.2,
+            "IN": 94.4,
+            "NV": 124.4,
+            "IL": 155.3,
+            "AZ": 29.4,
+            "KS": 421.3
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 2,
+          "origin": {
+            "stop_type": "first_drop",
+            "location": "Whitestown, IN",
+            "state": "IN",
+            "coordinates": [
+              39.99545,
+              -86.34592
+            ]
+          },
+          "destination": {
+            "stop_type": "second_drop",
+            "location": "Indianapolis, IN",
+            "state": "IN",
+            "coordinates": [
+              39.76691,
+              -86.15012
+            ]
+          },
+          "distance_miles": 23.0,
+          "api_used": "HERE",
+          "state_assignment": {
+            "IN": 23.0
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 3,
+          "origin": {
+            "stop_type": "second_drop",
+            "location": "Indianapolis, IN",
+            "state": "IN",
+            "coordinates": [
+              39.76691,
+              -86.15012
+            ]
+          },
+          "destination": {
+            "stop_type": "third_drop",
+            "location": "Whitestown, IN",
+            "state": "IN",
+            "coordinates": [
+              39.99545,
+              -86.34592
+            ]
+          },
+          "distance_miles": 23.0,
+          "api_used": "HERE",
+          "state_assignment": {
+            "IN": 23.0
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 4,
+          "origin": {
+            "stop_type": "third_drop",
+            "location": "Whitestown, IN",
+            "state": "IN",
+            "coordinates": [
+              39.99545,
+              -86.34592
+            ]
+          },
+          "destination": {
+            "stop_type": "inbound_pu",
+            "location": "Indianapolis, IN",
+            "state": "IN",
+            "coordinates": [
+              39.76691,
+              -86.15012
+            ]
+          },
+          "distance_miles": 23.0,
+          "api_used": "HERE",
+          "state_assignment": {
+            "IN": 23.0
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 5,
+          "origin": {
+            "stop_type": "inbound_pu",
+            "location": "Indianapolis, IN",
+            "state": "IN",
+            "coordinates": [
+              39.76691,
+              -86.15012
+            ]
+          },
+          "destination": {
+            "stop_type": "drop_off",
+            "location": "San Bernardino, CA",
+            "state": "CA",
+            "coordinates": [
+              34.10524,
+              -117.29412
+            ]
+          },
+          "distance_miles": 2057.3,
+          "api_used": "HERE",
+          "state_assignment": {
+            "CA": 182.7,
+            "MO": 246.3,
+            "CO": 450.5,
+            "UT": 365.4,
+            "IN": 82.0,
+            "NV": 124.4,
+            "IL": 155.3,
+            "AZ": 29.4,
+            "KS": 421.5
+          },
+          "route_analysis_used": true
+        }
+      ],
+      "total_legs": 5,
+      "successful_calculations": 5,
+      "total_distance_miles": 4196.5,
+      "state_mileage": [
+        {
+          "state": "CO",
+          "miles": 901.7,
+          "percentage": 21.5
+        },
+        {
+          "state": "KS",
+          "miles": 842.8,
+          "percentage": 20.1
+        },
+        {
+          "state": "UT",
+          "miles": 730.6,
+          "percentage": 17.4
+        },
+        {
+          "state": "MO",
+          "miles": 492.7,
+          "percentage": 11.7
+        },
+        {
+          "state": "CA",
+          "miles": 365.2,
+          "percentage": 8.7
+        },
+        {
+          "state": "IL",
+          "miles": 310.6,
+          "percentage": 7.4
+        },
+        {
+          "state": "NV",
+          "miles": 248.8,
+          "percentage": 5.9
+        },
+        {
+          "state": "IN",
+          "miles": 245.4,
+          "percentage": 5.8
+        },
+        {
+          "state": "AZ",
+          "miles": 58.8,
+          "percentage": 1.4
+        }
+      ],
+      "calculation_success": true,
+      "api_used": "HERE"
+    },
+    "reference_validation": {
+      "validation_success": false,
+      "reference_found": false,
+      "note": "No reference test file available"
+    }
+  },
+  {
+    "source_image": "1Q 2024 Trip Envelope Jalf Express 04.02.2024_Page_2_Image_0001.jpg",
+    "processing_success": true,
+    "processing_timestamp": "2025-08-31 16:00:18",
+    "drivers_name": "CURTI T SINGH",
+    "unit": "1322",
+    "trailer": "285",
+    "date_trip_started": "11/15/24",
+    "date_trip_ended": "11/19/24",
+    "trip": "",
+    "trip_started_from": "San Bernardino, CA",
+    "first_drop": "Antioch, CA",
+    "second_drop": "Antioch, TN",
+    "third_drop": "",
+    "forth_drop": "",
+    "inbound_pu": "Evansville, IN",
+    "drop_off": [
+      "Bouse, AZ"
+    ],
+    "total_miles": "22861637",
+    "validation_warnings": [
+      "Suspicious total miles (too high): 22861637 - verify against image",
+      "Suspicious total miles: extracted (22861637.0) differs from calculated (4626.8) by 494013.4%"
+    ],
+    "coordinates": {
+      "trip_started_from": {
+        "location": "San Bernardino, CA",
+        "latitude": 34.10524,
+        "longitude": -117.29412
+      },
+      "first_drop": {
+        "location": "Antioch, CA",
+        "latitude": 38.01583,
+        "longitude": -121.81974
+      },
+      "second_drop": {
+        "location": "Antioch, TN",
+        "latitude": 36.05993,
+        "longitude": -86.67201
+      },
+      "third_drop": {
+        "location": "",
+        "latitude": null,
+        "longitude": null
+      },
+      "forth_drop": {
+        "location": "",
+        "latitude": null,
+        "longitude": null
+      },
+      "inbound_pu": {
+        "location": "Evansville, IN",
+        "latitude": 37.97708,
+        "longitude": -87.56405
+      },
+      "drop_off": {
+        "location": "Bouse, AZ",
+        "latitude": 33.93197,
+        "longitude": -114.00551
+      },
+      "geocoding_summary": {
+        "total_locations": 5,
+        "successful_geocoding": 5,
+        "geocoding_success_rate": 1.0,
+        "api_used": "HERE"
+      }
+    },
+    "distance_calculations": {
+      "legs": [
+        {
+          "leg_number": 1,
+          "origin": {
+            "stop_type": "trip_started_from",
+            "location": "San Bernardino, CA",
+            "state": "CA",
+            "coordinates": [
+              34.10524,
+              -117.29412
+            ]
+          },
+          "destination": {
+            "stop_type": "first_drop",
+            "location": "Antioch, CA",
+            "state": "CA",
+            "coordinates": [
+              38.01583,
+              -121.81974
+            ]
+          },
+          "distance_miles": 408.8,
+          "api_used": "HERE",
+          "state_assignment": {
+            "CA": 408.8
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 2,
+          "origin": {
+            "stop_type": "first_drop",
+            "location": "Antioch, CA",
+            "state": "CA",
+            "coordinates": [
+              38.01583,
+              -121.81974
+            ]
+          },
+          "destination": {
+            "stop_type": "second_drop",
+            "location": "Antioch, TN",
+            "state": "TN",
+            "coordinates": [
+              36.05993,
+              -86.67201
+            ]
+          },
+          "distance_miles": 2289.2,
+          "api_used": "HERE",
+          "state_assignment": {
+            "NM": 372.9,
+            "CA": 542.7,
+            "AR": 284.5,
+            "OK": 330.2,
+            "TN": 222.9,
+            "AZ": 359.2,
+            "TX": 176.6
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 3,
+          "origin": {
+            "stop_type": "second_drop",
+            "location": "Antioch, TN",
+            "state": "TN",
+            "coordinates": [
+              36.05993,
+              -86.67201
+            ]
+          },
+          "destination": {
+            "stop_type": "inbound_pu",
+            "location": "Evansville, IN",
+            "state": "IN",
+            "coordinates": [
+              37.97708,
+              -87.56405
+            ]
+          },
+          "distance_miles": 161.5,
+          "api_used": "HERE",
+          "state_assignment": {
+            "KY": 98.1,
+            "TN": 58.3,
+            "IN": 5.1
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 4,
+          "origin": {
+            "stop_type": "inbound_pu",
+            "location": "Evansville, IN",
+            "state": "IN",
+            "coordinates": [
+              37.97708,
+              -87.56405
+            ]
+          },
+          "destination": {
+            "stop_type": "drop_off",
+            "location": "Bouse, AZ",
+            "state": "AZ",
+            "coordinates": [
+              33.93197,
+              -114.00551
+            ]
+          },
+          "distance_miles": 1767.3,
+          "api_used": "HERE",
+          "state_assignment": {
+            "NM": 373.0,
+            "MO": 292.1,
+            "OK": 361.5,
+            "IN": 33.8,
+            "IL": 130.4,
+            "AZ": 399.8,
+            "TX": 176.6
+          },
+          "route_analysis_used": true
+        }
+      ],
+      "total_legs": 4,
+      "successful_calculations": 4,
+      "total_distance_miles": 4626.8,
+      "state_mileage": [
+        {
+          "state": "CA",
+          "miles": 951.5,
+          "percentage": 20.6
+        },
+        {
+          "state": "AZ",
+          "miles": 759.0,
+          "percentage": 16.4
+        },
+        {
+          "state": "NM",
+          "miles": 745.9,
+          "percentage": 16.1
+        },
+        {
+          "state": "OK",
+          "miles": 691.7,
+          "percentage": 14.9
+        },
+        {
+          "state": "TX",
+          "miles": 353.2,
+          "percentage": 7.6
+        },
+        {
+          "state": "MO",
+          "miles": 292.1,
+          "percentage": 6.3
+        },
+        {
+          "state": "AR",
+          "miles": 284.5,
+          "percentage": 6.1
+        },
+        {
+          "state": "TN",
+          "miles": 281.2,
+          "percentage": 6.1
+        },
+        {
+          "state": "IL",
+          "miles": 130.4,
+          "percentage": 2.8
+        },
+        {
+          "state": "KY",
+          "miles": 98.1,
+          "percentage": 2.1
+        },
+        {
+          "state": "IN",
+          "miles": 38.9,
+          "percentage": 0.8
+        }
+      ],
+      "calculation_success": true,
+      "api_used": "HERE"
+    },
+    "reference_validation": {
+      "validation_success": false,
+      "reference_found": false,
+      "note": "No reference test file available"
+    }
+  },
+  {
+    "source_image": "1Q 2024 Trip Envelope Jalf Express 04.02.2024_Page_3_Image_0001.jpg",
+    "processing_success": true,
+    "processing_timestamp": "2025-08-31 16:00:33",
+    "drivers_name": "GURJIT SINGH",
+    "unit": "1222",
+    "trailer": "206",
+    "date_trip_started": "01/20/24",
+    "date_trip_ended": "01/24/24",
+    "trip": "",
+    "trip_started_from": "San Bernardino, CA",
+    "first_drop": "Whitestown, IN",
+    "second_drop": "Columbus, IN",
+    "third_drop": "Whitestown, IN",
+    "forth_drop": "",
+    "inbound_pu": "Columbus, IN",
+    "drop_off": "San Bernardino, CA",
+    "total_miles": "2492.92",
+    "validation_warnings": [
+      "Possible field duplication: second_drop and inbound_pu have same value",
+      "Duplicate location found: 'San Bernardino, CA' appears in multiple fields",
+      "Duplicate location found: 'Columbus, IN' appears in multiple fields",
+      "Duplicate location found: 'Whitestown, IN' appears in multiple fields",
+      "forth_drop cleared (matched inbound_pu/drop_off): Columbus, IN → empty",
+      "Suspicious total miles: extracted (2492.92) differs from calculated (4368.5) by 42.9%"
+    ],
+    "coordinates": {
+      "trip_started_from": {
+        "location": "San Bernardino, CA",
+        "latitude": 34.10524,
+        "longitude": -117.29412
+      },
+      "first_drop": {
+        "location": "Whitestown, IN",
+        "latitude": 39.99545,
+        "longitude": -86.34592
+      },
+      "second_drop": {
+        "location": "Columbus, IN",
+        "latitude": 39.2015,
+        "longitude": -85.91868
+      },
+      "third_drop": {
+        "location": "Whitestown, IN",
+        "latitude": 39.99545,
+        "longitude": -86.34592
+      },
+      "forth_drop": {
+        "location": "",
+        "latitude": null,
+        "longitude": null
+      },
+      "inbound_pu": {
+        "location": "Columbus, IN",
+        "latitude": 39.2015,
+        "longitude": -85.91868
+      },
+      "drop_off": {
+        "location": "San Bernardino, CA",
+        "latitude": 34.10524,
+        "longitude": -117.29412
+      },
+      "geocoding_summary": {
+        "total_locations": 6,
+        "successful_geocoding": 6,
+        "geocoding_success_rate": 1.0,
+        "api_used": "HERE"
+      }
+    },
+    "distance_calculations": {
+      "legs": [
+        {
+          "leg_number": 1,
+          "origin": {
+            "stop_type": "trip_started_from",
+            "location": "San Bernardino, CA",
+            "state": "CA",
+            "coordinates": [
+              34.10524,
+              -117.29412
+            ]
+          },
+          "destination": {
+            "stop_type": "first_drop",
+            "location": "Whitestown, IN",
+            "state": "IN",
+            "coordinates": [
+              39.99545,
+              -86.34592
+            ]
+          },
+          "distance_miles": 2070.2,
+          "api_used": "HERE",
+          "state_assignment": {
+            "CA": 182.5,
+            "MO": 246.4,
+            "CO": 451.2,
+            "UT": 365.2,
+            "IN": 94.4,
+            "NV": 124.4,
+            "IL": 155.3,
+            "AZ": 29.4,
+            "KS": 421.3
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 2,
+          "origin": {
+            "stop_type": "first_drop",
+            "location": "Whitestown, IN",
+            "state": "IN",
+            "coordinates": [
+              39.99545,
+              -86.34592
+            ]
+          },
+          "destination": {
+            "stop_type": "second_drop",
+            "location": "Columbus, IN",
+            "state": "IN",
+            "coordinates": [
+              39.2015,
+              -85.91868
+            ]
+          },
+          "distance_miles": 68.1,
+          "api_used": "HERE",
+          "state_assignment": {
+            "IN": 68.1
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 3,
+          "origin": {
+            "stop_type": "second_drop",
+            "location": "Columbus, IN",
+            "state": "IN",
+            "coordinates": [
+              39.2015,
+              -85.91868
+            ]
+          },
+          "destination": {
+            "stop_type": "third_drop",
+            "location": "Whitestown, IN",
+            "state": "IN",
+            "coordinates": [
+              39.99545,
+              -86.34592
+            ]
+          },
+          "distance_miles": 66.0,
+          "api_used": "HERE",
+          "state_assignment": {
+            "IN": 66.0
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 4,
+          "origin": {
+            "stop_type": "third_drop",
+            "location": "Whitestown, IN",
+            "state": "IN",
+            "coordinates": [
+              39.99545,
+              -86.34592
+            ]
+          },
+          "destination": {
+            "stop_type": "inbound_pu",
+            "location": "Columbus, IN",
+            "state": "IN",
+            "coordinates": [
+              39.2015,
+              -85.91868
+            ]
+          },
+          "distance_miles": 68.1,
+          "api_used": "HERE",
+          "state_assignment": {
+            "IN": 68.1
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 5,
+          "origin": {
+            "stop_type": "inbound_pu",
+            "location": "Columbus, IN",
+            "state": "IN",
+            "coordinates": [
+              39.2015,
+              -85.91868
+            ]
+          },
+          "destination": {
+            "stop_type": "drop_off",
+            "location": "San Bernardino, CA",
+            "state": "CA",
+            "coordinates": [
+              34.10524,
+              -117.29412
+            ]
+          },
+          "distance_miles": 2096.1,
+          "api_used": "HERE",
+          "state_assignment": {
+            "CA": 182.7,
+            "MO": 246.3,
+            "CO": 450.4,
+            "UT": 365.3,
+            "IN": 121.1,
+            "NV": 124.4,
+            "IL": 155.3,
+            "AZ": 29.4,
+            "KS": 421.4
+          },
+          "route_analysis_used": true
+        }
+      ],
+      "total_legs": 5,
+      "successful_calculations": 5,
+      "total_distance_miles": 4368.5,
+      "state_mileage": [
+        {
+          "state": "CO",
+          "miles": 901.6,
+          "percentage": 20.6
+        },
+        {
+          "state": "KS",
+          "miles": 842.7,
+          "percentage": 19.3
+        },
+        {
+          "state": "UT",
+          "miles": 730.5,
+          "percentage": 16.7
+        },
+        {
+          "state": "MO",
+          "miles": 492.7,
+          "percentage": 11.3
+        },
+        {
+          "state": "IN",
+          "miles": 417.7,
+          "percentage": 9.6
+        },
+        {
+          "state": "CA",
+          "miles": 365.2,
+          "percentage": 8.4
+        },
+        {
+          "state": "IL",
+          "miles": 310.6,
+          "percentage": 7.1
+        },
+        {
+          "state": "NV",
+          "miles": 248.8,
+          "percentage": 5.7
+        },
+        {
+          "state": "AZ",
+          "miles": 58.8,
+          "percentage": 1.3
+        }
+      ],
+      "calculation_success": true,
+      "api_used": "HERE"
+    },
+    "reference_validation": {
+      "validation_success": false,
+      "reference_found": false,
+      "note": "No reference test file available"
+    }
+  },
+  {
+    "source_image": "1Q 2024 Trip Envelope Jalf Express 04.02.2024_Page_4_Image_0001.jpg",
+    "processing_success": true,
+    "processing_timestamp": "2025-08-31 16:00:51",
+    "drivers_name": "Gurjit Singh",
+    "unit": "1322",
+    "trailer": "291",
+    "date_trip_started": "10/31/24",
+    "date_trip_ended": "02/04/24",
+    "trip": "",
+    "trip_started_from": "San Bernardino, CA",
+    "first_drop": "Indianapolis, IN",
+    "second_drop": "",
+    "third_drop": "",
+    "forth_drop": "",
+    "inbound_pu": "Indianapolis, IN",
+    "drop_off": [
+      "San Bernardino, CA"
+    ],
+    "total_miles": "",
+    "validation_warnings": [
+      "Possible field duplication: first_drop and inbound_pu have same value",
+      "Duplicate location found: 'San Bernardino, CA' appears in multiple fields",
+      "Duplicate location found: 'Indianapolis, IN' appears in multiple fields"
+    ],
+    "coordinates": {
+      "trip_started_from": {
+        "location": "San Bernardino, CA",
+        "latitude": 34.10524,
+        "longitude": -117.29412
+      },
+      "first_drop": {
+        "location": "Indianapolis, IN",
+        "latitude": 39.76691,
+        "longitude": -86.15012
+      },
+      "second_drop": {
+        "location": "",
+        "latitude": null,
+        "longitude": null
+      },
+      "third_drop": {
+        "location": "",
+        "latitude": null,
+        "longitude": null
+      },
+      "forth_drop": {
+        "location": "",
+        "latitude": null,
+        "longitude": null
+      },
+      "inbound_pu": {
+        "location": "Indianapolis, IN",
+        "latitude": 39.76691,
+        "longitude": -86.15012
+      },
+      "drop_off": {
+        "location": "San Bernardino, CA",
+        "latitude": 34.10524,
+        "longitude": -117.29412
+      },
+      "geocoding_summary": {
+        "total_locations": 4,
+        "successful_geocoding": 4,
+        "geocoding_success_rate": 1.0,
+        "api_used": "HERE"
+      }
+    },
+    "distance_calculations": {
+      "legs": [
+        {
+          "leg_number": 1,
+          "origin": {
+            "stop_type": "trip_started_from",
+            "location": "San Bernardino, CA",
+            "state": "CA",
+            "coordinates": [
+              34.10524,
+              -117.29412
+            ]
+          },
+          "destination": {
+            "stop_type": "first_drop",
+            "location": "Indianapolis, IN",
+            "state": "IN",
+            "coordinates": [
+              39.76691,
+              -86.15012
+            ]
+          },
+          "distance_miles": 2058.1,
+          "api_used": "HERE",
+          "state_assignment": {
+            "CA": 182.5,
+            "MO": 246.4,
+            "CO": 451.2,
+            "UT": 365.2,
+            "IN": 82.1,
+            "NV": 124.4,
+            "IL": 155.4,
+            "AZ": 29.4,
+            "KS": 421.4
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 2,
+          "origin": {
+            "stop_type": "first_drop",
+            "location": "Indianapolis, IN",
+            "state": "IN",
+            "coordinates": [
+              39.76691,
+              -86.15012
+            ]
+          },
+          "destination": {
+            "stop_type": "inbound_pu",
+            "location": "Indianapolis, IN",
+            "state": "IN",
+            "coordinates": [
+              39.76691,
+              -86.15012
+            ]
+          },
+          "distance_miles": 0.0,
+          "api_used": "HERE",
+          "state_assignment": {
+            "IN": 0.0
+          },
+          "route_analysis_used": false
+        },
+        {
+          "leg_number": 3,
+          "origin": {
+            "stop_type": "inbound_pu",
+            "location": "Indianapolis, IN",
+            "state": "IN",
+            "coordinates": [
+              39.76691,
+              -86.15012
+            ]
+          },
+          "destination": {
+            "stop_type": "drop_off",
+            "location": "San Bernardino, CA",
+            "state": "CA",
+            "coordinates": [
+              34.10524,
+              -117.29412
+            ]
+          },
+          "distance_miles": 2057.3,
+          "api_used": "HERE",
+          "state_assignment": {
+            "CA": 182.7,
+            "MO": 246.3,
+            "CO": 450.5,
+            "UT": 365.4,
+            "IN": 82.0,
+            "NV": 124.4,
+            "IL": 155.3,
+            "AZ": 29.4,
+            "KS": 421.5
+          },
+          "route_analysis_used": true
+        }
+      ],
+      "total_legs": 3,
+      "successful_calculations": 3,
+      "total_distance_miles": 4115.4,
+      "state_mileage": [
+        {
+          "state": "CO",
+          "miles": 901.7,
+          "percentage": 21.9
+        },
+        {
+          "state": "KS",
+          "miles": 842.9,
+          "percentage": 20.5
+        },
+        {
+          "state": "UT",
+          "miles": 730.6,
+          "percentage": 17.8
+        },
+        {
+          "state": "MO",
+          "miles": 492.7,
+          "percentage": 12.0
+        },
+        {
+          "state": "CA",
+          "miles": 365.2,
+          "percentage": 8.9
+        },
+        {
+          "state": "IL",
+          "miles": 310.7,
+          "percentage": 7.5
+        },
+        {
+          "state": "NV",
+          "miles": 248.8,
+          "percentage": 6.0
+        },
+        {
+          "state": "IN",
+          "miles": 164.1,
+          "percentage": 4.0
+        },
+        {
+          "state": "AZ",
+          "miles": 58.8,
+          "percentage": 1.4
+        }
+      ],
+      "calculation_success": true,
+      "api_used": "HERE"
+    },
+    "reference_validation": {
+      "validation_success": false,
+      "reference_found": false,
+      "note": "No reference test file available"
+    }
+  },
+  {
+    "source_image": "1Q 2024 Trip Envelope Jalf Express 04.02.2024_Page_5_Image_0001.jpg",
+    "processing_success": true,
+    "processing_timestamp": "2025-08-31 16:01:01",
+    "drivers_name": "GURJIT SINGH",
+    "unit": "1322",
+    "trailer": "285",
+    "date_trip_started": "02/15/24",
+    "date_trip_ended": "02/19/24",
+    "trip": null,
+    "trip_started_from": "San Bernardino, CA",
+    "first_drop": "Indianapolis, IN",
+    "second_drop": "San Bernardino, CA",
+    "third_drop": "",
+    "forth_drop": "",
+    "inbound_pu": "Indianapolis, IN",
+    "drop_off": "San Bernardino, CA",
+    "total_miles": "1900.55",
+    "validation_warnings": [
+      "Possible field duplication: first_drop and inbound_pu have same value",
+      "Duplicate location found: 'San Bernardino, CA' appears in multiple fields",
+      "Duplicate location found: 'Indianapolis, IN' appears in multiple fields",
+      "Suspicious total miles: extracted (1900.55) differs from calculated (8230.8) by 76.9%"
+    ],
+    "coordinates": {
+      "trip_started_from": {
+        "location": "San Bernardino, CA",
+        "latitude": 34.10524,
+        "longitude": -117.29412
+      },
+      "first_drop": {
+        "location": "Indianapolis, IN",
+        "latitude": 39.76691,
+        "longitude": -86.15012
+      },
+      "second_drop": {
+        "location": "San Bernardino, CA",
+        "latitude": 34.10524,
+        "longitude": -117.29412
+      },
+      "third_drop": {
+        "location": "",
+        "latitude": null,
+        "longitude": null
+      },
+      "forth_drop": {
+        "location": "",
+        "latitude": null,
+        "longitude": null
+      },
+      "inbound_pu": {
+        "location": "Indianapolis, IN",
+        "latitude": 39.76691,
+        "longitude": -86.15012
+      },
+      "drop_off": {
+        "location": "San Bernardino, CA",
+        "latitude": 34.10524,
+        "longitude": -117.29412
+      },
+      "geocoding_summary": {
+        "total_locations": 5,
+        "successful_geocoding": 5,
+        "geocoding_success_rate": 1.0,
+        "api_used": "HERE"
+      }
+    },
+    "distance_calculations": {
+      "legs": [
+        {
+          "leg_number": 1,
+          "origin": {
+            "stop_type": "trip_started_from",
+            "location": "San Bernardino, CA",
+            "state": "CA",
+            "coordinates": [
+              34.10524,
+              -117.29412
+            ]
+          },
+          "destination": {
+            "stop_type": "first_drop",
+            "location": "Indianapolis, IN",
+            "state": "IN",
+            "coordinates": [
+              39.76691,
+              -86.15012
+            ]
+          },
+          "distance_miles": 2058.1,
+          "api_used": "HERE",
+          "state_assignment": {
+            "CA": 182.5,
+            "MO": 246.4,
+            "CO": 451.2,
+            "UT": 365.2,
+            "IN": 82.1,
+            "NV": 124.4,
+            "IL": 155.4,
+            "AZ": 29.4,
+            "KS": 421.4
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 2,
+          "origin": {
+            "stop_type": "first_drop",
+            "location": "Indianapolis, IN",
+            "state": "IN",
+            "coordinates": [
+              39.76691,
+              -86.15012
+            ]
+          },
+          "destination": {
+            "stop_type": "second_drop",
+            "location": "San Bernardino, CA",
+            "state": "CA",
+            "coordinates": [
+              34.10524,
+              -117.29412
+            ]
+          },
+          "distance_miles": 2057.3,
+          "api_used": "HERE",
+          "state_assignment": {
+            "CA": 182.7,
+            "MO": 246.3,
+            "CO": 450.5,
+            "UT": 365.4,
+            "IN": 82.0,
+            "NV": 124.4,
+            "IL": 155.3,
+            "AZ": 29.4,
+            "KS": 421.5
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 3,
+          "origin": {
+            "stop_type": "second_drop",
+            "location": "San Bernardino, CA",
+            "state": "CA",
+            "coordinates": [
+              34.10524,
+              -117.29412
+            ]
+          },
+          "destination": {
+            "stop_type": "inbound_pu",
+            "location": "Indianapolis, IN",
+            "state": "IN",
+            "coordinates": [
+              39.76691,
+              -86.15012
+            ]
+          },
+          "distance_miles": 2058.1,
+          "api_used": "HERE",
+          "state_assignment": {
+            "CA": 182.5,
+            "MO": 246.4,
+            "CO": 451.2,
+            "UT": 365.2,
+            "IN": 82.1,
+            "NV": 124.4,
+            "IL": 155.4,
+            "AZ": 29.4,
+            "KS": 421.4
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 4,
+          "origin": {
+            "stop_type": "inbound_pu",
+            "location": "Indianapolis, IN",
+            "state": "IN",
+            "coordinates": [
+              39.76691,
+              -86.15012
+            ]
+          },
+          "destination": {
+            "stop_type": "drop_off",
+            "location": "San Bernardino, CA",
+            "state": "CA",
+            "coordinates": [
+              34.10524,
+              -117.29412
+            ]
+          },
+          "distance_miles": 2057.3,
+          "api_used": "HERE",
+          "state_assignment": {
+            "CA": 182.7,
+            "MO": 246.3,
+            "CO": 450.5,
+            "UT": 365.4,
+            "IN": 82.0,
+            "NV": 124.4,
+            "IL": 155.3,
+            "AZ": 29.4,
+            "KS": 421.5
+          },
+          "route_analysis_used": true
+        }
+      ],
+      "total_legs": 4,
+      "successful_calculations": 4,
+      "total_distance_miles": 8230.8,
+      "state_mileage": [
+        {
+          "state": "CO",
+          "miles": 1803.4,
+          "percentage": 21.9
+        },
+        {
+          "state": "KS",
+          "miles": 1685.8,
+          "percentage": 20.5
+        },
+        {
+          "state": "UT",
+          "miles": 1461.2,
+          "percentage": 17.8
+        },
+        {
+          "state": "MO",
+          "miles": 985.4,
+          "percentage": 12.0
+        },
+        {
+          "state": "CA",
+          "miles": 730.4,
+          "percentage": 8.9
+        },
+        {
+          "state": "IL",
+          "miles": 621.4,
+          "percentage": 7.5
+        },
+        {
+          "state": "NV",
+          "miles": 497.6,
+          "percentage": 6.0
+        },
+        {
+          "state": "IN",
+          "miles": 328.2,
+          "percentage": 4.0
+        },
+        {
+          "state": "AZ",
+          "miles": 117.6,
+          "percentage": 1.4
+        }
+      ],
+      "calculation_success": true,
+      "api_used": "HERE"
+    },
+    "reference_validation": {
+      "validation_success": false,
+      "reference_found": false,
+      "note": "No reference test file available"
+    }
+  },
+  {
+    "source_image": "1Q 2024 Trip Envelope Jalf Express 04.02.2024_Page_6_Image_0001.jpg",
+    "processing_success": true,
+    "processing_timestamp": "2025-08-31 16:01:17",
+    "drivers_name": "GURJIT SINGH",
+    "unit": "1322",
+    "trailer": "234",
+    "date_trip_started": "02/22/24",
+    "date_trip_ended": "02/28/24",
+    "trip": "",
+    "trip_started_from": "San Bernardino, CA",
+    "first_drop": "Stokesdale, NC",
+    "second_drop": "",
+    "third_drop": "",
+    "forth_drop": "",
+    "inbound_pu": "Hickory, NC",
+    "drop_off": [
+      "San Bernardino, CA"
+    ],
+    "total_miles": "717273",
+    "validation_warnings": [
+      "Duplicate location found: 'San Bernardino, CA' appears in multiple fields",
+      "Suspicious total miles (too high): 717273 - verify against image",
+      "Suspicious total miles: extracted (717273.0) differs from calculated (4847.4) by 14697.1%"
+    ],
+    "coordinates": {
+      "trip_started_from": {
+        "location": "San Bernardino, CA",
+        "latitude": 34.10524,
+        "longitude": -117.29412
+      },
+      "first_drop": {
+        "location": "Stokesdale, NC",
+        "latitude": 36.24193,
+        "longitude": -79.9847
+      },
+      "second_drop": {
+        "location": "",
+        "latitude": null,
+        "longitude": null
+      },
+      "third_drop": {
+        "location": "",
+        "latitude": null,
+        "longitude": null
+      },
+      "forth_drop": {
+        "location": "",
+        "latitude": null,
+        "longitude": null
+      },
+      "inbound_pu": {
+        "location": "Hickory, NC",
+        "latitude": 35.73528,
+        "longitude": -81.3356
+      },
+      "drop_off": {
+        "location": "San Bernardino, CA",
+        "latitude": 34.10524,
+        "longitude": -117.29412
+      },
+      "geocoding_summary": {
+        "total_locations": 4,
+        "successful_geocoding": 4,
+        "geocoding_success_rate": 1.0,
+        "api_used": "HERE"
+      }
+    },
+    "distance_calculations": {
+      "legs": [
+        {
+          "leg_number": 1,
+          "origin": {
+            "stop_type": "trip_started_from",
+            "location": "San Bernardino, CA",
+            "state": "CA",
+            "coordinates": [
+              34.10524,
+              -117.29412
+            ]
+          },
+          "destination": {
+            "stop_type": "first_drop",
+            "location": "Stokesdale, NC",
+            "state": "NC",
+            "coordinates": [
+              36.24193,
+              -79.9847
+            ]
+          },
+          "distance_miles": 2425.3,
+          "api_used": "HERE",
+          "state_assignment": {
+            "NM": 373.0,
+            "CA": 225.4,
+            "AR": 284.6,
+            "OK": 330.3,
+            "TN": 500.6,
+            "AZ": 359.3,
+            "TX": 176.7,
+            "NC": 61.1,
+            "VA": 114.2
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 2,
+          "origin": {
+            "stop_type": "first_drop",
+            "location": "Stokesdale, NC",
+            "state": "NC",
+            "coordinates": [
+              36.24193,
+              -79.9847
+            ]
+          },
+          "destination": {
+            "stop_type": "inbound_pu",
+            "location": "Hickory, NC",
+            "state": "NC",
+            "coordinates": [
+              35.73528,
+              -81.3356
+            ]
+          },
+          "distance_miles": 88.9,
+          "api_used": "HERE",
+          "state_assignment": {
+            "NC": 88.9
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 3,
+          "origin": {
+            "stop_type": "inbound_pu",
+            "location": "Hickory, NC",
+            "state": "NC",
+            "coordinates": [
+              35.73528,
+              -81.3356
+            ]
+          },
+          "destination": {
+            "stop_type": "drop_off",
+            "location": "San Bernardino, CA",
+            "state": "CA",
+            "coordinates": [
+              34.10524,
+              -117.29412
+            ]
+          },
+          "distance_miles": 2333.2,
+          "api_used": "HERE",
+          "state_assignment": {
+            "NM": 373.2,
+            "CA": 225.6,
+            "AR": 284.6,
+            "OK": 330.6,
+            "TN": 455.8,
+            "AZ": 359.4,
+            "TX": 176.7,
+            "NC": 127.3
+          },
+          "route_analysis_used": true
+        }
+      ],
+      "total_legs": 3,
+      "successful_calculations": 3,
+      "total_distance_miles": 4847.4,
+      "state_mileage": [
+        {
+          "state": "TN",
+          "miles": 956.4,
+          "percentage": 19.7
+        },
+        {
+          "state": "NM",
+          "miles": 746.2,
+          "percentage": 15.4
+        },
+        {
+          "state": "AZ",
+          "miles": 718.7,
+          "percentage": 14.8
+        },
+        {
+          "state": "OK",
+          "miles": 660.9,
+          "percentage": 13.6
+        },
+        {
+          "state": "AR",
+          "miles": 569.2,
+          "percentage": 11.7
+        },
+        {
+          "state": "CA",
+          "miles": 451.0,
+          "percentage": 9.3
+        },
+        {
+          "state": "TX",
+          "miles": 353.4,
+          "percentage": 7.3
+        },
+        {
+          "state": "NC",
+          "miles": 277.3,
+          "percentage": 5.7
+        },
+        {
+          "state": "VA",
+          "miles": 114.2,
+          "percentage": 2.4
+        }
+      ],
+      "calculation_success": true,
+      "api_used": "HERE"
+    },
+    "reference_validation": {
+      "validation_success": false,
+      "reference_found": false,
+      "note": "No reference test file available"
+    }
+  },
+  {
+    "source_image": "1Q 2024 Trip Envelope Jalf Express 04.02.2024_Page_7_Image_0001.jpg",
+    "processing_success": true,
+    "processing_timestamp": "2025-08-31 16:01:33",
+    "drivers_name": "GURJIT SINGH",
+    "unit": "1322",
+    "trailer": "285",
+    "date_trip_started": "03/09/24",
+    "date_trip_ended": "03/14/24",
+    "trip": "",
+    "trip_started_from": "San Bernardino, CA",
+    "first_drop": "Nashville, TN",
+    "second_drop": "Nashville, TN",
+    "third_drop": "",
+    "forth_drop": "",
+    "inbound_pu": "Jackson, TN",
+    "drop_off": [
+      "Glendale, AZ",
+      "San Bernardino, CA"
+    ],
+    "total_miles": "",
+    "validation_warnings": [
+      "Duplicate location found: 'Nashville, TN' appears in multiple fields",
+      "Duplicate location found: 'San Bernardino, CA' appears in multiple fields",
+      "third_drop cleared (matched inbound_pu/drop_off): Jackson, TN → empty"
+    ],
+    "coordinates": {
+      "trip_started_from": {
+        "location": "San Bernardino, CA",
+        "latitude": 34.10524,
+        "longitude": -117.29412
+      },
+      "first_drop": {
+        "location": "Nashville, TN",
+        "latitude": 36.16792,
+        "longitude": -86.77798
+      },
+      "second_drop": {
+        "location": "Nashville, TN",
+        "latitude": 36.16792,
+        "longitude": -86.77798
+      },
+      "third_drop": {
+        "location": "",
+        "latitude": null,
+        "longitude": null
+      },
+      "forth_drop": {
+        "location": "",
+        "latitude": null,
+        "longitude": null
+      },
+      "inbound_pu": {
+        "location": "Jackson, TN",
+        "latitude": 35.6139,
+        "longitude": -88.8194
+      },
+      "drop_off": {
+        "location": "Glendale, AZ",
+        "latitude": 33.53861,
+        "longitude": -112.18622
+      },
+      "geocoding_summary": {
+        "total_locations": 5,
+        "successful_geocoding": 5,
+        "geocoding_success_rate": 1.0,
+        "api_used": "HERE"
+      }
+    },
+    "distance_calculations": {
+      "legs": [
+        {
+          "leg_number": 1,
+          "origin": {
+            "stop_type": "trip_started_from",
+            "location": "San Bernardino, CA",
+            "state": "CA",
+            "coordinates": [
+              34.10524,
+              -117.29412
+            ]
+          },
+          "destination": {
+            "stop_type": "first_drop",
+            "location": "Nashville, TN",
+            "state": "TN",
+            "coordinates": [
+              36.16792,
+              -86.77798
+            ]
+          },
+          "distance_miles": 1965.2,
+          "api_used": "HERE",
+          "state_assignment": {
+            "NM": 373.1,
+            "CA": 225.4,
+            "AR": 284.7,
+            "OK": 330.4,
+            "TN": 215.5,
+            "AZ": 359.4,
+            "TX": 176.7
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 2,
+          "origin": {
+            "stop_type": "first_drop",
+            "location": "Nashville, TN",
+            "state": "TN",
+            "coordinates": [
+              36.16792,
+              -86.77798
+            ]
+          },
+          "destination": {
+            "stop_type": "second_drop",
+            "location": "Nashville, TN",
+            "state": "TN",
+            "coordinates": [
+              36.16792,
+              -86.77798
+            ]
+          },
+          "distance_miles": 0.0,
+          "api_used": "HERE",
+          "state_assignment": {
+            "TN": 0.0
+          },
+          "route_analysis_used": false
+        },
+        {
+          "leg_number": 3,
+          "origin": {
+            "stop_type": "second_drop",
+            "location": "Nashville, TN",
+            "state": "TN",
+            "coordinates": [
+              36.16792,
+              -86.77798
+            ]
+          },
+          "destination": {
+            "stop_type": "inbound_pu",
+            "location": "Jackson, TN",
+            "state": "TN",
+            "coordinates": [
+              35.6139,
+              -88.8194
+            ]
+          },
+          "distance_miles": 130.3,
+          "api_used": "HERE",
+          "state_assignment": {
+            "TN": 130.3
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 4,
+          "origin": {
+            "stop_type": "inbound_pu",
+            "location": "Jackson, TN",
+            "state": "TN",
+            "coordinates": [
+              35.6139,
+              -88.8194
+            ]
+          },
+          "destination": {
+            "stop_type": "drop_off",
+            "location": "Glendale, AZ",
+            "state": "AZ",
+            "coordinates": [
+              33.53861,
+              -112.18622
+            ]
+          },
+          "distance_miles": 1522.1,
+          "api_used": "HERE",
+          "state_assignment": {
+            "NM": 373.2,
+            "AR": 284.6,
+            "OK": 330.6,
+            "TN": 88.7,
+            "AZ": 268.3,
+            "TX": 176.7
+          },
+          "route_analysis_used": true
+        }
+      ],
+      "total_legs": 4,
+      "successful_calculations": 4,
+      "total_distance_miles": 3617.6,
+      "state_mileage": [
+        {
+          "state": "NM",
+          "miles": 746.3,
+          "percentage": 20.6
+        },
+        {
+          "state": "OK",
+          "miles": 661.0,
+          "percentage": 18.3
+        },
+        {
+          "state": "AZ",
+          "miles": 627.7,
+          "percentage": 17.4
+        },
+        {
+          "state": "AR",
+          "miles": 569.3,
+          "percentage": 15.7
+        },
+        {
+          "state": "TN",
+          "miles": 434.5,
+          "percentage": 12.0
+        },
+        {
+          "state": "TX",
+          "miles": 353.4,
+          "percentage": 9.8
+        },
+        {
+          "state": "CA",
+          "miles": 225.4,
+          "percentage": 6.2
+        }
+      ],
+      "calculation_success": true,
+      "api_used": "HERE"
+    },
+    "reference_validation": {
+      "validation_success": false,
+      "reference_found": false,
+      "note": "No reference test file available"
+    }
+  },
+  {
+    "source_image": "1Q 2024 Trip Envelope Jalf Express 04.02.2024_Page_8_Image_0001.jpg",
+    "processing_success": true,
+    "processing_timestamp": "2025-08-31 16:01:48",
+    "drivers_name": "Gurjit Singh",
+    "unit": "1322",
+    "trailer": "215",
+    "date_trip_started": "03/21/24",
+    "date_trip_ended": "03/21/24",
+    "trip": "",
+    "trip_started_from": "San Bernardino, CA",
+    "first_drop": "Coppell, TX",
+    "second_drop": "San Bernardino, CA",
+    "third_drop": "",
+    "forth_drop": "",
+    "inbound_pu": "Coppell, TX",
+    "drop_off": "San Bernardino, CA",
+    "total_miles": "1791.51",
+    "validation_warnings": [
+      "Possible field duplication: first_drop and inbound_pu have same value",
+      "Duplicate location found: '03/21/24' appears in multiple fields",
+      "Duplicate location found: 'San Bernardino, CA' appears in multiple fields",
+      "Duplicate location found: 'Coppell, TX' appears in multiple fields",
+      "Suspicious total miles: extracted (1791.51) differs from calculated (5540.6) by 67.7%"
+    ],
+    "coordinates": {
+      "trip_started_from": {
+        "location": "San Bernardino, CA",
+        "latitude": 34.10524,
+        "longitude": -117.29412
+      },
+      "first_drop": {
+        "location": "Coppell, TX",
+        "latitude": 32.97656,
+        "longitude": -96.99131
+      },
+      "second_drop": {
+        "location": "San Bernardino, CA",
+        "latitude": 34.10524,
+        "longitude": -117.29412
+      },
+      "third_drop": {
+        "location": "",
+        "latitude": null,
+        "longitude": null
+      },
+      "forth_drop": {
+        "location": "",
+        "latitude": null,
+        "longitude": null
+      },
+      "inbound_pu": {
+        "location": "Coppell, TX",
+        "latitude": 32.97656,
+        "longitude": -96.99131
+      },
+      "drop_off": {
+        "location": "San Bernardino, CA",
+        "latitude": 34.10524,
+        "longitude": -117.29412
+      },
+      "geocoding_summary": {
+        "total_locations": 5,
+        "successful_geocoding": 5,
+        "geocoding_success_rate": 1.0,
+        "api_used": "HERE"
+      }
+    },
+    "distance_calculations": {
+      "legs": [
+        {
+          "leg_number": 1,
+          "origin": {
+            "stop_type": "trip_started_from",
+            "location": "San Bernardino, CA",
+            "state": "CA",
+            "coordinates": [
+              34.10524,
+              -117.29412
+            ]
+          },
+          "destination": {
+            "stop_type": "first_drop",
+            "location": "Coppell, TX",
+            "state": "TX",
+            "coordinates": [
+              32.97656,
+              -96.99131
+            ]
+          },
+          "distance_miles": 1385.2,
+          "api_used": "HERE",
+          "state_assignment": {
+            "NM": 164.4,
+            "CA": 173.8,
+            "AZ": 391.6,
+            "TX": 655.3
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 2,
+          "origin": {
+            "stop_type": "first_drop",
+            "location": "Coppell, TX",
+            "state": "TX",
+            "coordinates": [
+              32.97656,
+              -96.99131
+            ]
+          },
+          "destination": {
+            "stop_type": "second_drop",
+            "location": "San Bernardino, CA",
+            "state": "CA",
+            "coordinates": [
+              34.10524,
+              -117.29412
+            ]
+          },
+          "distance_miles": 1385.1,
+          "api_used": "HERE",
+          "state_assignment": {
+            "NM": 164.4,
+            "CA": 173.5,
+            "AZ": 392.1,
+            "TX": 655.1
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 3,
+          "origin": {
+            "stop_type": "second_drop",
+            "location": "San Bernardino, CA",
+            "state": "CA",
+            "coordinates": [
+              34.10524,
+              -117.29412
+            ]
+          },
+          "destination": {
+            "stop_type": "inbound_pu",
+            "location": "Coppell, TX",
+            "state": "TX",
+            "coordinates": [
+              32.97656,
+              -96.99131
+            ]
+          },
+          "distance_miles": 1385.2,
+          "api_used": "HERE",
+          "state_assignment": {
+            "NM": 164.4,
+            "CA": 173.8,
+            "AZ": 391.6,
+            "TX": 655.3
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 4,
+          "origin": {
+            "stop_type": "inbound_pu",
+            "location": "Coppell, TX",
+            "state": "TX",
+            "coordinates": [
+              32.97656,
+              -96.99131
+            ]
+          },
+          "destination": {
+            "stop_type": "drop_off",
+            "location": "San Bernardino, CA",
+            "state": "CA",
+            "coordinates": [
+              34.10524,
+              -117.29412
+            ]
+          },
+          "distance_miles": 1385.1,
+          "api_used": "HERE",
+          "state_assignment": {
+            "NM": 164.4,
+            "CA": 173.5,
+            "AZ": 392.1,
+            "TX": 655.1
+          },
+          "route_analysis_used": true
+        }
+      ],
+      "total_legs": 4,
+      "successful_calculations": 4,
+      "total_distance_miles": 5540.6,
+      "state_mileage": [
+        {
+          "state": "TX",
+          "miles": 2620.8,
+          "percentage": 47.3
+        },
+        {
+          "state": "AZ",
+          "miles": 1567.4,
+          "percentage": 28.3
+        },
+        {
+          "state": "CA",
+          "miles": 694.6,
+          "percentage": 12.5
+        },
+        {
+          "state": "NM",
+          "miles": 657.6,
+          "percentage": 11.9
+        }
+      ],
+      "calculation_success": true,
+      "api_used": "HERE"
+    },
+    "reference_validation": {
+      "validation_success": false,
+      "reference_found": false,
+      "note": "No reference test file available"
+    }
+  },
+  {
+    "source_image": "1Q 2024 Trip Envelope Jalf Express 04.02.2024_Page_9_Image_0001.jpg",
+    "processing_success": true,
+    "processing_timestamp": "2025-08-31 16:02:02",
+    "drivers_name": "GURJIT SINGH",
+    "unit": "1322",
+    "trailer": "250",
+    "date_trip_started": "03/22/24",
+    "date_trip_ended": "03/27/22",
+    "trip": "",
+    "trip_started_from": "San Bernardino, CA",
+    "first_drop": "Coppell, TX",
+    "second_drop": "San Antonio, TX",
+    "third_drop": "",
+    "forth_drop": "San Antonio, TX",
+    "inbound_pu": "Coppell, TX",
+    "drop_off": "San Bernardino, CA",
+    "total_miles": "203026",
+    "validation_warnings": [
+      "Possible field duplication: first_drop and inbound_pu have same value",
+      "Suspicious: 4th drop filled but 3rd drop empty (possible field swap)",
+      "Duplicate location found: 'San Bernardino, CA' appears in multiple fields",
+      "Duplicate location found: 'San Antonio, TX' appears in multiple fields",
+      "Duplicate location found: 'Coppell, TX' appears in multiple fields",
+      "Suspicious total miles (too high): 203026 - verify against image",
+      "Suspicious total miles: extracted (203026.0) differs from calculated (3387.2) by 5893.9%"
+    ],
+    "coordinates": {
+      "trip_started_from": {
+        "location": "San Bernardino, CA",
+        "latitude": 34.10524,
+        "longitude": -117.29412
+      },
+      "first_drop": {
+        "location": "Coppell, TX",
+        "latitude": 32.97656,
+        "longitude": -96.99131
+      },
+      "second_drop": {
+        "location": "San Antonio, TX",
+        "latitude": 29.42458,
+        "longitude": -98.49461
+      },
+      "third_drop": {
+        "location": "",
+        "latitude": null,
+        "longitude": null
+      },
+      "forth_drop": {
+        "location": "San Antonio, TX",
+        "latitude": 29.42458,
+        "longitude": -98.49461
+      },
+      "inbound_pu": {
+        "location": "Coppell, TX",
+        "latitude": 32.97656,
+        "longitude": -96.99131
+      },
+      "drop_off": {
+        "location": "San Bernardino, CA",
+        "latitude": 34.10524,
+        "longitude": -117.29412
+      },
+      "geocoding_summary": {
+        "total_locations": 6,
+        "successful_geocoding": 6,
+        "geocoding_success_rate": 1.0,
+        "api_used": "HERE"
+      }
+    },
+    "distance_calculations": {
+      "legs": [
+        {
+          "leg_number": 1,
+          "origin": {
+            "stop_type": "trip_started_from",
+            "location": "San Bernardino, CA",
+            "state": "CA",
+            "coordinates": [
+              34.10524,
+              -117.29412
+            ]
+          },
+          "destination": {
+            "stop_type": "first_drop",
+            "location": "Coppell, TX",
+            "state": "TX",
+            "coordinates": [
+              32.97656,
+              -96.99131
+            ]
+          },
+          "distance_miles": 1385.2,
+          "api_used": "HERE",
+          "state_assignment": {
+            "NM": 164.4,
+            "CA": 173.8,
+            "AZ": 391.6,
+            "TX": 655.3
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 2,
+          "origin": {
+            "stop_type": "first_drop",
+            "location": "Coppell, TX",
+            "state": "TX",
+            "coordinates": [
+              32.97656,
+              -96.99131
+            ]
+          },
+          "destination": {
+            "stop_type": "second_drop",
+            "location": "San Antonio, TX",
+            "state": "TX",
+            "coordinates": [
+              29.42458,
+              -98.49461
+            ]
+          },
+          "distance_miles": 311.7,
+          "api_used": "HERE",
+          "state_assignment": {
+            "TX": 311.7
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 3,
+          "origin": {
+            "stop_type": "second_drop",
+            "location": "San Antonio, TX",
+            "state": "TX",
+            "coordinates": [
+              29.42458,
+              -98.49461
+            ]
+          },
+          "destination": {
+            "stop_type": "forth_drop",
+            "location": "San Antonio, TX",
+            "state": "TX",
+            "coordinates": [
+              29.42458,
+              -98.49461
+            ]
+          },
+          "distance_miles": 0.0,
+          "api_used": "HERE",
+          "state_assignment": {
+            "TX": 0.0
+          },
+          "route_analysis_used": false
+        },
+        {
+          "leg_number": 4,
+          "origin": {
+            "stop_type": "forth_drop",
+            "location": "San Antonio, TX",
+            "state": "TX",
+            "coordinates": [
+              29.42458,
+              -98.49461
+            ]
+          },
+          "destination": {
+            "stop_type": "inbound_pu",
+            "location": "Coppell, TX",
+            "state": "TX",
+            "coordinates": [
+              32.97656,
+              -96.99131
+            ]
+          },
+          "distance_miles": 305.2,
+          "api_used": "HERE",
+          "state_assignment": {
+            "TX": 305.2
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 5,
+          "origin": {
+            "stop_type": "inbound_pu",
+            "location": "Coppell, TX",
+            "state": "TX",
+            "coordinates": [
+              32.97656,
+              -96.99131
+            ]
+          },
+          "destination": {
+            "stop_type": "drop_off",
+            "location": "San Bernardino, CA",
+            "state": "CA",
+            "coordinates": [
+              34.10524,
+              -117.29412
+            ]
+          },
+          "distance_miles": 1385.1,
+          "api_used": "HERE",
+          "state_assignment": {
+            "NM": 164.4,
+            "CA": 173.5,
+            "AZ": 392.1,
+            "TX": 655.1
+          },
+          "route_analysis_used": true
+        }
+      ],
+      "total_legs": 5,
+      "successful_calculations": 5,
+      "total_distance_miles": 3387.2,
+      "state_mileage": [
+        {
+          "state": "TX",
+          "miles": 1927.3,
+          "percentage": 56.9
+        },
+        {
+          "state": "AZ",
+          "miles": 783.7,
+          "percentage": 23.1
+        },
+        {
+          "state": "CA",
+          "miles": 347.3,
+          "percentage": 10.3
+        },
+        {
+          "state": "NM",
+          "miles": 328.8,
+          "percentage": 9.7
+        }
+      ],
+      "calculation_success": true,
+      "api_used": "HERE"
+    },
+    "reference_validation": {
+      "validation_success": false,
+      "reference_found": false,
+      "note": "No reference test file available"
+    }
+  }
+]
