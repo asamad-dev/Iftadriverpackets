@@ -227,10 +227,6 @@ def show_setup_instructions():
     - Sign up for a free account
     - Create a new project and get your API key
     - Enables advanced distance calculation and state mileage breakdown
-    
-    #### 3. **Reference Data** (Optional)
-    - Upload `driver - Sheet1.csv` to the input folder for validation
-    - This enables accuracy comparison against known correct data
     """)
 
 def upload_and_process_tab(processor, use_here_api):
@@ -1029,11 +1025,9 @@ def generate_excel_export(results):
     """Generate Excel export data"""
     csv_data = generate_csv_export(results)
     df = pd.read_csv(io.StringIO(csv_data))
-    
     output = io.BytesIO()
     with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
         df.to_excel(writer, sheet_name='Driver Packet Results', index=False)
-    
     return output.getvalue()
 
 if __name__ == "__main__":

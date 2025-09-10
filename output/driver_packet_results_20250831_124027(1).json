@@ -1,0 +1,5137 @@
+[
+  {
+    "source_image": "10-20 trip env samples for Abdul 06.30.25_Page_07_Image_0001.jpg",
+    "processing_success": true,
+    "processing_timestamp": "2025-08-31 12:32:50",
+    "drivers_name": "Rom Kapoor",
+    "unit": "1577",
+    "trailer": "219",
+    "date_trip_started": "12/09/22",
+    "date_trip_ended": "12/25/22",
+    "trip": "",
+    "trip_started_from": "Cedar Ave, CA",
+    "first_drop": "Marshall, TX",
+    "second_drop": "Dallas, TX",
+    "third_drop": "",
+    "forth_drop": "",
+    "inbound_pu": "Forney, TX",
+    "drop_off": [
+      "Temecula, CA",
+      "San Bernardino, CA"
+    ],
+    "total_miles": "3212",
+    "coordinates": {
+      "trip_started_from": {
+        "location": "Cedar Ave, CA",
+        "latitude": 34.18236,
+        "longitude": -118.29662
+      },
+      "first_drop": {
+        "location": "Marshall, TX",
+        "latitude": 32.54691,
+        "longitude": -94.35011
+      },
+      "second_drop": {
+        "location": "Dallas, TX",
+        "latitude": 32.77822,
+        "longitude": -96.79512
+      },
+      "third_drop": {
+        "location": "",
+        "latitude": null,
+        "longitude": null
+      },
+      "forth_drop": {
+        "location": "",
+        "latitude": null,
+        "longitude": null
+      },
+      "inbound_pu": {
+        "location": "Forney, TX",
+        "latitude": 32.74904,
+        "longitude": -96.47047
+      },
+      "drop_off": {
+        "location": "Temecula, CA",
+        "latitude": 33.50299,
+        "longitude": -117.16247
+      },
+      "geocoding_summary": {
+        "total_locations": 5,
+        "successful_geocoding": 5,
+        "geocoding_success_rate": 1.0,
+        "api_used": "HERE"
+      }
+    },
+    "distance_calculations": {
+      "legs": [
+        {
+          "leg_number": 1,
+          "origin": {
+            "stop_type": "trip_started_from",
+            "location": "Cedar Ave, CA",
+            "state": "CA",
+            "coordinates": [
+              34.18236,
+              -118.29662
+            ]
+          },
+          "destination": {
+            "stop_type": "first_drop",
+            "location": "Marshall, TX",
+            "state": "TX",
+            "coordinates": [
+              32.54691,
+              -94.35011
+            ]
+          },
+          "distance_miles": 1602.5,
+          "api_used": "HERE",
+          "state_assignment": {
+            "NM": 167.2,
+            "CA": 235.3,
+            "AZ": 391.7,
+            "TX": 808.3
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 2,
+          "origin": {
+            "stop_type": "first_drop",
+            "location": "Marshall, TX",
+            "state": "TX",
+            "coordinates": [
+              32.54691,
+              -94.35011
+            ]
+          },
+          "destination": {
+            "stop_type": "second_drop",
+            "location": "Dallas, TX",
+            "state": "TX",
+            "coordinates": [
+              32.77822,
+              -96.79512
+            ]
+          },
+          "distance_miles": 154.2,
+          "api_used": "HERE",
+          "state_assignment": {
+            "TX": 154.2
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 3,
+          "origin": {
+            "stop_type": "second_drop",
+            "location": "Dallas, TX",
+            "state": "TX",
+            "coordinates": [
+              32.77822,
+              -96.79512
+            ]
+          },
+          "destination": {
+            "stop_type": "inbound_pu",
+            "location": "Forney, TX",
+            "state": "TX",
+            "coordinates": [
+              32.74904,
+              -96.47047
+            ]
+          },
+          "distance_miles": 20.7,
+          "api_used": "HERE",
+          "state_assignment": {
+            "TX": 20.7
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 4,
+          "origin": {
+            "stop_type": "inbound_pu",
+            "location": "Forney, TX",
+            "state": "TX",
+            "coordinates": [
+              32.74904,
+              -96.47047
+            ]
+          },
+          "destination": {
+            "stop_type": "drop_off",
+            "location": "Temecula, CA",
+            "state": "CA",
+            "coordinates": [
+              33.50299,
+              -117.16247
+            ]
+          },
+          "distance_miles": 1431.1,
+          "api_used": "HERE",
+          "state_assignment": {
+            "NM": 164.5,
+            "CA": 216.4,
+            "AZ": 371.2,
+            "TX": 679.0
+          },
+          "route_analysis_used": true
+        }
+      ],
+      "total_legs": 4,
+      "successful_calculations": 4,
+      "total_distance_miles": 3208.5,
+      "state_mileage": [
+        {
+          "state": "TX",
+          "miles": 1662.2,
+          "percentage": 51.8
+        },
+        {
+          "state": "AZ",
+          "miles": 762.9,
+          "percentage": 23.8
+        },
+        {
+          "state": "CA",
+          "miles": 451.7,
+          "percentage": 14.1
+        },
+        {
+          "state": "NM",
+          "miles": 331.7,
+          "percentage": 10.3
+        }
+      ],
+      "calculation_success": true,
+      "api_used": "HERE"
+    },
+    "reference_validation": {
+      "validation_success": false,
+      "reference_found": false,
+      "note": "No reference test file available"
+    }
+  },
+  {
+    "source_image": "10-20 trip env samples for Abdul 06.30.25_Page_07_Image_0001.jpg",
+    "processing_success": true,
+    "processing_timestamp": "2025-08-31 12:33:01",
+    "drivers_name": "Rom Kapoor",
+    "unit": "1577",
+    "trailer": "219",
+    "date_trip_started": "12/09/22",
+    "date_trip_ended": "12/25/22",
+    "trip": "",
+    "trip_started_from": "Cedar Ave, CA",
+    "first_drop": "Marshall, TX",
+    "second_drop": "Dallas, TX",
+    "third_drop": "",
+    "forth_drop": "",
+    "inbound_pu": "Forney, TX",
+    "drop_off": [
+      "Temecula, CA",
+      "San Bernardino, CA"
+    ],
+    "total_miles": "3212",
+    "coordinates": {
+      "trip_started_from": {
+        "location": "Cedar Ave, CA",
+        "latitude": 34.18236,
+        "longitude": -118.29662
+      },
+      "first_drop": {
+        "location": "Marshall, TX",
+        "latitude": 32.54691,
+        "longitude": -94.35011
+      },
+      "second_drop": {
+        "location": "Dallas, TX",
+        "latitude": 32.77822,
+        "longitude": -96.79512
+      },
+      "third_drop": {
+        "location": "",
+        "latitude": null,
+        "longitude": null
+      },
+      "forth_drop": {
+        "location": "",
+        "latitude": null,
+        "longitude": null
+      },
+      "inbound_pu": {
+        "location": "Forney, TX",
+        "latitude": 32.74904,
+        "longitude": -96.47047
+      },
+      "drop_off": {
+        "location": "Temecula, CA",
+        "latitude": 33.50299,
+        "longitude": -117.16247
+      },
+      "geocoding_summary": {
+        "total_locations": 5,
+        "successful_geocoding": 5,
+        "geocoding_success_rate": 1.0,
+        "api_used": "HERE"
+      }
+    },
+    "distance_calculations": {
+      "legs": [
+        {
+          "leg_number": 1,
+          "origin": {
+            "stop_type": "trip_started_from",
+            "location": "Cedar Ave, CA",
+            "state": "CA",
+            "coordinates": [
+              34.18236,
+              -118.29662
+            ]
+          },
+          "destination": {
+            "stop_type": "first_drop",
+            "location": "Marshall, TX",
+            "state": "TX",
+            "coordinates": [
+              32.54691,
+              -94.35011
+            ]
+          },
+          "distance_miles": 1602.5,
+          "api_used": "HERE",
+          "state_assignment": {
+            "NM": 167.2,
+            "CA": 235.3,
+            "AZ": 391.7,
+            "TX": 808.3
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 2,
+          "origin": {
+            "stop_type": "first_drop",
+            "location": "Marshall, TX",
+            "state": "TX",
+            "coordinates": [
+              32.54691,
+              -94.35011
+            ]
+          },
+          "destination": {
+            "stop_type": "second_drop",
+            "location": "Dallas, TX",
+            "state": "TX",
+            "coordinates": [
+              32.77822,
+              -96.79512
+            ]
+          },
+          "distance_miles": 154.2,
+          "api_used": "HERE",
+          "state_assignment": {
+            "TX": 154.2
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 3,
+          "origin": {
+            "stop_type": "second_drop",
+            "location": "Dallas, TX",
+            "state": "TX",
+            "coordinates": [
+              32.77822,
+              -96.79512
+            ]
+          },
+          "destination": {
+            "stop_type": "inbound_pu",
+            "location": "Forney, TX",
+            "state": "TX",
+            "coordinates": [
+              32.74904,
+              -96.47047
+            ]
+          },
+          "distance_miles": 20.7,
+          "api_used": "HERE",
+          "state_assignment": {
+            "TX": 20.7
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 4,
+          "origin": {
+            "stop_type": "inbound_pu",
+            "location": "Forney, TX",
+            "state": "TX",
+            "coordinates": [
+              32.74904,
+              -96.47047
+            ]
+          },
+          "destination": {
+            "stop_type": "drop_off",
+            "location": "Temecula, CA",
+            "state": "CA",
+            "coordinates": [
+              33.50299,
+              -117.16247
+            ]
+          },
+          "distance_miles": 1431.1,
+          "api_used": "HERE",
+          "state_assignment": {
+            "NM": 164.5,
+            "CA": 216.4,
+            "AZ": 371.2,
+            "TX": 679.0
+          },
+          "route_analysis_used": true
+        }
+      ],
+      "total_legs": 4,
+      "successful_calculations": 4,
+      "total_distance_miles": 3208.5,
+      "state_mileage": [
+        {
+          "state": "TX",
+          "miles": 1662.2,
+          "percentage": 51.8
+        },
+        {
+          "state": "AZ",
+          "miles": 762.9,
+          "percentage": 23.8
+        },
+        {
+          "state": "CA",
+          "miles": 451.7,
+          "percentage": 14.1
+        },
+        {
+          "state": "NM",
+          "miles": 331.7,
+          "percentage": 10.3
+        }
+      ],
+      "calculation_success": true,
+      "api_used": "HERE"
+    },
+    "reference_validation": {
+      "validation_success": false,
+      "reference_found": false,
+      "note": "No reference test file available"
+    }
+  },
+  {
+    "source_image": "10-20 trip env samples for Abdul 06.30.25_Page_08_Image_0001.jpg",
+    "processing_success": true,
+    "processing_timestamp": "2025-08-31 12:33:12",
+    "drivers_name": "Ram Kapoor",
+    "unit": "1577",
+    "trailer": "2276",->276
+    "date_trip_started": "12/11/22",
+    "date_trip_ended": "12/15/22",
+    "trip": "",
+    "trip_started_from": "Cedar Ave, CA",
+    "first_drop": "El Paso, TX",
+    "second_drop": "Arlington, TX",
+    "third_drop": "Coppell, TX",
+    "forth_drop": "",
+    "inbound_pu": "Fort worth, TX",
+    "drop_off": [
+      "Moreno Valley, CA",
+      "San Bernardino, CA"
+    ],
+    "total_miles": "2783",
+    "coordinates": {
+      "trip_started_from": {
+        "location": "Cedar Ave, CA",
+        "latitude": 34.18236,
+        "longitude": -118.29662
+      },
+      "first_drop": {
+        "location": "El Paso, TX",
+        "latitude": 31.75916,
+        "longitude": -106.48749
+      },
+      "second_drop": {
+        "location": "Arlington, TX",
+        "latitude": 32.7356,
+        "longitude": -97.10772
+      },
+      "third_drop": {
+        "location": "Coppell, TX",
+        "latitude": 32.97656,
+        "longitude": -96.99131
+      },
+      "forth_drop": {
+        "location": "",
+        "latitude": null,
+        "longitude": null
+      },
+      "inbound_pu": {
+        "location": "Fort worth, TX",
+        "latitude": 32.75095,
+        "longitude": -97.33086
+      },
+      "drop_off": {
+        "location": "Moreno Valley, CA",
+        "latitude": 33.91684,
+        "longitude": -117.26113
+      },
+      "geocoding_summary": {
+        "total_locations": 6,
+        "successful_geocoding": 6,
+        "geocoding_success_rate": 1.0,
+        "api_used": "HERE"
+      }
+    },
+    "distance_calculations": {
+      "legs": [
+        {
+          "leg_number": 1,
+          "origin": {
+            "stop_type": "trip_started_from",
+            "location": "Cedar Ave, CA",
+            "state": "CA",
+            "coordinates": [
+              34.18236,
+              -118.29662
+            ]
+          },
+          "destination": {
+            "stop_type": "first_drop",
+            "location": "El Paso, TX",
+            "state": "TX",
+            "coordinates": [
+              31.75916,
+              -106.48749
+            ]
+          },
+          "distance_miles": 814.6,
+          "api_used": "HERE",
+          "state_assignment": {
+            "NM": 167.3,
+            "CA": 235.5,
+            "AZ": 392.0,
+            "TX": 19.9
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 2,
+          "origin": {
+            "stop_type": "first_drop",
+            "location": "El Paso, TX",
+            "state": "TX",
+            "coordinates": [
+              31.75916,
+              -106.48749
+            ]
+          },
+          "destination": {
+            "stop_type": "second_drop",
+            "location": "Arlington, TX",
+            "state": "TX",
+            "coordinates": [
+              32.7356,
+              -97.10772
+            ]
+          },
+          "distance_miles": 618.7,
+          "api_used": "HERE",
+          "state_assignment": {
+            "TX": 618.7
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 3,
+          "origin": {
+            "stop_type": "second_drop",
+            "location": "Arlington, TX",
+            "state": "TX",
+            "coordinates": [
+              32.7356,
+              -97.10772
+            ]
+          },
+          "destination": {
+            "stop_type": "third_drop",
+            "location": "Coppell, TX",
+            "state": "TX",
+            "coordinates": [
+              32.97656,
+              -96.99131
+            ]
+          },
+          "distance_miles": 26.0,
+          "api_used": "HERE",
+          "state_assignment": {
+            "TX": 26.0
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 4,
+          "origin": {
+            "stop_type": "third_drop",
+            "location": "Coppell, TX",
+            "state": "TX",
+            "coordinates": [
+              32.97656,
+              -96.99131
+            ]
+          },
+          "destination": {
+            "stop_type": "inbound_pu",
+            "location": "Fort worth, TX",
+            "state": "TX",
+            "coordinates": [
+              32.75095,
+              -97.33086
+            ]
+          },
+          "distance_miles": 31.1,
+          "api_used": "HERE",
+          "state_assignment": {
+            "TX": 31.1
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 5,
+          "origin": {
+            "stop_type": "inbound_pu",
+            "location": "Fort worth, TX",
+            "state": "TX",
+            "coordinates": [
+              32.75095,
+              -97.33086
+            ]
+          },
+          "destination": {
+            "stop_type": "drop_off",
+            "location": "Moreno Valley, CA",
+            "state": "CA",
+            "coordinates": [
+              33.91684,
+              -117.26113
+            ]
+          },
+          "distance_miles": 1346.9,
+          "api_used": "HERE",
+          "state_assignment": {
+            "NM": 164.5,
+            "CA": 166.5,
+            "AZ": 392.1,
+            "TX": 623.9
+          },
+          "route_analysis_used": true
+        }
+      ],
+      "total_legs": 5,
+      "successful_calculations": 5,
+      "total_distance_miles": 2837.3,
+      "state_mileage": [
+        {
+          "state": "TX",
+          "miles": 1319.6,
+          "percentage": 46.5
+        },
+        {
+          "state": "AZ",
+          "miles": 784.1,
+          "percentage": 27.6
+        },
+        {
+          "state": "CA",
+          "miles": 402.0,
+          "percentage": 14.2
+        },
+        {
+          "state": "NM",
+          "miles": 331.8,
+          "percentage": 11.7
+        }
+      ],
+      "calculation_success": true,
+      "api_used": "HERE"
+    },
+    "reference_validation": {
+      "validation_success": false,
+      "reference_found": false,
+      "note": "No reference test file available"
+    }
+  },
+  {
+    "source_image": "10-20 trip env samples for Abdul 06.30.25_Page_09_Image_0001.jpg",
+    "processing_success": true,
+    "processing_timestamp": "2025-08-31 12:33:33",
+    "drivers_name": "Ram Kapoor",
+    "unit": "1577",
+    "trailer": "273",
+    "date_trip_started": "12/04/22",
+    "date_trip_ended": "12/09/22",
+    "trip": "",
+    "trip_started_from": "Cedar Ave, CA",
+    "first_drop": "Tyler, TX",
+    "second_drop": "Haslet, TX",
+    "third_drop": "",
+    "forth_drop": "",
+    "inbound_pu": "Corsicana, TX",
+    "drop_off": [
+      "Ontario, CA",
+      "San Bernardino, CA"
+    ],
+    "total_miles": "3052",
+    "coordinates": {
+      "trip_started_from": {
+        "location": "Cedar Ave, CA",
+        "latitude": 34.18236,
+        "longitude": -118.29662
+      },
+      "first_drop": {
+        "location": "Tyler, TX",
+        "latitude": 32.34763,
+        "longitude": -95.2943
+      },
+      "second_drop": {
+        "location": "Haslet, TX",
+        "latitude": 32.97514,
+        "longitude": -97.34889
+      },
+      "third_drop": {
+        "location": "",
+        "latitude": null,
+        "longitude": null
+      },
+      "forth_drop": {
+        "location": "",
+        "latitude": null,
+        "longitude": null
+      },
+      "inbound_pu": {
+        "location": "Corsicana, TX",
+        "latitude": 32.09176,
+        "longitude": -96.46303
+      },
+      "drop_off": {
+        "location": "Ontario, CA",
+        "latitude": 43.64869,
+        "longitude": -79.38545
+      },
+      "geocoding_summary": {
+        "total_locations": 5,
+        "successful_geocoding": 5,
+        "geocoding_success_rate": 1.0,
+        "api_used": "HERE"
+      }
+    },
+    "distance_calculations": {
+      "legs": [
+        {
+          "leg_number": 1,
+          "origin": {
+            "stop_type": "trip_started_from",
+            "location": "Cedar Ave, CA",
+            "state": "CA",
+            "coordinates": [
+              34.18236,
+              -118.29662
+            ]
+          },
+          "destination": {
+            "stop_type": "first_drop",
+            "location": "Tyler, TX",
+            "state": "TX",
+            "coordinates": [
+              32.34763,
+              -95.2943
+            ]
+          },
+          "distance_miles": 1548.5,
+          "api_used": "HERE",
+          "state_assignment": {
+            "NM": 167.2,
+            "CA": 235.3,
+            "AZ": 391.7,
+            "TX": 754.3
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 2,
+          "origin": {
+            "stop_type": "first_drop",
+            "location": "Tyler, TX",
+            "state": "TX",
+            "coordinates": [
+              32.34763,
+              -95.2943
+            ]
+          },
+          "destination": {
+            "stop_type": "second_drop",
+            "location": "Haslet, TX",
+            "state": "TX",
+            "coordinates": [
+              32.97514,
+              -97.34889
+            ]
+          },
+          "distance_miles": 141.5,
+          "api_used": "HERE",
+          "state_assignment": {
+            "TX": 141.5
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 3,
+          "origin": {
+            "stop_type": "second_drop",
+            "location": "Haslet, TX",
+            "state": "TX",
+            "coordinates": [
+              32.97514,
+              -97.34889
+            ]
+          },
+          "destination": {
+            "stop_type": "inbound_pu",
+            "location": "Corsicana, TX",
+            "state": "TX",
+            "coordinates": [
+              32.09176,
+              -96.46303
+            ]
+          },
+          "distance_miles": 94.7,
+          "api_used": "HERE",
+          "state_assignment": {
+            "TX": 94.7
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 4,
+          "origin": {
+            "stop_type": "inbound_pu",
+            "location": "Corsicana, TX",
+            "state": "TX",
+            "coordinates": [
+              32.09176,
+              -96.46303
+            ]
+          },
+          "destination": {
+            "stop_type": "drop_off",
+            "location": "Ontario, CA",
+            "state": "CA",
+            "coordinates": [
+              43.64869,
+              -79.38545
+            ]
+          },
+          "distance_miles": 1442.4,
+          "api_used": "HERE",
+          "state_assignment": {
+            "AR": 394.0,
+            "MO": 105.5,
+            "IN": 268.2,
+            "IL": 264.5,
+            "TX": 242.7,
+            "OH": 108.5,
+            "MI": 59.0
+          },
+          "route_analysis_used": true
+        }
+      ],
+      "total_legs": 4,
+      "successful_calculations": 4,
+      "total_distance_miles": 3227.1,
+      "state_mileage": [
+        {
+          "state": "TX",
+          "miles": 1233.2,
+          "percentage": 38.2
+        },
+        {
+          "state": "AR",
+          "miles": 394.0,
+          "percentage": 12.2
+        },
+        {
+          "state": "AZ",
+          "miles": 391.7,
+          "percentage": 12.1
+        },
+        {
+          "state": "IN",
+          "miles": 268.2,
+          "percentage": 8.3
+        },
+        {
+          "state": "IL",
+          "miles": 264.5,
+          "percentage": 8.2
+        },
+        {
+          "state": "CA",
+          "miles": 235.3,
+          "percentage": 7.3
+        },
+        {
+          "state": "NM",
+          "miles": 167.2,
+          "percentage": 5.2
+        },
+        {
+          "state": "OH",
+          "miles": 108.5,
+          "percentage": 3.4
+        },
+        {
+          "state": "MO",
+          "miles": 105.5,
+          "percentage": 3.3
+        },
+        {
+          "state": "MI",
+          "miles": 59.0,
+          "percentage": 1.8
+        }
+      ],
+      "calculation_success": true,
+      "api_used": "HERE"
+    },
+    "validation_warnings": [
+      "Suspicious total miles: extracted (3052.0) differs from calculated (3227.1) by 5.4%"
+    ],
+    "reference_validation": {
+      "validation_success": false,
+      "reference_found": false,
+      "note": "No reference test file available"
+    }
+  },
+  {
+    "source_image": "10-20 trip env samples for Abdul 06.30.25_Page_10_Image_0001.jpg",
+    "processing_success": true,
+    "processing_timestamp": "2025-08-31 12:33:53",
+    "drivers_name": "Kam Kapoor",
+    "unit": "1577",
+    "trailer": "263",
+    "date_trip_started": "12/31/22",
+    "date_trip_ended": "01/06/23",
+    "trip": null,
+    "trip_started_from": "Cedar Ave, CA",
+    "first_drop": "Marshall, TX",
+    "second_drop": "Grapevine, TX",
+    "third_drop": "",
+    "forth_drop": "",
+    "inbound_pu": "Denton, TX",
+    "drop_off": [
+      "Fontana, CA",
+      "Fontana, CA",
+      "San Bernardino, CA"
+    ],
+    "total_miles": "3105",
+    "validation_warnings": [
+      "Duplicate location found: 'Fontana, CA' appears in multiple fields"
+    ],
+    "coordinates": {
+      "trip_started_from": {
+        "location": "Cedar Ave, CA",
+        "latitude": 34.18236,
+        "longitude": -118.29662
+      },
+      "first_drop": {
+        "location": "Marshall, TX",
+        "latitude": 32.54691,
+        "longitude": -94.35011
+      },
+      "second_drop": {
+        "location": "Grapevine, TX",
+        "latitude": 32.93948,
+        "longitude": -97.07839
+      },
+      "third_drop": {
+        "location": "",
+        "latitude": null,
+        "longitude": null
+      },
+      "forth_drop": {
+        "location": "",
+        "latitude": null,
+        "longitude": null
+      },
+      "inbound_pu": {
+        "location": "Denton, TX",
+        "latitude": 33.21659,
+        "longitude": -97.13163
+      },
+      "drop_off": {
+        "location": "Fontana, CA",
+        "latitude": 34.10261,
+        "longitude": -117.43577
+      },
+      "geocoding_summary": {
+        "total_locations": 5,
+        "successful_geocoding": 5,
+        "geocoding_success_rate": 1.0,
+        "api_used": "HERE"
+      }
+    },
+    "distance_calculations": {
+      "legs": [
+        {
+          "leg_number": 1,
+          "origin": {
+            "stop_type": "trip_started_from",
+            "location": "Cedar Ave, CA",
+            "state": "CA",
+            "coordinates": [
+              34.18236,
+              -118.29662
+            ]
+          },
+          "destination": {
+            "stop_type": "first_drop",
+            "location": "Marshall, TX",
+            "state": "TX",
+            "coordinates": [
+              32.54691,
+              -94.35011
+            ]
+          },
+          "distance_miles": 1602.5,
+          "api_used": "HERE",
+          "state_assignment": {
+            "NM": 167.2,
+            "CA": 235.3,
+            "AZ": 391.7,
+            "TX": 808.3
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 2,
+          "origin": {
+            "stop_type": "first_drop",
+            "location": "Marshall, TX",
+            "state": "TX",
+            "coordinates": [
+              32.54691,
+              -94.35011
+            ]
+          },
+          "destination": {
+            "stop_type": "second_drop",
+            "location": "Grapevine, TX",
+            "state": "TX",
+            "coordinates": [
+              32.93948,
+              -97.07839
+            ]
+          },
+          "distance_miles": 174.9,
+          "api_used": "HERE",
+          "state_assignment": {
+            "TX": 174.9
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 3,
+          "origin": {
+            "stop_type": "second_drop",
+            "location": "Grapevine, TX",
+            "state": "TX",
+            "coordinates": [
+              32.93948,
+              -97.07839
+            ]
+          },
+          "destination": {
+            "stop_type": "inbound_pu",
+            "location": "Denton, TX",
+            "state": "TX",
+            "coordinates": [
+              33.21659,
+              -97.13163
+            ]
+          },
+          "distance_miles": 27.9,
+          "api_used": "HERE",
+          "state_assignment": {
+            "TX": 27.9
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 4,
+          "origin": {
+            "stop_type": "inbound_pu",
+            "location": "Denton, TX",
+            "state": "TX",
+            "coordinates": [
+              33.21659,
+              -97.13163
+            ]
+          },
+          "destination": {
+            "stop_type": "drop_off",
+            "location": "Fontana, CA",
+            "state": "CA",
+            "coordinates": [
+              34.10261,
+              -117.43577
+            ]
+          },
+          "distance_miles": 1350.2,
+          "api_used": "HERE",
+          "state_assignment": {
+            "NM": 372.8,
+            "CA": 223.1,
+            "AZ": 359.0,
+            "TX": 395.4
+          },
+          "route_analysis_used": true
+        }
+      ],
+      "total_legs": 4,
+      "successful_calculations": 4,
+      "total_distance_miles": 3155.5,
+      "state_mileage": [
+        {
+          "state": "TX",
+          "miles": 1406.5,
+          "percentage": 44.6
+        },
+        {
+          "state": "AZ",
+          "miles": 750.7,
+          "percentage": 23.8
+        },
+        {
+          "state": "NM",
+          "miles": 540.0,
+          "percentage": 17.1
+        },
+        {
+          "state": "CA",
+          "miles": 458.4,
+          "percentage": 14.5
+        }
+      ],
+      "calculation_success": true,
+      "api_used": "HERE"
+    },
+    "reference_validation": {
+      "validation_success": false,
+      "reference_found": false,
+      "note": "No reference test file available"
+    }
+  },
+  {
+    "source_image": "10-20 trip env samples for Abdul 06.30.25_Page_11_Image_0001.jpg",
+    "processing_success": true,
+    "processing_timestamp": "2025-08-31 12:34:11",
+    "drivers_name": "Manod Aranda Gomez",
+    "unit": "1540",
+    "trailer": "286",
+    "date_trip_started": "11/17/22",
+    "date_trip_ended": "11/28/22",
+    "trip": null,
+    "trip_started_from": "Fontana, CA",
+    "first_drop": "Keresville, NC",
+    "second_drop": "Tobyhanna, PA",
+    "third_drop": "",
+    "forth_drop": "",
+    "inbound_pu": "Lebanon, PA",
+    "drop_off": "Mohave valley, AZ",
+    "total_miles": "575",
+    "coordinates": {
+      "trip_started_from": {
+        "location": "Fontana, CA",
+        "latitude": 34.10261,
+        "longitude": -117.43577
+      },
+      "first_drop": {
+        "location": "Keresville, NC",
+        "latitude": 36.11969,
+        "longitude": -80.073
+      },
+      "second_drop": {
+        "location": "Tobyhanna, PA",
+        "latitude": 41.177,
+        "longitude": -75.41819
+      },
+      "third_drop": {
+        "location": "",
+        "latitude": null,
+        "longitude": null
+      },
+      "forth_drop": {
+        "location": "",
+        "latitude": null,
+        "longitude": null
+      },
+      "inbound_pu": {
+        "location": "Lebanon, PA",
+        "latitude": 40.33027,
+        "longitude": -76.42591
+      },
+      "drop_off": {
+        "location": "Mohave valley, AZ",
+        "latitude": 34.92412,
+        "longitude": -114.59786
+      },
+      "geocoding_summary": {
+        "total_locations": 5,
+        "successful_geocoding": 5,
+        "geocoding_success_rate": 1.0,
+        "api_used": "HERE"
+      }
+    },
+    "distance_calculations": {
+      "legs": [
+        {
+          "leg_number": 1,
+          "origin": {
+            "stop_type": "trip_started_from",
+            "location": "Fontana, CA",
+            "state": "CA",
+            "coordinates": [
+              34.10261,
+              -117.43577
+            ]
+          },
+          "destination": {
+            "stop_type": "first_drop",
+            "location": "Keresville, NC",
+            "state": "NC",
+            "coordinates": [
+              36.11969,
+              -80.073
+            ]
+          },
+          "distance_miles": 2416.9,
+          "api_used": "HERE",
+          "state_assignment": {
+            "NM": 373.0,
+            "CA": 222.8,
+            "AR": 284.6,
+            "OK": 330.3,
+            "TN": 500.6,
+            "AZ": 359.3,
+            "TX": 176.7,
+            "NC": 55.3,
+            "VA": 114.2
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 2,
+          "origin": {
+            "stop_type": "first_drop",
+            "location": "Keresville, NC",
+            "state": "NC",
+            "coordinates": [
+              36.11969,
+              -80.073
+            ]
+          },
+          "destination": {
+            "stop_type": "second_drop",
+            "location": "Tobyhanna, PA",
+            "state": "PA",
+            "coordinates": [
+              41.177,
+              -75.41819
+            ]
+          },
+          "distance_miles": 514.4,
+          "api_used": "HERE",
+          "state_assignment": {
+            "PA": 192.2,
+            "NC": 33.4,
+            "VA": 250.8,
+            "WV": 26.1,
+            "MD": 12.0
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 3,
+          "origin": {
+            "stop_type": "second_drop",
+            "location": "Tobyhanna, PA",
+            "state": "PA",
+            "coordinates": [
+              41.177,
+              -75.41819
+            ]
+          },
+          "destination": {
+            "stop_type": "inbound_pu",
+            "location": "Lebanon, PA",
+            "state": "PA",
+            "coordinates": [
+              40.33027,
+              -76.42591
+            ]
+          },
+          "distance_miles": 113.1,
+          "api_used": "HERE",
+          "state_assignment": {
+            "PA": 113.1
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 4,
+          "origin": {
+            "stop_type": "inbound_pu",
+            "location": "Lebanon, PA",
+            "state": "PA",
+            "coordinates": [
+              40.33027,
+              -76.42591
+            ]
+          },
+          "destination": {
+            "stop_type": "drop_off",
+            "location": "Mohave valley, AZ",
+            "state": "AZ",
+            "coordinates": [
+              34.92412,
+              -114.59786
+            ]
+          },
+          "distance_miles": 2379.2,
+          "api_used": "HERE",
+          "state_assignment": {
+            "NM": 373.3,
+            "PA": 257.8,
+            "MO": 292.4,
+            "OK": 361.9,
+            "IN": 156.1,
+            "IL": 160.3,
+            "AZ": 361.2,
+            "TX": 176.8,
+            "OH": 226.1,
+            "WV": 13.3
+          },
+          "route_analysis_used": true
+        }
+      ],
+      "total_legs": 4,
+      "successful_calculations": 4,
+      "total_distance_miles": 5423.6,
+      "state_mileage": [
+        {
+          "state": "NM",
+          "miles": 746.3,
+          "percentage": 13.8
+        },
+        {
+          "state": "AZ",
+          "miles": 720.5,
+          "percentage": 13.3
+        },
+        {
+          "state": "OK",
+          "miles": 692.2,
+          "percentage": 12.8
+        },
+        {
+          "state": "PA",
+          "miles": 563.1,
+          "percentage": 10.4
+        },
+        {
+          "state": "TN",
+          "miles": 500.6,
+          "percentage": 9.2
+        },
+        {
+          "state": "VA",
+          "miles": 365.0,
+          "percentage": 6.7
+        },
+        {
+          "state": "TX",
+          "miles": 353.5,
+          "percentage": 6.5
+        },
+        {
+          "state": "MO",
+          "miles": 292.4,
+          "percentage": 5.4
+        },
+        {
+          "state": "AR",
+          "miles": 284.6,
+          "percentage": 5.2
+        },
+        {
+          "state": "OH",
+          "miles": 226.1,
+          "percentage": 4.2
+        },
+        {
+          "state": "CA",
+          "miles": 222.8,
+          "percentage": 4.1
+        },
+        {
+          "state": "IL",
+          "miles": 160.3,
+          "percentage": 3.0
+        },
+        {
+          "state": "IN",
+          "miles": 156.1,
+          "percentage": 2.9
+        },
+        {
+          "state": "NC",
+          "miles": 88.7,
+          "percentage": 1.6
+        },
+        {
+          "state": "WV",
+          "miles": 39.4,
+          "percentage": 0.7
+        },
+        {
+          "state": "MD",
+          "miles": 12.0,
+          "percentage": 0.2
+        }
+      ],
+      "calculation_success": true,
+      "api_used": "HERE"
+    },
+    "validation_warnings": [
+      "Suspicious total miles: extracted (575.0) differs from calculated (5423.6) by 89.4%"
+    ],
+    "reference_validation": {
+      "validation_success": false,
+      "reference_found": false,
+      "note": "No reference test file available"
+    }
+  },
+  {
+    "source_image": "10-20 trip env samples for Abdul 06.30.25_Page_01_Image_0001.jpg",
+    "processing_success": true,
+    "processing_timestamp": "2025-08-31 12:34:33",
+    "drivers_name": "Richard EsQuiqui",
+    "unit": "1561",
+    "trailer": "271",
+    "date_trip_started": "12/03/22",
+    "date_trip_ended": "12/09/23",->12/09/23
+    "trip": "",
+    "trip_started_from": "Bloomington, CA",
+    "first_drop": "Comfort, TX",
+    "second_drop": "Austin, TX",
+    "third_drop": "",->Laredo, TX
+    "forth_drop": "",->Laredo, TX
+    "inbound_pu": "Laredo, TX",
+    "drop_off": "Bloomington, CA",
+    "total_miles": "2924",
+    "validation_warnings": [
+      "Duplicate location found: 'Bloomington, CA' appears in multiple fields",
+      "third_drop cleared (matched inbound_pu/drop_off): Laredo, TX → empty",
+      "forth_drop cleared (matched inbound_pu/drop_off): Laredo, TX → empty"
+    ],
+    "coordinates": {
+      "trip_started_from": {
+        "location": "Bloomington, CA",
+        "latitude": 34.06873,
+        "longitude": -117.39966
+      },
+      "first_drop": {
+        "location": "Comfort, TX",
+        "latitude": 29.97029,
+        "longitude": -98.90398
+      },
+      "second_drop": {
+        "location": "Austin, TX",
+        "latitude": 30.26759,
+        "longitude": -97.74299
+      },
+      "third_drop": {
+        "location": "",
+        "latitude": null,
+        "longitude": null
+      },
+      "forth_drop": {
+        "location": "",
+        "latitude": null,
+        "longitude": null
+      },
+      "inbound_pu": {
+        "location": "Laredo, TX",
+        "latitude": 27.53092,
+        "longitude": -99.50231
+      },
+      "drop_off": {
+        "location": "Bloomington, CA",
+        "latitude": 34.06873,
+        "longitude": -117.39966
+      },
+      "geocoding_summary": {
+        "total_locations": 5,
+        "successful_geocoding": 5,
+        "geocoding_success_rate": 1.0,
+        "api_used": "HERE"
+      }
+    },
+    "distance_calculations": {
+      "legs": [
+        {
+          "leg_number": 1,
+          "origin": {
+            "stop_type": "trip_started_from",
+            "location": "Bloomington, CA",
+            "state": "CA",
+            "coordinates": [
+              34.06873,
+              -117.39966
+            ]
+          },
+          "destination": {
+            "stop_type": "first_drop",
+            "location": "Comfort, TX",
+            "state": "TX",
+            "coordinates": [
+              29.97029,
+              -98.90398
+            ]
+          },
+          "distance_miles": 1259.5,
+          "api_used": "HERE",
+          "state_assignment": {
+            "NM": 167.0,
+            "CA": 176.4,
+            "AZ": 391.4,
+            "TX": 524.6
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 2,
+          "origin": {
+            "stop_type": "first_drop",
+            "location": "Comfort, TX",
+            "state": "TX",
+            "coordinates": [
+              29.97029,
+              -98.90398
+            ]
+          },
+          "destination": {
+            "stop_type": "second_drop",
+            "location": "Austin, TX",
+            "state": "TX",
+            "coordinates": [
+              30.26759,
+              -97.74299
+            ]
+          },
+          "distance_miles": 92.0,
+          "api_used": "HERE",
+          "state_assignment": {
+            "TX": 92.0
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 3,
+          "origin": {
+            "stop_type": "second_drop",
+            "location": "Austin, TX",
+            "state": "TX",
+            "coordinates": [
+              30.26759,
+              -97.74299
+            ]
+          },
+          "destination": {
+            "stop_type": "inbound_pu",
+            "location": "Laredo, TX",
+            "state": "TX",
+            "coordinates": [
+              27.53092,
+              -99.50231
+            ]
+          },
+          "distance_miles": 233.4,
+          "api_used": "HERE",
+          "state_assignment": {
+            "TX": 233.4
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 4,
+          "origin": {
+            "stop_type": "inbound_pu",
+            "location": "Laredo, TX",
+            "state": "TX",
+            "coordinates": [
+              27.53092,
+              -99.50231
+            ]
+          },
+          "destination": {
+            "stop_type": "drop_off",
+            "location": "Bloomington, CA",
+            "state": "CA",
+            "coordinates": [
+              34.06873,
+              -117.39966
+            ]
+          },
+          "distance_miles": 1357.0,
+          "api_used": "HERE",
+          "state_assignment": {
+            "NM": 164.4,
+            "CA": 176.5,
+            "AZ": 391.8,
+            "TX": 624.3
+          },
+          "route_analysis_used": true
+        }
+      ],
+      "total_legs": 4,
+      "successful_calculations": 4,
+      "total_distance_miles": 2941.9,
+      "state_mileage": [
+        {
+          "state": "TX",
+          "miles": 1474.3,
+          "percentage": 50.1
+        },
+        {
+          "state": "AZ",
+          "miles": 783.2,
+          "percentage": 26.6
+        },
+        {
+          "state": "CA",
+          "miles": 352.9,
+          "percentage": 12.0
+        },
+        {
+          "state": "NM",
+          "miles": 331.4,
+          "percentage": 11.3
+        }
+      ],
+      "calculation_success": true,
+      "api_used": "HERE"
+    },
+    "reference_validation": {
+      "validation_success": false,
+      "reference_found": false,
+      "note": "No reference test file available"
+    }
+  },
+  {
+    "source_image": "10-20 trip env samples for Abdul 06.30.25_Page_02_Image_0001.jpg",
+    "processing_success": true,
+    "processing_timestamp": "2025-08-31 12:34:53",
+    "drivers_name": "Richard EsQuiqui",
+    "unit": "1561",
+    "trailer": "225",
+    "date_trip_started": "11/19/22",
+    "date_trip_ended": "11/28/22",
+    "trip": "",
+    "trip_started_from": "Bloomington, CA",
+    "first_drop": "Kansas City, KS",
+    "second_drop": "Portland, TN",
+    "third_drop": "Shelbyville, TN",
+    "forth_drop": "",
+    "inbound_pu": "Lewisburg, TN",
+    "drop_off": "San Diego, CA",
+    "total_miles": "243518",->4353
+    "validation_warnings": [
+      "Suspicious total miles (too high): 243518 - verify against image",
+      "Suspicious total miles: extracted (243518.0) differs from calculated (4278.9) by 5591.1%"
+    ],
+    "coordinates": {
+      "trip_started_from": {
+        "location": "Bloomington, CA",
+        "latitude": 34.06873,
+        "longitude": -117.39966
+      },
+      "first_drop": {
+        "location": "Kansas City, KS",
+        "latitude": 39.11352,
+        "longitude": -94.62682
+      },
+      "second_drop": {
+        "location": "Portland, TN",
+        "latitude": 36.57962,
+        "longitude": -86.51564
+      },
+      "third_drop": {
+        "location": "Shelbyville, TN",
+        "latitude": 35.48337,
+        "longitude": -86.45993
+      },
+      "forth_drop": {
+        "location": "",
+        "latitude": null,
+        "longitude": null
+      },
+      "inbound_pu": {
+        "location": "Lewisburg, TN",
+        "latitude": 35.44912,
+        "longitude": -86.78886
+      },
+      "drop_off": {
+        "location": "San Diego, CA",
+        "latitude": 32.71568,
+        "longitude": -117.16171
+      },
+      "geocoding_summary": {
+        "total_locations": 6,
+        "successful_geocoding": 6,
+        "geocoding_success_rate": 1.0,
+        "api_used": "HERE"
+      }
+    },
+    "distance_calculations": {
+      "legs": [
+        {
+          "leg_number": 1,
+          "origin": {
+            "stop_type": "trip_started_from",
+            "location": "Bloomington, CA",
+            "state": "CA",
+            "coordinates": [
+              34.06873,
+              -117.39966
+            ]
+          },
+          "destination": {
+            "stop_type": "first_drop",
+            "location": "Kansas City, KS",
+            "state": "KS",
+            "coordinates": [
+              39.11352,
+              -94.62682
+            ]
+          },
+          "distance_miles": 1582.2,
+          "api_used": "HERE",
+          "state_assignment": {
+            "CA": 190.9,
+            "CO": 451.1,
+            "UT": 365.1,
+            "NV": 124.4,
+            "AZ": 29.4,
+            "KS": 421.4
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 2,
+          "origin": {
+            "stop_type": "first_drop",
+            "location": "Kansas City, KS",
+            "state": "KS",
+            "coordinates": [
+              39.11352,
+              -94.62682
+            ]
+          },
+          "destination": {
+            "stop_type": "second_drop",
+            "location": "Portland, TN",
+            "state": "TN",
+            "coordinates": [
+              36.57962,
+              -86.51564
+            ]
+          },
+          "distance_miles": 558.8,
+          "api_used": "HERE",
+          "state_assignment": {
+            "KY": 130.2,
+            "MO": 248.6,
+            "TN": 6.1,
+            "IN": 42.1,
+            "IL": 129.9,
+            "KS": 2.0
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 3,
+          "origin": {
+            "stop_type": "second_drop",
+            "location": "Portland, TN",
+            "state": "TN",
+            "coordinates": [
+              36.57962,
+              -86.51564
+            ]
+          },
+          "destination": {
+            "stop_type": "third_drop",
+            "location": "Shelbyville, TN",
+            "state": "TN",
+            "coordinates": [
+              35.48337,
+              -86.45993
+            ]
+          },
+          "distance_miles": 82.9,
+          "api_used": "HERE",
+          "state_assignment": {
+            "TN": 82.9
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 4,
+          "origin": {
+            "stop_type": "third_drop",
+            "location": "Shelbyville, TN",
+            "state": "TN",
+            "coordinates": [
+              35.48337,
+              -86.45993
+            ]
+          },
+          "destination": {
+            "stop_type": "inbound_pu",
+            "location": "Lewisburg, TN",
+            "state": "TN",
+            "coordinates": [
+              35.44912,
+              -86.78886
+            ]
+          },
+          "distance_miles": 22.2,
+          "api_used": "HERE",
+          "state_assignment": {
+            "TN": 22.2
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 5,
+          "origin": {
+            "stop_type": "inbound_pu",
+            "location": "Lewisburg, TN",
+            "state": "TN",
+            "coordinates": [
+              35.44912,
+              -86.78886
+            ]
+          },
+          "destination": {
+            "stop_type": "drop_off",
+            "location": "San Diego, CA",
+            "state": "CA",
+            "coordinates": [
+              32.71568,
+              -117.16171
+            ]
+          },
+          "distance_miles": 2032.8,
+          "api_used": "HERE",
+          "state_assignment": {
+            "NM": 164.5,
+            "CA": 169.9,
+            "AR": 274.0,
+            "TN": 220.1,
+            "AZ": 371.3,
+            "TX": 832.9
+          },
+          "route_analysis_used": true
+        }
+      ],
+      "total_legs": 5,
+      "successful_calculations": 5,
+      "total_distance_miles": 4278.9,
+      "state_mileage": [
+        {
+          "state": "TX",
+          "miles": 832.9,
+          "percentage": 19.5
+        },
+        {
+          "state": "CO",
+          "miles": 451.1,
+          "percentage": 10.5
+        },
+        {
+          "state": "KS",
+          "miles": 423.4,
+          "percentage": 9.9
+        },
+        {
+          "state": "AZ",
+          "miles": 400.7,
+          "percentage": 9.4
+        },
+        {
+          "state": "UT",
+          "miles": 365.1,
+          "percentage": 8.5
+        },
+        {
+          "state": "CA",
+          "miles": 360.8,
+          "percentage": 8.4
+        },
+        {
+          "state": "TN",
+          "miles": 331.3,
+          "percentage": 7.7
+        },
+        {
+          "state": "AR",
+          "miles": 274.0,
+          "percentage": 6.4
+        },
+        {
+          "state": "MO",
+          "miles": 248.6,
+          "percentage": 5.8
+        },
+        {
+          "state": "NM",
+          "miles": 164.5,
+          "percentage": 3.8
+        },
+        {
+          "state": "KY",
+          "miles": 130.2,
+          "percentage": 3.0
+        },
+        {
+          "state": "IL",
+          "miles": 129.9,
+          "percentage": 3.0
+        },
+        {
+          "state": "NV",
+          "miles": 124.4,
+          "percentage": 2.9
+        },
+        {
+          "state": "IN",
+          "miles": 42.1,
+          "percentage": 1.0
+        }
+      ],
+      "calculation_success": true,
+      "api_used": "HERE"
+    },
+    "reference_validation": {
+      "validation_success": false,
+      "reference_found": false,
+      "note": "No reference test file available"
+    }
+  },
+  {
+    "source_image": "10-20 trip env samples for Abdul 06.30.25_Page_03_Image_0001.jpg",
+    "processing_success": true,
+    "processing_timestamp": "2025-08-31 12:35:14",
+    "drivers_name": "Richard Esquiaqui",
+    "unit": "1561",
+    "trailer": "251",
+    "date_trip_started": "12/11/22",
+    "date_trip_ended": "12/16/22",
+    "trip": "",
+    "trip_started_from": "Bloomington, CA",
+    "first_drop": "San Antonio, TX",
+    "second_drop": "Laredo, TX",
+    "third_drop": "Laredo, TX",
+    "forth_drop": "Conroe, TX",
+    "inbound_pu": "Seabrook, TX",
+    "drop_off": "Moreno Valley, CA",
+    "total_miles": "3467",
+    "validation_warnings": [
+      "Duplicate location found: 'Laredo, TX' appears in multiple fields"
+    ],
+    "coordinates": {
+      "trip_started_from": {
+        "location": "Bloomington, CA",
+        "latitude": 34.06873,
+        "longitude": -117.39966
+      },
+      "first_drop": {
+        "location": "San Antonio, TX",
+        "latitude": 29.42458,
+        "longitude": -98.49461
+      },
+      "second_drop": {
+        "location": "Laredo, TX",
+        "latitude": 27.53092,
+        "longitude": -99.50231
+      },
+      "third_drop": {
+        "location": "Laredo, TX",
+        "latitude": 27.53092,
+        "longitude": -99.50231
+      },
+      "forth_drop": {
+        "location": "Conroe, TX",
+        "latitude": 30.31217,
+        "longitude": -95.45594
+      },
+      "inbound_pu": {
+        "location": "Seabrook, TX",
+        "latitude": 29.56412,
+        "longitude": -95.02459
+      },
+      "drop_off": {
+        "location": "Moreno Valley, CA",
+        "latitude": 33.91684,
+        "longitude": -117.26113
+      },
+      "geocoding_summary": {
+        "total_locations": 7,
+        "successful_geocoding": 7,
+        "geocoding_success_rate": 1.0,
+        "api_used": "HERE"
+      }
+    },
+    "distance_calculations": {
+      "legs": [
+        {
+          "leg_number": 1,
+          "origin": {
+            "stop_type": "trip_started_from",
+            "location": "Bloomington, CA",
+            "state": "CA",
+            "coordinates": [
+              34.06873,
+              -117.39966
+            ]
+          },
+          "destination": {
+            "stop_type": "first_drop",
+            "location": "San Antonio, TX",
+            "state": "TX",
+            "coordinates": [
+              29.42458,
+              -98.49461
+            ]
+          },
+          "distance_miles": 1306.8,
+          "api_used": "HERE",
+          "state_assignment": {
+            "NM": 167.0,
+            "CA": 176.4,
+            "AZ": 391.4,
+            "TX": 572.0
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 2,
+          "origin": {
+            "stop_type": "first_drop",
+            "location": "San Antonio, TX",
+            "state": "TX",
+            "coordinates": [
+              29.42458,
+              -98.49461
+            ]
+          },
+          "destination": {
+            "stop_type": "second_drop",
+            "location": "Laredo, TX",
+            "state": "TX",
+            "coordinates": [
+              27.53092,
+              -99.50231
+            ]
+          },
+          "distance_miles": 154.6,
+          "api_used": "HERE",
+          "state_assignment": {
+            "TX": 154.6
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 3,
+          "origin": {
+            "stop_type": "second_drop",
+            "location": "Laredo, TX",
+            "state": "TX",
+            "coordinates": [
+              27.53092,
+              -99.50231
+            ]
+          },
+          "destination": {
+            "stop_type": "third_drop",
+            "location": "Laredo, TX",
+            "state": "TX",
+            "coordinates": [
+              27.53092,
+              -99.50231
+            ]
+          },
+          "distance_miles": 0.0,
+          "api_used": "HERE",
+          "state_assignment": {
+            "TX": 0.0
+          },
+          "route_analysis_used": false
+        },
+        {
+          "leg_number": 4,
+          "origin": {
+            "stop_type": "third_drop",
+            "location": "Laredo, TX",
+            "state": "TX",
+            "coordinates": [
+              27.53092,
+              -99.50231
+            ]
+          },
+          "destination": {
+            "stop_type": "forth_drop",
+            "location": "Conroe, TX",
+            "state": "TX",
+            "coordinates": [
+              30.31217,
+              -95.45594
+            ]
+          },
+          "distance_miles": 353.0,
+          "api_used": "HERE",
+          "state_assignment": {
+            "TX": 353.0
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 5,
+          "origin": {
+            "stop_type": "forth_drop",
+            "location": "Conroe, TX",
+            "state": "TX",
+            "coordinates": [
+              30.31217,
+              -95.45594
+            ]
+          },
+          "destination": {
+            "stop_type": "inbound_pu",
+            "location": "Seabrook, TX",
+            "state": "TX",
+            "coordinates": [
+              29.56412,
+              -95.02459
+            ]
+          },
+          "distance_miles": 72.5,
+          "api_used": "HERE",
+          "state_assignment": {
+            "TX": 72.5
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 6,
+          "origin": {
+            "stop_type": "inbound_pu",
+            "location": "Seabrook, TX",
+            "state": "TX",
+            "coordinates": [
+              29.56412,
+              -95.02459
+            ]
+          },
+          "destination": {
+            "stop_type": "drop_off",
+            "location": "Moreno Valley, CA",
+            "state": "CA",
+            "coordinates": [
+              33.91684,
+              -117.26113
+            ]
+          },
+          "distance_miles": 1521.5,
+          "api_used": "HERE",
+          "state_assignment": {
+            "NM": 164.2,
+            "CA": 166.3,
+            "AZ": 391.5,
+            "TX": 799.5
+          },
+          "route_analysis_used": true
+        }
+      ],
+      "total_legs": 6,
+      "successful_calculations": 6,
+      "total_distance_miles": 3408.4,
+      "state_mileage": [
+        {
+          "state": "TX",
+          "miles": 1951.6,
+          "percentage": 57.3
+        },
+        {
+          "state": "AZ",
+          "miles": 782.9,
+          "percentage": 23.0
+        },
+        {
+          "state": "CA",
+          "miles": 342.7,
+          "percentage": 10.1
+        },
+        {
+          "state": "NM",
+          "miles": 331.2,
+          "percentage": 9.7
+        }
+      ],
+      "calculation_success": true,
+      "api_used": "HERE"
+    },
+    "reference_validation": {
+      "validation_success": false,
+      "reference_found": false,
+      "note": "No reference test file available"
+    }
+  },
+  {
+    "source_image": "10-20 trip env samples for Abdul 06.30.25_Page_04_Image_0001.jpg",
+    "processing_success": true,
+    "processing_timestamp": "2025-08-31 12:35:35",
+    "drivers_name": "Humberto Hernandez",
+    "unit": "1562",
+    "trailer": "201",
+    "date_trip_started": "12/14/22",
+    "date_trip_ended": "12/20/22",
+    "trip": "",
+    "trip_started_from": "Bloomington, CA",
+    "first_drop": "Marshall, TX",
+    "second_drop": "Austin, TX",
+    "third_drop": "",->Laredo, TX
+    "forth_drop": "",
+    "inbound_pu": "Laredo, TX",
+    "drop_off": [
+      "Bloomington, CA",
+      "San Bernardino, CA"
+    ],
+    "total_miles": "3430",
+    "validation_warnings": [
+      "Duplicate location found: 'Bloomington, CA' appears in multiple fields",
+      "third_drop cleared (matched inbound_pu/drop_off): Laredo, TX → empty"
+    ],
+    "coordinates": {
+      "trip_started_from": {
+        "location": "Bloomington, CA",
+        "latitude": 34.06873,
+        "longitude": -117.39966
+      },
+      "first_drop": {
+        "location": "Marshall, TX",
+        "latitude": 32.54691,
+        "longitude": -94.35011
+      },
+      "second_drop": {
+        "location": "Austin, TX",
+        "latitude": 30.26759,
+        "longitude": -97.74299
+      },
+      "third_drop": {
+        "location": "",
+        "latitude": null,
+        "longitude": null
+      },
+      "forth_drop": {
+        "location": "",
+        "latitude": null,
+        "longitude": null
+      },
+      "inbound_pu": {
+        "location": "Laredo, TX",
+        "latitude": 27.53092,
+        "longitude": -99.50231
+      },
+      "drop_off": {
+        "location": "Bloomington, CA",
+        "latitude": 34.06873,
+        "longitude": -117.39966
+      },
+      "geocoding_summary": {
+        "total_locations": 5,
+        "successful_geocoding": 5,
+        "geocoding_success_rate": 1.0,
+        "api_used": "HERE"
+      }
+    },
+    "distance_calculations": {
+      "legs": [
+        {
+          "leg_number": 1,
+          "origin": {
+            "stop_type": "trip_started_from",
+            "location": "Bloomington, CA",
+            "state": "CA",
+            "coordinates": [
+              34.06873,
+              -117.39966
+            ]
+          },
+          "destination": {
+            "stop_type": "first_drop",
+            "location": "Marshall, TX",
+            "state": "TX",
+            "coordinates": [
+              32.54691,
+              -94.35011
+            ]
+          },
+          "distance_miles": 1543.7,
+          "api_used": "HERE",
+          "state_assignment": {
+            "NM": 167.2,
+            "CA": 176.6,
+            "AZ": 391.7,
+            "TX": 808.3
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 2,
+          "origin": {
+            "stop_type": "first_drop",
+            "location": "Marshall, TX",
+            "state": "TX",
+            "coordinates": [
+              32.54691,
+              -94.35011
+            ]
+          },
+          "destination": {
+            "stop_type": "second_drop",
+            "location": "Austin, TX",
+            "state": "TX",
+            "coordinates": [
+              30.26759,
+              -97.74299
+            ]
+          },
+          "distance_miles": 295.4,
+          "api_used": "HERE",
+          "state_assignment": {
+            "TX": 295.4
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 3,
+          "origin": {
+            "stop_type": "second_drop",
+            "location": "Austin, TX",
+            "state": "TX",
+            "coordinates": [
+              30.26759,
+              -97.74299
+            ]
+          },
+          "destination": {
+            "stop_type": "inbound_pu",
+            "location": "Laredo, TX",
+            "state": "TX",
+            "coordinates": [
+              27.53092,
+              -99.50231
+            ]
+          },
+          "distance_miles": 233.4,
+          "api_used": "HERE",
+          "state_assignment": {
+            "TX": 233.4
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 4,
+          "origin": {
+            "stop_type": "inbound_pu",
+            "location": "Laredo, TX",
+            "state": "TX",
+            "coordinates": [
+              27.53092,
+              -99.50231
+            ]
+          },
+          "destination": {
+            "stop_type": "drop_off",
+            "location": "Bloomington, CA",
+            "state": "CA",
+            "coordinates": [
+              34.06873,
+              -117.39966
+            ]
+          },
+          "distance_miles": 1357.0,
+          "api_used": "HERE",
+          "state_assignment": {
+            "NM": 164.4,
+            "CA": 176.5,
+            "AZ": 391.8,
+            "TX": 624.3
+          },
+          "route_analysis_used": true
+        }
+      ],
+      "total_legs": 4,
+      "successful_calculations": 4,
+      "total_distance_miles": 3429.5,
+      "state_mileage": [
+        {
+          "state": "TX",
+          "miles": 1961.4,
+          "percentage": 57.2
+        },
+        {
+          "state": "AZ",
+          "miles": 783.5,
+          "percentage": 22.8
+        },
+        {
+          "state": "CA",
+          "miles": 353.1,
+          "percentage": 10.3
+        },
+        {
+          "state": "NM",
+          "miles": 331.6,
+          "percentage": 9.7
+        }
+      ],
+      "calculation_success": true,
+      "api_used": "HERE"
+    },
+    "reference_validation": {
+      "validation_success": false,
+      "reference_found": false,
+      "note": "No reference test file available"
+    }
+  },
+  {
+    "source_image": "10-20 trip env samples for Abdul 06.30.25_Page_05_Image_0001.jpg",
+    "processing_success": true,
+    "processing_timestamp": "2025-08-31 12:35:46",
+    "drivers_name": "DILRAG S. SANDHU",
+    "unit": "1569",
+    "trailer": "299",
+    "date_trip_started": "12/01/22",
+    "date_trip_ended": "12/12/22",
+    "trip": "7",
+    "trip_started_from": "San Bernardino, CA",
+    "first_drop": "Youngstown, OH",
+    "second_drop": "Grove City, OH",
+    "third_drop": "",
+    "forth_drop": "",
+    "inbound_pu": "Ashville, OH",
+    "drop_off": "San Diego, CA",
+    "total_miles": "4924",
+    "coordinates": {
+      "trip_started_from": {
+        "location": "San Bernardino, CA",
+        "latitude": 34.10524,
+        "longitude": -117.29412
+      },
+      "first_drop": {
+        "location": "Youngstown, OH",
+        "latitude": 41.0981,
+        "longitude": -80.65079
+      },
+      "second_drop": {
+        "location": "Grove City, OH",
+        "latitude": 39.87133,
+        "longitude": -83.07033
+      },
+      "third_drop": {
+        "location": "",
+        "latitude": null,
+        "longitude": null
+      },
+      "forth_drop": {
+        "location": "",
+        "latitude": null,
+        "longitude": null
+      },
+      "inbound_pu": {
+        "location": "Ashville, OH",
+        "latitude": 39.71306,
+        "longitude": -82.95498
+      },
+      "drop_off": {
+        "location": "San Diego, CA",
+        "latitude": 32.71568,
+        "longitude": -117.16171
+      },
+      "geocoding_summary": {
+        "total_locations": 5,
+        "successful_geocoding": 5,
+        "geocoding_success_rate": 1.0,
+        "api_used": "HERE"
+      }
+    },
+    "distance_calculations": {
+      "legs": [
+        {
+          "leg_number": 1,
+          "origin": {
+            "stop_type": "trip_started_from",
+            "location": "San Bernardino, CA",
+            "state": "CA",
+            "coordinates": [
+              34.10524,
+              -117.29412
+            ]
+          },
+          "destination": {
+            "stop_type": "first_drop",
+            "location": "Youngstown, OH",
+            "state": "OH",
+            "coordinates": [
+              41.0981,
+              -80.65079
+            ]
+          },
+          "distance_miles": 2360.5,
+          "api_used": "HERE",
+          "state_assignment": {
+            "CA": 182.4,
+            "CO": 454.1,
+            "UT": 365.0,
+            "IN": 152.0,
+            "NV": 124.3,
+            "IL": 170.4,
+            "IA": 298.4,
+            "AZ": 29.4,
+            "NE": 354.2,
+            "OH": 230.1
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 2,
+          "origin": {
+            "stop_type": "first_drop",
+            "location": "Youngstown, OH",
+            "state": "OH",
+            "coordinates": [
+              41.0981,
+              -80.65079
+            ]
+          },
+          "destination": {
+            "stop_type": "second_drop",
+            "location": "Grove City, OH",
+            "state": "OH",
+            "coordinates": [
+              39.87133,
+              -83.07033
+            ]
+          },
+          "distance_miles": 181.6,
+          "api_used": "HERE",
+          "state_assignment": {
+            "OH": 181.6
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 3,
+          "origin": {
+            "stop_type": "second_drop",
+            "location": "Grove City, OH",
+            "state": "OH",
+            "coordinates": [
+              39.87133,
+              -83.07033
+            ]
+          },
+          "destination": {
+            "stop_type": "inbound_pu",
+            "location": "Ashville, OH",
+            "state": "OH",
+            "coordinates": [
+              39.71306,
+              -82.95498
+            ]
+          },
+          "distance_miles": 15.7,
+          "api_used": "HERE",
+          "state_assignment": {
+            "OH": 15.7
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 4,
+          "origin": {
+            "stop_type": "inbound_pu",
+            "location": "Ashville, OH",
+            "state": "OH",
+            "coordinates": [
+              39.71306,
+              -82.95498
+            ]
+          },
+          "destination": {
+            "stop_type": "drop_off",
+            "location": "San Diego, CA",
+            "state": "CA",
+            "coordinates": [
+              32.71568,
+              -117.16171
+            ]
+          },
+          "distance_miles": 2246.0,
+          "api_used": "HERE",
+          "state_assignment": {
+            "NM": 373.1,
+            "CA": 170.1,
+            "MO": 292.2,
+            "OK": 361.6,
+            "IN": 156.0,
+            "IL": 160.2,
+            "AZ": 438.7,
+            "TX": 176.7,
+            "OH": 117.4
+          },
+          "route_analysis_used": true
+        }
+      ],
+      "total_legs": 4,
+      "successful_calculations": 4,
+      "total_distance_miles": 4803.8,
+      "state_mileage": [
+        {
+          "state": "OH",
+          "miles": 544.8,
+          "percentage": 11.3
+        },
+        {
+          "state": "AZ",
+          "miles": 468.1,
+          "percentage": 9.7
+        },
+        {
+          "state": "CO",
+          "miles": 454.1,
+          "percentage": 9.5
+        },
+        {
+          "state": "NM",
+          "miles": 373.1,
+          "percentage": 7.8
+        },
+        {
+          "state": "UT",
+          "miles": 365.0,
+          "percentage": 7.6
+        },
+        {
+          "state": "OK",
+          "miles": 361.6,
+          "percentage": 7.5
+        },
+        {
+          "state": "NE",
+          "miles": 354.2,
+          "percentage": 7.4
+        },
+        {
+          "state": "CA",
+          "miles": 352.5,
+          "percentage": 7.3
+        },
+        {
+          "state": "IL",
+          "miles": 330.6,
+          "percentage": 6.9
+        },
+        {
+          "state": "IN",
+          "miles": 308.0,
+          "percentage": 6.4
+        },
+        {
+          "state": "IA",
+          "miles": 298.4,
+          "percentage": 6.2
+        },
+        {
+          "state": "MO",
+          "miles": 292.2,
+          "percentage": 6.1
+        },
+        {
+          "state": "TX",
+          "miles": 176.7,
+          "percentage": 3.7
+        },
+        {
+          "state": "NV",
+          "miles": 124.3,
+          "percentage": 2.6
+        }
+      ],
+      "calculation_success": true,
+      "api_used": "HERE"
+    },
+    "reference_validation": {
+      "validation_success": false,
+      "reference_found": false,
+      "note": "No reference test file available"
+    }
+  },
+  {
+    "source_image": "10-20 trip env samples for Abdul 06.30.25_Page_06_Image_0001.jpg",
+    "processing_success": true,
+    "processing_timestamp": "2025-08-31 12:36:06",
+    "drivers_name": "RICARDO BRAVO",
+    "unit": "1574",
+    "trailer": "254",
+    "date_trip_started": "12/06/22",
+    "date_trip_ended": "12/19/22",
+    "trip": "ONE",
+    "trip_started_from": "Bloomington, CA",
+    "first_drop": "Ardmore, OK",
+    "second_drop": "FULTON, MO",
+    "third_drop": "MONONGAH, WV",
+    "forth_drop": "South Bend, IN",
+    "inbound_pu": "Melrose Park, IL",
+    "drop_off": [
+      "Ontario, CA"
+    ],
+    "total_miles": "4792",->paid
+    "coordinates": {
+      "trip_started_from": {
+        "location": "Bloomington, CA",
+        "latitude": 34.06873,
+        "longitude": -117.39966
+      },
+      "first_drop": {
+        "location": "Ardmore, OK",
+        "latitude": 34.17268,
+        "longitude": -97.12877
+      },
+      "second_drop": {
+        "location": "FULTON, MO",
+        "latitude": 38.84697,
+        "longitude": -91.94706
+      },
+      "third_drop": {
+        "location": "MONONGAH, WV",
+        "latitude": 39.46297,
+        "longitude": -80.21772
+      },
+      "forth_drop": {
+        "location": "South Bend, IN",
+        "latitude": 41.67907,
+        "longitude": -86.25405
+      },
+      "inbound_pu": {
+        "location": "Melrose Park, IL",
+        "latitude": 41.89643,
+        "longitude": -87.86412
+      },
+      "drop_off": {
+        "location": "Ontario, CA",
+        "latitude": 43.64869,
+        "longitude": -79.38545
+      },
+      "geocoding_summary": {
+        "total_locations": 7,
+        "successful_geocoding": 7,
+        "geocoding_success_rate": 1.0,
+        "api_used": "HERE"
+      }
+    },
+    "distance_calculations": {
+      "legs": [
+        {
+          "leg_number": 1,
+          "origin": {
+            "stop_type": "trip_started_from",
+            "location": "Bloomington, CA",
+            "state": "CA",
+            "coordinates": [
+              34.06873,
+              -117.39966
+            ]
+          },
+          "destination": {
+            "stop_type": "first_drop",
+            "location": "Ardmore, OK",
+            "state": "OK",
+            "coordinates": [
+              34.17268,
+              -97.12877
+            ]
+          },
+          "distance_miles": 1346.2,
+          "api_used": "HERE",
+          "state_assignment": {
+            "NM": 372.8,
+            "CA": 233.6,
+            "OK": 56.2,
+            "AZ": 359.1,
+            "TX": 324.5
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 2,
+          "origin": {
+            "stop_type": "first_drop",
+            "location": "Ardmore, OK",
+            "state": "OK",
+            "coordinates": [
+              34.17268,
+              -97.12877
+            ]
+          },
+          "destination": {
+            "stop_type": "second_drop",
+            "location": "FULTON, MO",
+            "state": "MO",
+            "coordinates": [
+              38.84697,
+              -91.94706
+            ]
+          },
+          "distance_miles": 539.8,
+          "api_used": "HERE",
+          "state_assignment": {
+            "MO": 236.1,
+            "OK": 303.7
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 3,
+          "origin": {
+            "stop_type": "second_drop",
+            "location": "FULTON, MO",
+            "state": "MO",
+            "coordinates": [
+              38.84697,
+              -91.94706
+            ]
+          },
+          "destination": {
+            "stop_type": "third_drop",
+            "location": "MONONGAH, WV",
+            "state": "WV",
+            "coordinates": [
+              39.46297,
+              -80.21772
+            ]
+          },
+          "distance_miles": 720.2,
+          "api_used": "HERE",
+          "state_assignment": {
+            "MO": 103.2,
+            "IN": 156.0,
+            "IL": 155.5,
+            "OH": 204.5,
+            "WV": 101.0
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 4,
+          "origin": {
+            "stop_type": "third_drop",
+            "location": "MONONGAH, WV",
+            "state": "WV",
+            "coordinates": [
+              39.46297,
+              -80.21772
+            ]
+          },
+          "destination": {
+            "stop_type": "forth_drop",
+            "location": "South Bend, IN",
+            "state": "IN",
+            "coordinates": [
+              41.67907,
+              -86.25405
+            ]
+          },
+          "distance_miles": 462.9,
+          "api_used": "HERE",
+          "state_assignment": {
+            "PA": 106.4,
+            "IN": 83.8,
+            "OH": 240.5,
+            "WV": 32.1
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 5,
+          "origin": {
+            "stop_type": "forth_drop",
+            "location": "South Bend, IN",
+            "state": "IN",
+            "coordinates": [
+              41.67907,
+              -86.25405
+            ]
+          },
+          "destination": {
+            "stop_type": "inbound_pu",
+            "location": "Melrose Park, IL",
+            "state": "IL",
+            "coordinates": [
+              41.89643,
+              -87.86412
+            ]
+          },
+          "distance_miles": 107.8,
+          "api_used": "HERE",
+          "state_assignment": {
+            "IN": 79.8,
+            "IL": 28.0
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 6,
+          "origin": {
+            "stop_type": "inbound_pu",
+            "location": "Melrose Park, IL",
+            "state": "IL",
+            "coordinates": [
+              41.89643,
+              -87.86412
+            ]
+          },
+          "destination": {
+            "stop_type": "drop_off",
+            "location": "Ontario, CA",
+            "state": "CA",
+            "coordinates": [
+              43.64869,
+              -79.38545
+            ]
+          },
+          "distance_miles": 539.8,
+          "api_used": "HERE",
+          "state_assignment": {
+            "IN": 68.8,
+            "IL": 59.1,
+            "MI": 411.9
+          },
+          "route_analysis_used": true
+        }
+      ],
+      "total_legs": 6,
+      "successful_calculations": 6,
+      "total_distance_miles": 3716.7,
+      "state_mileage": [
+        {
+          "state": "OH",
+          "miles": 445.0,
+          "percentage": 12.0
+        },
+        {
+          "state": "MI",
+          "miles": 411.9,
+          "percentage": 11.1
+        },
+        {
+          "state": "IN",
+          "miles": 388.4,
+          "percentage": 10.5
+        },
+        {
+          "state": "NM",
+          "miles": 372.8,
+          "percentage": 10.0
+        },
+        {
+          "state": "OK",
+          "miles": 359.9,
+          "percentage": 9.7
+        },
+        {
+          "state": "AZ",
+          "miles": 359.1,
+          "percentage": 9.7
+        },
+        {
+          "state": "MO",
+          "miles": 339.3,
+          "percentage": 9.1
+        },
+        {
+          "state": "TX",
+          "miles": 324.5,
+          "percentage": 8.7
+        },
+        {
+          "state": "IL",
+          "miles": 242.6,
+          "percentage": 6.5
+        },
+        {
+          "state": "CA",
+          "miles": 233.6,
+          "percentage": 6.3
+        },
+        {
+          "state": "WV",
+          "miles": 133.1,
+          "percentage": 3.6
+        },
+        {
+          "state": "PA",
+          "miles": 106.4,
+          "percentage": 2.9
+        }
+      ],
+      "calculation_success": true,
+      "api_used": "HERE"
+    },
+    "validation_warnings": [
+      "Suspicious total miles: extracted (4792.0) differs from calculated (3716.7) by 28.9%"
+    ],
+    "reference_validation": {
+      "validation_success": false,
+      "reference_found": false,
+      "note": "No reference test file available"
+    }
+  },
+  {
+    "source_image": "Media 1-A8114434-F6F8-464E-B029-8E43E2A0B4E8.jpg",
+    "processing_success": true,
+    "processing_timestamp": "2025-08-31 12:36:32",
+    "drivers_name": "FRANCISCO GUERRA",
+    "unit": "1543",
+    "trailer": "280",
+    "date_trip_started": "11/30/22",
+    "date_trip_ended": "12/05/22",
+    "trip": null,
+    "trip_started_from": "Bloomington, CA",
+    "first_drop": "Durant, OK",
+    "second_drop": "COPPEL, TX",
+    "third_drop": null,
+    "forth_drop": null,
+    "inbound_pu": "FORTHENORTH, TX",
+    "drop_off": [
+      "SAN JACINTO, CA",
+      "San Bernardino, CA"
+    ],
+    "total_miles": "220",
+    "validation_warnings": [
+      "date_trip_ended format corrected: 12/5/22 → 12/05/22",
+      "Suspicious total miles: extracted (220.0) differs from calculated (2863.3) by 92.3%"
+    ],
+    "coordinates": {
+      "trip_started_from": {
+        "location": "Bloomington, CA",
+        "latitude": 34.06873,
+        "longitude": -117.39966
+      },
+      "first_drop": {
+        "location": "Durant, OK",
+        "latitude": 33.9932,
+        "longitude": -96.38602
+      },
+      "second_drop": {
+        "location": "COPPEL, TX",
+        "latitude": 32.97656,
+        "longitude": -96.99131
+      },
+      "third_drop": {
+        "location": "",
+        "latitude": null,
+        "longitude": null
+      },
+      "forth_drop": {
+        "location": "",
+        "latitude": null,
+        "longitude": null
+      },
+      "inbound_pu": {
+        "location": "FORTHENORTH, TX",
+        "latitude": 32.75095,
+        "longitude": -97.33086
+      },
+      "drop_off": {
+        "location": "SAN JACINTO, CA",
+        "latitude": 33.78388,
+        "longitude": -116.95719
+      },
+      "geocoding_summary": {
+        "total_locations": 5,
+        "successful_geocoding": 5,
+        "geocoding_success_rate": 1.0,
+        "api_used": "HERE"
+      }
+    },
+    "distance_calculations": {
+      "legs": [
+        {
+          "leg_number": 1,
+          "origin": {
+            "stop_type": "trip_started_from",
+            "location": "Bloomington, CA",
+            "state": "CA",
+            "coordinates": [
+              34.06873,
+              -117.39966
+            ]
+          },
+          "destination": {
+            "stop_type": "first_drop",
+            "location": "Durant, OK",
+            "state": "OK",
+            "coordinates": [
+              33.9932,
+              -96.38602
+            ]
+          },
+          "distance_miles": 1401.9,
+          "api_used": "HERE",
+          "state_assignment": {
+            "NM": 372.8,
+            "CA": 233.6,
+            "OK": 16.3,
+            "AZ": 359.0,
+            "TX": 420.2
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 2,
+          "origin": {
+            "stop_type": "first_drop",
+            "location": "Durant, OK",
+            "state": "OK",
+            "coordinates": [
+              33.9932,
+              -96.38602
+            ]
+          },
+          "destination": {
+            "stop_type": "second_drop",
+            "location": "COPPEL, TX",
+            "state": "TX",
+            "coordinates": [
+              32.97656,
+              -96.99131
+            ]
+          },
+          "distance_miles": 89.8,
+          "api_used": "HERE",
+          "state_assignment": {
+            "OK": 15.0,
+            "TX": 74.7
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 3,
+          "origin": {
+            "stop_type": "second_drop",
+            "location": "COPPEL, TX",
+            "state": "TX",
+            "coordinates": [
+              32.97656,
+              -96.99131
+            ]
+          },
+          "destination": {
+            "stop_type": "inbound_pu",
+            "location": "FORTHENORTH, TX",
+            "state": "TX",
+            "coordinates": [
+              32.75095,
+              -97.33086
+            ]
+          },
+          "distance_miles": 31.3,
+          "api_used": "HERE",
+          "state_assignment": {
+            "TX": 31.3
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 4,
+          "origin": {
+            "stop_type": "inbound_pu",
+            "location": "FORTHENORTH, TX",
+            "state": "TX",
+            "coordinates": [
+              32.75095,
+              -97.33086
+            ]
+          },
+          "destination": {
+            "stop_type": "drop_off",
+            "location": "SAN JACINTO, CA",
+            "state": "CA",
+            "coordinates": [
+              33.78388,
+              -116.95719
+            ]
+          },
+          "distance_miles": 1340.3,
+          "api_used": "HERE",
+          "state_assignment": {
+            "NM": 164.4,
+            "CA": 160.0,
+            "AZ": 392.1,
+            "TX": 623.9
+          },
+          "route_analysis_used": true
+        }
+      ],
+      "total_legs": 4,
+      "successful_calculations": 4,
+      "total_distance_miles": 2863.3,
+      "state_mileage": [
+        {
+          "state": "TX",
+          "miles": 1150.1,
+          "percentage": 40.2
+        },
+        {
+          "state": "AZ",
+          "miles": 751.1,
+          "percentage": 26.2
+        },
+        {
+          "state": "NM",
+          "miles": 537.2,
+          "percentage": 18.8
+        },
+        {
+          "state": "CA",
+          "miles": 393.6,
+          "percentage": 13.7
+        },
+        {
+          "state": "OK",
+          "miles": 31.3,
+          "percentage": 1.1
+        }
+      ],
+      "calculation_success": true,
+      "api_used": "HERE"
+    },
+    "reference_validation": {
+      "validation_success": false,
+      "reference_found": false,
+      "note": "No reference test file available"
+    }
+  },
+  {
+    "source_image": "Media 2-027C2F8D-3666-4F67-AF8E-3BFE4B8E4DD2.jpg",
+    "processing_success": true,
+    "processing_timestamp": "2025-08-31 12:36:55",
+    "drivers_name": "Jerald Terry",
+    "unit": "1542",
+    "trailer": "255",
+    "date_trip_started": "11/29/22",
+    "date_trip_ended": "12/12/22",
+    "trip": "",
+    "trip_started_from": "Bloomington, CA",
+    "first_drop": "Irving, TX",
+    "second_drop": "Dallas, TX",
+    "third_drop": "Laredo, TX",
+    "forth_drop": "Daytona Beach, FL",
+    "inbound_pu": "Weiner, AR",
+    "drop_off": "Pomona, CA",
+    "total_miles": "5771",
+    "coordinates": {
+      "trip_started_from": {
+        "location": "Bloomington, CA",
+        "latitude": 34.06873,
+        "longitude": -117.39966
+      },
+      "first_drop": {
+        "location": "Irving, TX",
+        "latitude": 32.81352,
+        "longitude": -96.95532
+      },
+      "second_drop": {
+        "location": "Dallas, TX",
+        "latitude": 32.77822,
+        "longitude": -96.79512
+      },
+      "third_drop": {
+        "location": "Laredo, TX",
+        "latitude": 27.53092,
+        "longitude": -99.50231
+      },
+      "forth_drop": {
+        "location": "Daytona Beach, FL",
+        "latitude": 29.20366,
+        "longitude": -81.03917
+      },
+      "inbound_pu": {
+        "location": "Weiner, AR",
+        "latitude": 35.61982,
+        "longitude": -90.89867
+      },
+      "drop_off": {
+        "location": "Pomona, CA",
+        "latitude": 34.05499,
+        "longitude": -117.75004
+      },
+      "geocoding_summary": {
+        "total_locations": 7,
+        "successful_geocoding": 7,
+        "geocoding_success_rate": 1.0,
+        "api_used": "HERE"
+      }
+    },
+    "distance_calculations": {
+      "legs": [
+        {
+          "leg_number": 1,
+          "origin": {
+            "stop_type": "trip_started_from",
+            "location": "Bloomington, CA",
+            "state": "CA",
+            "coordinates": [
+              34.06873,
+              -117.39966
+            ]
+          },
+          "destination": {
+            "stop_type": "first_drop",
+            "location": "Irving, TX",
+            "state": "TX",
+            "coordinates": [
+              32.81352,
+              -96.95532
+            ]
+          },
+          "distance_miles": 1385.5,
+          "api_used": "HERE",
+          "state_assignment": {
+            "NM": 167.2,
+            "CA": 176.6,
+            "AZ": 391.7,
+            "TX": 650.1
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 2,
+          "origin": {
+            "stop_type": "first_drop",
+            "location": "Irving, TX",
+            "state": "TX",
+            "coordinates": [
+              32.81352,
+              -96.95532
+            ]
+          },
+          "destination": {
+            "stop_type": "second_drop",
+            "location": "Dallas, TX",
+            "state": "TX",
+            "coordinates": [
+              32.77822,
+              -96.79512
+            ]
+          },
+          "distance_miles": 13.3,
+          "api_used": "HERE",
+          "state_assignment": {
+            "TX": 13.3
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 3,
+          "origin": {
+            "stop_type": "second_drop",
+            "location": "Dallas, TX",
+            "state": "TX",
+            "coordinates": [
+              32.77822,
+              -96.79512
+            ]
+          },
+          "destination": {
+            "stop_type": "third_drop",
+            "location": "Laredo, TX",
+            "state": "TX",
+            "coordinates": [
+              27.53092,
+              -99.50231
+            ]
+          },
+          "distance_miles": 443.5,
+          "api_used": "HERE",
+          "state_assignment": {
+            "TX": 443.5
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 4,
+          "origin": {
+            "stop_type": "third_drop",
+            "location": "Laredo, TX",
+            "state": "TX",
+            "coordinates": [
+              27.53092,
+              -99.50231
+            ]
+          },
+          "destination": {
+            "stop_type": "forth_drop",
+            "location": "Daytona Beach, FL",
+            "state": "FL",
+            "coordinates": [
+              29.20366,
+              -81.03917
+            ]
+          },
+          "distance_miles": 1274.3,
+          "api_used": "HERE",
+          "state_assignment": {
+            "AL": 64.9,
+            "TX": 425.1,
+            "MS": 77.1,
+            "LA": 251.0,
+            "FL": 456.2
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 5,
+          "origin": {
+            "stop_type": "forth_drop",
+            "location": "Daytona Beach, FL",
+            "state": "FL",
+            "coordinates": [
+              29.20366,
+              -81.03917
+            ]
+          },
+          "destination": {
+            "stop_type": "inbound_pu",
+            "location": "Weiner, AR",
+            "state": "AR",
+            "coordinates": [
+              35.61982,
+              -90.89867
+            ]
+          },
+          "distance_miles": 859.7,
+          "api_used": "HERE",
+          "state_assignment": {
+            "AL": 310.7,
+            "AR": 71.7,
+            "TN": 18.1,
+            "MS": 117.7,
+            "FL": 341.5
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 6,
+          "origin": {
+            "stop_type": "inbound_pu",
+            "location": "Weiner, AR",
+            "state": "AR",
+            "coordinates": [
+              35.61982,
+              -90.89867
+            ]
+          },
+          "destination": {
+            "stop_type": "drop_off",
+            "location": "Pomona, CA",
+            "state": "CA",
+            "coordinates": [
+              34.05499,
+              -117.75004
+            ]
+          },
+          "distance_miles": 1717.1,
+          "api_used": "HERE",
+          "state_assignment": {
+            "NM": 373.2,
+            "CA": 242.0,
+            "AR": 235.2,
+            "OK": 330.6,
+            "AZ": 359.4,
+            "TX": 176.7
+          },
+          "route_analysis_used": true
+        }
+      ],
+      "total_legs": 6,
+      "successful_calculations": 6,
+      "total_distance_miles": 5693.4,
+      "state_mileage": [
+        {
+          "state": "TX",
+          "miles": 1708.7,
+          "percentage": 30.0
+        },
+        {
+          "state": "FL",
+          "miles": 797.7,
+          "percentage": 14.0
+        },
+        {
+          "state": "AZ",
+          "miles": 751.1,
+          "percentage": 13.2
+        },
+        {
+          "state": "NM",
+          "miles": 540.4,
+          "percentage": 9.5
+        },
+        {
+          "state": "CA",
+          "miles": 418.6,
+          "percentage": 7.4
+        },
+        {
+          "state": "AL",
+          "miles": 375.6,
+          "percentage": 6.6
+        },
+        {
+          "state": "OK",
+          "miles": 330.6,
+          "percentage": 5.8
+        },
+        {
+          "state": "AR",
+          "miles": 306.9,
+          "percentage": 5.4
+        },
+        {
+          "state": "LA",
+          "miles": 251.0,
+          "percentage": 4.4
+        },
+        {
+          "state": "MS",
+          "miles": 194.8,
+          "percentage": 3.4
+        },
+        {
+          "state": "TN",
+          "miles": 18.1,
+          "percentage": 0.3
+        }
+      ],
+      "calculation_success": true,
+      "api_used": "HERE"
+    },
+    "reference_validation": {
+      "validation_success": false,
+      "reference_found": false,
+      "note": "No reference test file available"
+    }
+  },
+  {
+    "source_image": "Media 3-FE46F3F2-BC33-49BE-B175-E425CA2E5BC0.jpg",
+    "processing_success": true,
+    "processing_timestamp": "2025-08-31 12:37:17",
+    "drivers_name": "CESAR ARMENTA",
+    "unit": "1541",
+    "trailer": "233",
+    "date_trip_started": "12/03/22",
+    "date_trip_ended": "12/08/22",
+    "trip": "",
+    "trip_started_from": "Bloomington, CA",
+    "first_drop": "Marshall, TX",
+    "second_drop": "Dallas, TX",
+    "third_drop": "",
+    "forth_drop": "Grand Prairie, TX",
+    "inbound_pu": "Arlington, TX",
+    "drop_off": "Tolleson, AZ",
+    "total_miles": "3424",
+    "validation_warnings": [
+      "Suspicious: 4th drop filled but 3rd drop empty (possible field swap)",
+      "Suspicious total miles: extracted (3424.0) differs from calculated (2777.9) by 23.3%"
+    ],
+    "coordinates": {
+      "trip_started_from": {
+        "location": "Bloomington, CA",
+        "latitude": 34.06873,
+        "longitude": -117.39966
+      },
+      "first_drop": {
+        "location": "Marshall, TX",
+        "latitude": 32.54691,
+        "longitude": -94.35011
+      },
+      "second_drop": {
+        "location": "Dallas, TX",
+        "latitude": 32.77822,
+        "longitude": -96.79512
+      },
+      "third_drop": {
+        "location": "",
+        "latitude": null,
+        "longitude": null
+      },
+      "forth_drop": {
+        "location": "Grand Prairie, TX",
+        "latitude": 32.74772,
+        "longitude": -97.00678
+      },
+      "inbound_pu": {
+        "location": "Arlington, TX",
+        "latitude": 32.7356,
+        "longitude": -97.10772
+      },
+      "drop_off": {
+        "location": "Tolleson, AZ",
+        "latitude": 33.45031,
+        "longitude": -112.26384
+      },
+      "geocoding_summary": {
+        "total_locations": 6,
+        "successful_geocoding": 6,
+        "geocoding_success_rate": 1.0,
+        "api_used": "HERE"
+      }
+    },
+    "distance_calculations": {
+      "legs": [
+        {
+          "leg_number": 1,
+          "origin": {
+            "stop_type": "trip_started_from",
+            "location": "Bloomington, CA",
+            "state": "CA",
+            "coordinates": [
+              34.06873,
+              -117.39966
+            ]
+          },
+          "destination": {
+            "stop_type": "first_drop",
+            "location": "Marshall, TX",
+            "state": "TX",
+            "coordinates": [
+              32.54691,
+              -94.35011
+            ]
+          },
+          "distance_miles": 1543.7,
+          "api_used": "HERE",
+          "state_assignment": {
+            "NM": 167.2,
+            "CA": 176.6,
+            "AZ": 391.7,
+            "TX": 808.3
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 2,
+          "origin": {
+            "stop_type": "first_drop",
+            "location": "Marshall, TX",
+            "state": "TX",
+            "coordinates": [
+              32.54691,
+              -94.35011
+            ]
+          },
+          "destination": {
+            "stop_type": "second_drop",
+            "location": "Dallas, TX",
+            "state": "TX",
+            "coordinates": [
+              32.77822,
+              -96.79512
+            ]
+          },
+          "distance_miles": 154.2,
+          "api_used": "HERE",
+          "state_assignment": {
+            "TX": 154.2
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 3,
+          "origin": {
+            "stop_type": "second_drop",
+            "location": "Dallas, TX",
+            "state": "TX",
+            "coordinates": [
+              32.77822,
+              -96.79512
+            ]
+          },
+          "destination": {
+            "stop_type": "forth_drop",
+            "location": "Grand Prairie, TX",
+            "state": "TX",
+            "coordinates": [
+              32.74772,
+              -97.00678
+            ]
+          },
+          "distance_miles": 14.5,
+          "api_used": "HERE",
+          "state_assignment": {
+            "TX": 14.5
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 4,
+          "origin": {
+            "stop_type": "forth_drop",
+            "location": "Grand Prairie, TX",
+            "state": "TX",
+            "coordinates": [
+              32.74772,
+              -97.00678
+            ]
+          },
+          "destination": {
+            "stop_type": "inbound_pu",
+            "location": "Arlington, TX",
+            "state": "TX",
+            "coordinates": [
+              32.7356,
+              -97.10772
+            ]
+          },
+          "distance_miles": 6.3,
+          "api_used": "HERE",
+          "state_assignment": {
+            "TX": 6.3
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 5,
+          "origin": {
+            "stop_type": "inbound_pu",
+            "location": "Arlington, TX",
+            "state": "TX",
+            "coordinates": [
+              32.7356,
+              -97.10772
+            ]
+          },
+          "destination": {
+            "stop_type": "drop_off",
+            "location": "Tolleson, AZ",
+            "state": "AZ",
+            "coordinates": [
+              33.45031,
+              -112.26384
+            ]
+          },
+          "distance_miles": 1059.2,
+          "api_used": "HERE",
+          "state_assignment": {
+            "NM": 164.3,
+            "AZ": 257.2,
+            "TX": 637.7
+          },
+          "route_analysis_used": true
+        }
+      ],
+      "total_legs": 5,
+      "successful_calculations": 5,
+      "total_distance_miles": 2777.9,
+      "state_mileage": [
+        {
+          "state": "TX",
+          "miles": 1621.0,
+          "percentage": 58.4
+        },
+        {
+          "state": "AZ",
+          "miles": 648.9,
+          "percentage": 23.4
+        },
+        {
+          "state": "NM",
+          "miles": 331.5,
+          "percentage": 11.9
+        },
+        {
+          "state": "CA",
+          "miles": 176.6,
+          "percentage": 6.4
+        }
+      ],
+      "calculation_success": true,
+      "api_used": "HERE"
+    },
+    "reference_validation": {
+      "validation_success": false,
+      "reference_found": false,
+      "note": "No reference test file available"
+    }
+  },
+  {
+    "source_image": "Media 4-896CC6CE-0F52-42BF-A69C-6776E5E2FF66.jpg",
+    "processing_success": true,
+    "processing_timestamp": "2025-08-31 12:37:34",
+    "drivers_name": "CESAR ARMENTA",
+    "unit": "1541",
+    "trailer": "243",
+    "date_trip_started": "10/10/22",
+    "date_trip_ended": "",
+    "trip": "",
+    "trip_started_from": "Bloomington, CA",
+    "first_drop": "Little Rock, AR",
+    "second_drop": "Lithia Springs, GA",
+    "third_drop": "",
+    "forth_drop": "",
+    "inbound_pu": "East Point, GA",
+    "drop_off": "Paducah, CA",
+    "total_miles": "4315",
+    "coordinates": {
+      "trip_started_from": {
+        "location": "Bloomington, CA",
+        "latitude": 34.06873,
+        "longitude": -117.39966
+      },
+      "first_drop": {
+        "location": "Little Rock, AR",
+        "latitude": 34.7487,
+        "longitude": -92.27485
+      },
+      "second_drop": {
+        "location": "Lithia Springs, GA",
+        "latitude": 33.79382,
+        "longitude": -84.66073
+      },
+      "third_drop": {
+        "location": "",
+        "latitude": null,
+        "longitude": null
+      },
+      "forth_drop": {
+        "location": "",
+        "latitude": null,
+        "longitude": null
+      },
+      "inbound_pu": {
+        "location": "East Point, GA",
+        "latitude": 33.67949,
+        "longitude": -84.4418
+      },
+      "drop_off": {
+        "location": "Paducah, CA",
+        "latitude": 32.81239,
+        "longitude": -117.21283
+      },
+      "geocoding_summary": {
+        "total_locations": 5,
+        "successful_geocoding": 5,
+        "geocoding_success_rate": 1.0,
+        "api_used": "HERE"
+      }
+    },
+    "distance_calculations": {
+      "legs": [
+        {
+          "leg_number": 1,
+          "origin": {
+            "stop_type": "trip_started_from",
+            "location": "Bloomington, CA",
+            "state": "CA",
+            "coordinates": [
+              34.06873,
+              -117.39966
+            ]
+          },
+          "destination": {
+            "stop_type": "first_drop",
+            "location": "Little Rock, AR",
+            "state": "AR",
+            "coordinates": [
+              34.7487,
+              -92.27485
+            ]
+          },
+          "distance_miles": 1628.5,
+          "api_used": "HERE",
+          "state_assignment": {
+            "NM": 373.1,
+            "CA": 233.8,
+            "AR": 155.2,
+            "OK": 330.3,
+            "AZ": 359.3,
+            "TX": 176.7
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 2,
+          "origin": {
+            "stop_type": "first_drop",
+            "location": "Little Rock, AR",
+            "state": "AR",
+            "coordinates": [
+              34.7487,
+              -92.27485
+            ]
+          },
+          "destination": {
+            "stop_type": "second_drop",
+            "location": "Lithia Springs, GA",
+            "state": "GA",
+            "coordinates": [
+              33.79382,
+              -84.66073
+            ]
+          },
+          "distance_miles": 503.4,
+          "api_used": "HERE",
+          "state_assignment": {
+            "AL": 190.2,
+            "GA": 43.3,
+            "AR": 133.7,
+            "TN": 17.9,
+            "MS": 118.3
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 3,
+          "origin": {
+            "stop_type": "second_drop",
+            "location": "Lithia Springs, GA",
+            "state": "GA",
+            "coordinates": [
+              33.79382,
+              -84.66073
+            ]
+          },
+          "destination": {
+            "stop_type": "inbound_pu",
+            "location": "East Point, GA",
+            "state": "GA",
+            "coordinates": [
+              33.67949,
+              -84.4418
+            ]
+          },
+          "distance_miles": 22.6,
+          "api_used": "HERE",
+          "state_assignment": {
+            "GA": 22.6
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 4,
+          "origin": {
+            "stop_type": "inbound_pu",
+            "location": "East Point, GA",
+            "state": "GA",
+            "coordinates": [
+              33.67949,
+              -84.4418
+            ]
+          },
+          "destination": {
+            "stop_type": "drop_off",
+            "location": "Paducah, CA",
+            "state": "CA",
+            "coordinates": [
+              32.81239,
+              -117.21283
+            ]
+          },
+          "distance_miles": 2156.3,
+          "api_used": "HERE",
+          "state_assignment": {
+            "NM": 164.5,
+            "CA": 174.4,
+            "AL": 213.6,
+            "GA": 62.1,
+            "AZ": 371.4,
+            "TX": 823.3,
+            "MS": 154.7,
+            "LA": 192.2
+          },
+          "route_analysis_used": true
+        }
+      ],
+      "total_legs": 4,
+      "successful_calculations": 4,
+      "total_distance_miles": 4310.8,
+      "state_mileage": [
+        {
+          "state": "TX",
+          "miles": 1000.0,
+          "percentage": 23.2
+        },
+        {
+          "state": "AZ",
+          "miles": 730.7,
+          "percentage": 17.0
+        },
+        {
+          "state": "NM",
+          "miles": 537.6,
+          "percentage": 12.5
+        },
+        {
+          "state": "CA",
+          "miles": 408.2,
+          "percentage": 9.5
+        },
+        {
+          "state": "AL",
+          "miles": 403.8,
+          "percentage": 9.4
+        },
+        {
+          "state": "OK",
+          "miles": 330.3,
+          "percentage": 7.7
+        },
+        {
+          "state": "AR",
+          "miles": 288.9,
+          "percentage": 6.7
+        },
+        {
+          "state": "MS",
+          "miles": 273.0,
+          "percentage": 6.3
+        },
+        {
+          "state": "LA",
+          "miles": 192.2,
+          "percentage": 4.5
+        },
+        {
+          "state": "GA",
+          "miles": 128.0,
+          "percentage": 3.0
+        },
+        {
+          "state": "TN",
+          "miles": 17.9,
+          "percentage": 0.4
+        }
+      ],
+      "calculation_success": true,
+      "api_used": "HERE"
+    },
+    "reference_validation": {
+      "validation_success": false,
+      "reference_found": false,
+      "note": "No reference test file available"
+    }
+  },
+  {
+    "source_image": "Media 5-9A702CBA-C5A4-4034-817A-889860DA8A46.jpg",
+    "processing_success": true,
+    "processing_timestamp": "2025-08-31 12:37:55",
+    "drivers_name": "LESAR ARMENTA",
+    "unit": "1541",
+    "trailer": "292",
+    "date_trip_started": "02/18/23",
+    "date_trip_ended": "02/25/23",
+    "trip": "",
+    "trip_started_from": "Bloomington, CA",
+    "first_drop": "Grapevine, TX",
+    "second_drop": "Pensicola, FL",
+    "third_drop": "",
+    "forth_drop": "",
+    "inbound_pu": "Avondale, LA",
+    "drop_off": "Phoenix, AZ",
+    "total_miles": "4105",
+    "validation_warnings": [
+      "third_drop cleared (matched inbound_pu/drop_off): Avondale, LA → empty",
+      "Suspicious total miles: extracted (4105.0) differs from calculated (3825.5) by 7.3%"
+    ],
+    "coordinates": {
+      "trip_started_from": {
+        "location": "Bloomington, CA",
+        "latitude": 34.06873,
+        "longitude": -117.39966
+      },
+      "first_drop": {
+        "location": "Grapevine, TX",
+        "latitude": 32.93948,
+        "longitude": -97.07839
+      },
+      "second_drop": {
+        "location": "Pensicola, FL",
+        "latitude": 30.42104,
+        "longitude": -87.21726
+      },
+      "third_drop": {
+        "location": "",
+        "latitude": null,
+        "longitude": null
+      },
+      "forth_drop": {
+        "location": "",
+        "latitude": null,
+        "longitude": null
+      },
+      "inbound_pu": {
+        "location": "Avondale, LA",
+        "latitude": 31.94066,
+        "longitude": -91.27019
+      },
+      "drop_off": {
+        "location": "Phoenix, AZ",
+        "latitude": 33.44825,
+        "longitude": -112.0758
+      },
+      "geocoding_summary": {
+        "total_locations": 5,
+        "successful_geocoding": 5,
+        "geocoding_success_rate": 1.0,
+        "api_used": "HERE"
+      }
+    },
+    "distance_calculations": {
+      "legs": [
+        {
+          "leg_number": 1,
+          "origin": {
+            "stop_type": "trip_started_from",
+            "location": "Bloomington, CA",
+            "state": "CA",
+            "coordinates": [
+              34.06873,
+              -117.39966
+            ]
+          },
+          "destination": {
+            "stop_type": "first_drop",
+            "location": "Grapevine, TX",
+            "state": "TX",
+            "coordinates": [
+              32.93948,
+              -97.07839
+            ]
+          },
+          "distance_miles": 1383.2,
+          "api_used": "HERE",
+          "state_assignment": {
+            "NM": 167.1,
+            "CA": 176.6,
+            "AZ": 391.7,
+            "TX": 647.8
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 2,
+          "origin": {
+            "stop_type": "first_drop",
+            "location": "Grapevine, TX",
+            "state": "TX",
+            "coordinates": [
+              32.93948,
+              -97.07839
+            ]
+          },
+          "destination": {
+            "stop_type": "second_drop",
+            "location": "Pensicola, FL",
+            "state": "FL",
+            "coordinates": [
+              30.42104,
+              -87.21726
+            ]
+          },
+          "distance_miles": 669.6,
+          "api_used": "HERE",
+          "state_assignment": {
+            "AL": 67.7,
+            "TX": 190.3,
+            "MS": 203.6,
+            "LA": 189.8,
+            "FL": 18.3
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 3,
+          "origin": {
+            "stop_type": "second_drop",
+            "location": "Pensicola, FL",
+            "state": "FL",
+            "coordinates": [
+              30.42104,
+              -87.21726
+            ]
+          },
+          "destination": {
+            "stop_type": "inbound_pu",
+            "location": "Avondale, LA",
+            "state": "LA",
+            "coordinates": [
+              31.94066,
+              -91.27019
+            ]
+          },
+          "distance_miles": 342.9,
+          "api_used": "HERE",
+          "state_assignment": {
+            "AL": 68.4,
+            "MS": 203.8,
+            "LA": 52.2,
+            "FL": 18.5
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 4,
+          "origin": {
+            "stop_type": "inbound_pu",
+            "location": "Avondale, LA",
+            "state": "LA",
+            "coordinates": [
+              31.94066,
+              -91.27019
+            ]
+          },
+          "destination": {
+            "stop_type": "drop_off",
+            "location": "Phoenix, AZ",
+            "state": "AZ",
+            "coordinates": [
+              33.44825,
+              -112.0758
+            ]
+          },
+          "distance_miles": 1429.8,
+          "api_used": "HERE",
+          "state_assignment": {
+            "NM": 164.3,
+            "AZ": 246.7,
+            "TX": 822.3,
+            "LA": 196.4
+          },
+          "route_analysis_used": true
+        }
+      ],
+      "total_legs": 4,
+      "successful_calculations": 4,
+      "total_distance_miles": 3825.5,
+      "state_mileage": [
+        {
+          "state": "TX",
+          "miles": 1660.4,
+          "percentage": 43.4
+        },
+        {
+          "state": "AZ",
+          "miles": 638.4,
+          "percentage": 16.7
+        },
+        {
+          "state": "LA",
+          "miles": 438.4,
+          "percentage": 11.5
+        },
+        {
+          "state": "MS",
+          "miles": 407.4,
+          "percentage": 10.6
+        },
+        {
+          "state": "NM",
+          "miles": 331.4,
+          "percentage": 8.7
+        },
+        {
+          "state": "CA",
+          "miles": 176.6,
+          "percentage": 4.6
+        },
+        {
+          "state": "AL",
+          "miles": 136.1,
+          "percentage": 3.6
+        },
+        {
+          "state": "FL",
+          "miles": 36.8,
+          "percentage": 1.0
+        }
+      ],
+      "calculation_success": true,
+      "api_used": "HERE"
+    },
+    "reference_validation": {
+      "validation_success": false,
+      "reference_found": false,
+      "note": "No reference test file available"
+    }
+  },
+  {
+    "source_image": "Media 6-961EF1DE-7352-4857-AE09-DBF0D1FD94D8.jpg",
+    "processing_success": true,
+    "processing_timestamp": "2025-08-31 12:38:14",
+    "drivers_name": "CESAR ARMENTA",
+    "unit": "1541",
+    "trailer": "233",
+    "date_trip_started": "12/03/22",
+    "date_trip_ended": "12/03/22",
+    "trip": "",
+    "trip_started_from": "Bloomington, CA",
+    "first_drop": "Marshall, TX",
+    "second_drop": "Dallas, TX",
+    "third_drop": "Arlington, TX",
+    "forth_drop": "",
+    "inbound_pu": "Grand Prairie, TX",
+    "drop_off": "Tolleson, AZ",
+    "total_miles": "3424",
+    "validation_warnings": [
+      "Duplicate location found: '12/03/22' appears in multiple fields",
+      "forth_drop cleared (matched inbound_pu/drop_off): Grand Prairie, TX → empty",
+      "Suspicious total miles: extracted (3424.0) differs from calculated (2788.9) by 22.8%"
+    ],
+    "coordinates": {
+      "trip_started_from": {
+        "location": "Bloomington, CA",
+        "latitude": 34.06873,
+        "longitude": -117.39966
+      },
+      "first_drop": {
+        "location": "Marshall, TX",
+        "latitude": 32.54691,
+        "longitude": -94.35011
+      },
+      "second_drop": {
+        "location": "Dallas, TX",
+        "latitude": 32.77822,
+        "longitude": -96.79512
+      },
+      "third_drop": {
+        "location": "Arlington, TX",
+        "latitude": 32.7356,
+        "longitude": -97.10772
+      },
+      "forth_drop": {
+        "location": "",
+        "latitude": null,
+        "longitude": null
+      },
+      "inbound_pu": {
+        "location": "Grand Prairie, TX",
+        "latitude": 32.74772,
+        "longitude": -97.00678
+      },
+      "drop_off": {
+        "location": "Tolleson, AZ",
+        "latitude": 33.45031,
+        "longitude": -112.26384
+      },
+      "geocoding_summary": {
+        "total_locations": 6,
+        "successful_geocoding": 6,
+        "geocoding_success_rate": 1.0,
+        "api_used": "HERE"
+      }
+    },
+    "distance_calculations": {
+      "legs": [
+        {
+          "leg_number": 1,
+          "origin": {
+            "stop_type": "trip_started_from",
+            "location": "Bloomington, CA",
+            "state": "CA",
+            "coordinates": [
+              34.06873,
+              -117.39966
+            ]
+          },
+          "destination": {
+            "stop_type": "first_drop",
+            "location": "Marshall, TX",
+            "state": "TX",
+            "coordinates": [
+              32.54691,
+              -94.35011
+            ]
+          },
+          "distance_miles": 1543.7,
+          "api_used": "HERE",
+          "state_assignment": {
+            "NM": 167.2,
+            "CA": 176.6,
+            "AZ": 391.7,
+            "TX": 808.3
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 2,
+          "origin": {
+            "stop_type": "first_drop",
+            "location": "Marshall, TX",
+            "state": "TX",
+            "coordinates": [
+              32.54691,
+              -94.35011
+            ]
+          },
+          "destination": {
+            "stop_type": "second_drop",
+            "location": "Dallas, TX",
+            "state": "TX",
+            "coordinates": [
+              32.77822,
+              -96.79512
+            ]
+          },
+          "distance_miles": 154.2,
+          "api_used": "HERE",
+          "state_assignment": {
+            "TX": 154.2
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 3,
+          "origin": {
+            "stop_type": "second_drop",
+            "location": "Dallas, TX",
+            "state": "TX",
+            "coordinates": [
+              32.77822,
+              -96.79512
+            ]
+          },
+          "destination": {
+            "stop_type": "third_drop",
+            "location": "Arlington, TX",
+            "state": "TX",
+            "coordinates": [
+              32.7356,
+              -97.10772
+            ]
+          },
+          "distance_miles": 20.2,
+          "api_used": "HERE",
+          "state_assignment": {
+            "TX": 20.2
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 4,
+          "origin": {
+            "stop_type": "third_drop",
+            "location": "Arlington, TX",
+            "state": "TX",
+            "coordinates": [
+              32.7356,
+              -97.10772
+            ]
+          },
+          "destination": {
+            "stop_type": "inbound_pu",
+            "location": "Grand Prairie, TX",
+            "state": "TX",
+            "coordinates": [
+              32.74772,
+              -97.00678
+            ]
+          },
+          "distance_miles": 6.4,
+          "api_used": "HERE",
+          "state_assignment": {
+            "TX": 6.4
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 5,
+          "origin": {
+            "stop_type": "inbound_pu",
+            "location": "Grand Prairie, TX",
+            "state": "TX",
+            "coordinates": [
+              32.74772,
+              -97.00678
+            ]
+          },
+          "destination": {
+            "stop_type": "drop_off",
+            "location": "Tolleson, AZ",
+            "state": "AZ",
+            "coordinates": [
+              33.45031,
+              -112.26384
+            ]
+          },
+          "distance_miles": 1064.4,
+          "api_used": "HERE",
+          "state_assignment": {
+            "NM": 164.3,
+            "AZ": 257.2,
+            "TX": 642.9
+          },
+          "route_analysis_used": true
+        }
+      ],
+      "total_legs": 5,
+      "successful_calculations": 5,
+      "total_distance_miles": 2788.9,
+      "state_mileage": [
+        {
+          "state": "TX",
+          "miles": 1632.0,
+          "percentage": 58.5
+        },
+        {
+          "state": "AZ",
+          "miles": 648.9,
+          "percentage": 23.3
+        },
+        {
+          "state": "NM",
+          "miles": 331.5,
+          "percentage": 11.9
+        },
+        {
+          "state": "CA",
+          "miles": 176.6,
+          "percentage": 6.3
+        }
+      ],
+      "calculation_success": true,
+      "api_used": "HERE"
+    },
+    "reference_validation": {
+      "validation_success": false,
+      "reference_found": false,
+      "note": "No reference test file available"
+    }
+  },
+  {
+    "source_image": "Media 7-CF592A70-6018-49C8-A572-15506DC3BF6C.jpg",
+    "processing_success": true,
+    "processing_timestamp": "2025-08-31 12:38:27",
+    "drivers_name": "Manod Aranda",
+    "unit": "1540",
+    "trailer": "286",
+    "date_trip_started": "11/17/22",
+    "date_trip_ended": "11/28/22",
+    "trip": "",
+    "trip_started_from": "Fontana, CA",
+    "first_drop": "Kernersville, NC",
+    "second_drop": "Tobyhanna, PA",
+    "third_drop": "",
+    "forth_drop": "",
+    "inbound_pu": "Lebanon, PA",
+    "drop_off": [
+      "Mchaire valley, AZ"
+    ],
+    "total_miles": "5176",->5751
+    "coordinates": {
+      "trip_started_from": {
+        "location": "Fontana, CA",
+        "latitude": 34.10261,
+        "longitude": -117.43577
+      },
+      "first_drop": {
+        "location": "Kernersville, NC",
+        "latitude": 36.11969,
+        "longitude": -80.073
+      },
+      "second_drop": {
+        "location": "Tobyhanna, PA",
+        "latitude": 41.177,
+        "longitude": -75.41819
+      },
+      "third_drop": {
+        "location": "",
+        "latitude": null,
+        "longitude": null
+      },
+      "forth_drop": {
+        "location": "",
+        "latitude": null,
+        "longitude": null
+      },
+      "inbound_pu": {
+        "location": "Lebanon, PA",
+        "latitude": 40.33027,
+        "longitude": -76.42591
+      },
+      "drop_off": {
+        "location": "Mchaire valley, AZ",
+        "latitude": 34.92412,
+        "longitude": -114.59786
+      },
+      "geocoding_summary": {
+        "total_locations": 5,
+        "successful_geocoding": 5,
+        "geocoding_success_rate": 1.0,
+        "api_used": "HERE"
+      }
+    },
+    "distance_calculations": {
+      "legs": [
+        {
+          "leg_number": 1,
+          "origin": {
+            "stop_type": "trip_started_from",
+            "location": "Fontana, CA",
+            "state": "CA",
+            "coordinates": [
+              34.10261,
+              -117.43577
+            ]
+          },
+          "destination": {
+            "stop_type": "first_drop",
+            "location": "Kernersville, NC",
+            "state": "NC",
+            "coordinates": [
+              36.11969,
+              -80.073
+            ]
+          },
+          "distance_miles": 2416.9,
+          "api_used": "HERE",
+          "state_assignment": {
+            "NM": 373.0,
+            "CA": 222.8,
+            "AR": 284.6,
+            "OK": 330.3,
+            "TN": 500.6,
+            "AZ": 359.3,
+            "TX": 176.7,
+            "NC": 55.3,
+            "VA": 114.2
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 2,
+          "origin": {
+            "stop_type": "first_drop",
+            "location": "Kernersville, NC",
+            "state": "NC",
+            "coordinates": [
+              36.11969,
+              -80.073
+            ]
+          },
+          "destination": {
+            "stop_type": "second_drop",
+            "location": "Tobyhanna, PA",
+            "state": "PA",
+            "coordinates": [
+              41.177,
+              -75.41819
+            ]
+          },
+          "distance_miles": 514.4,
+          "api_used": "HERE",
+          "state_assignment": {
+            "PA": 192.2,
+            "NC": 33.4,
+            "VA": 250.8,
+            "WV": 26.1,
+            "MD": 12.0
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 3,
+          "origin": {
+            "stop_type": "second_drop",
+            "location": "Tobyhanna, PA",
+            "state": "PA",
+            "coordinates": [
+              41.177,
+              -75.41819
+            ]
+          },
+          "destination": {
+            "stop_type": "inbound_pu",
+            "location": "Lebanon, PA",
+            "state": "PA",
+            "coordinates": [
+              40.33027,
+              -76.42591
+            ]
+          },
+          "distance_miles": 113.1,
+          "api_used": "HERE",
+          "state_assignment": {
+            "PA": 113.1
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 4,
+          "origin": {
+            "stop_type": "inbound_pu",
+            "location": "Lebanon, PA",
+            "state": "PA",
+            "coordinates": [
+              40.33027,
+              -76.42591
+            ]
+          },
+          "destination": {
+            "stop_type": "drop_off",
+            "location": "Mchaire valley, AZ",
+            "state": "AZ",
+            "coordinates": [
+              34.92412,
+              -114.59786
+            ]
+          },
+          "distance_miles": 2379.2,
+          "api_used": "HERE",
+          "state_assignment": {
+            "NM": 373.3,
+            "PA": 257.8,
+            "MO": 292.4,
+            "OK": 361.9,
+            "IN": 156.1,
+            "IL": 160.3,
+            "AZ": 361.2,
+            "TX": 176.8,
+            "OH": 226.1,
+            "WV": 13.3
+          },
+          "route_analysis_used": true
+        }
+      ],
+      "total_legs": 4,
+      "successful_calculations": 4,
+      "total_distance_miles": 5423.6,
+      "state_mileage": [
+        {
+          "state": "NM",
+          "miles": 746.3,
+          "percentage": 13.8
+        },
+        {
+          "state": "AZ",
+          "miles": 720.5,
+          "percentage": 13.3
+        },
+        {
+          "state": "OK",
+          "miles": 692.2,
+          "percentage": 12.8
+        },
+        {
+          "state": "PA",
+          "miles": 563.1,
+          "percentage": 10.4
+        },
+        {
+          "state": "TN",
+          "miles": 500.6,
+          "percentage": 9.2
+        },
+        {
+          "state": "VA",
+          "miles": 365.0,
+          "percentage": 6.7
+        },
+        {
+          "state": "TX",
+          "miles": 353.5,
+          "percentage": 6.5
+        },
+        {
+          "state": "MO",
+          "miles": 292.4,
+          "percentage": 5.4
+        },
+        {
+          "state": "AR",
+          "miles": 284.6,
+          "percentage": 5.2
+        },
+        {
+          "state": "OH",
+          "miles": 226.1,
+          "percentage": 4.2
+        },
+        {
+          "state": "CA",
+          "miles": 222.8,
+          "percentage": 4.1
+        },
+        {
+          "state": "IL",
+          "miles": 160.3,
+          "percentage": 3.0
+        },
+        {
+          "state": "IN",
+          "miles": 156.1,
+          "percentage": 2.9
+        },
+        {
+          "state": "NC",
+          "miles": 88.7,
+          "percentage": 1.6
+        },
+        {
+          "state": "WV",
+          "miles": 39.4,
+          "percentage": 0.7
+        },
+        {
+          "state": "MD",
+          "miles": 12.0,
+          "percentage": 0.2
+        }
+      ],
+      "calculation_success": true,
+      "api_used": "HERE"
+    },
+    "reference_validation": {
+      "validation_success": false,
+      "reference_found": false,
+      "note": "No reference test file available"
+    }
+  },
+  {
+    "source_image": "Media 8-F5F5AAE6-11D0-4930-ADE7-ABFAF0666ABC.jpg",
+    "processing_success": true,
+    "processing_timestamp": "2025-08-31 12:38:44",
+    "drivers_name": "Manod Aranda",
+    "unit": "1540",
+    "trailer": "286",
+    "date_trip_started": "11/17/22",
+    "date_trip_ended": "11/28/22",
+    "trip": "",
+    "trip_started_from": "Fontana, CA",
+    "first_drop": "Kernersville, NC",
+    "second_drop": "Tobyhanna, PA",
+    "third_drop": "",
+    "forth_drop": "",
+    "inbound_pu": "Lebanon, PA",
+    "drop_off": [
+      "Mohave Valley, AZ"
+    ],
+    "total_miles": "4751",->5751
+    "coordinates": {
+      "trip_started_from": {
+        "location": "Fontana, CA",
+        "latitude": 34.10261,
+        "longitude": -117.43577
+      },
+      "first_drop": {
+        "location": "Kernersville, NC",
+        "latitude": 36.11969,
+        "longitude": -80.073
+      },
+      "second_drop": {
+        "location": "Tobyhanna, PA",
+        "latitude": 41.177,
+        "longitude": -75.41819
+      },
+      "third_drop": {
+        "location": "",
+        "latitude": null,
+        "longitude": null
+      },
+      "forth_drop": {
+        "location": "",
+        "latitude": null,
+        "longitude": null
+      },
+      "inbound_pu": {
+        "location": "Lebanon, PA",
+        "latitude": 40.33027,
+        "longitude": -76.42591
+      },
+      "drop_off": {
+        "location": "Mohave Valley, AZ",
+        "latitude": 34.92412,
+        "longitude": -114.59786
+      },
+      "geocoding_summary": {
+        "total_locations": 5,
+        "successful_geocoding": 5,
+        "geocoding_success_rate": 1.0,
+        "api_used": "HERE"
+      }
+    },
+    "distance_calculations": {
+      "legs": [
+        {
+          "leg_number": 1,
+          "origin": {
+            "stop_type": "trip_started_from",
+            "location": "Fontana, CA",
+            "state": "CA",
+            "coordinates": [
+              34.10261,
+              -117.43577
+            ]
+          },
+          "destination": {
+            "stop_type": "first_drop",
+            "location": "Kernersville, NC",
+            "state": "NC",
+            "coordinates": [
+              36.11969,
+              -80.073
+            ]
+          },
+          "distance_miles": 2416.9,
+          "api_used": "HERE",
+          "state_assignment": {
+            "NM": 373.0,
+            "CA": 222.8,
+            "AR": 284.6,
+            "OK": 330.3,
+            "TN": 500.6,
+            "AZ": 359.3,
+            "TX": 176.7,
+            "NC": 55.3,
+            "VA": 114.2
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 2,
+          "origin": {
+            "stop_type": "first_drop",
+            "location": "Kernersville, NC",
+            "state": "NC",
+            "coordinates": [
+              36.11969,
+              -80.073
+            ]
+          },
+          "destination": {
+            "stop_type": "second_drop",
+            "location": "Tobyhanna, PA",
+            "state": "PA",
+            "coordinates": [
+              41.177,
+              -75.41819
+            ]
+          },
+          "distance_miles": 514.4,
+          "api_used": "HERE",
+          "state_assignment": {
+            "PA": 192.2,
+            "NC": 33.4,
+            "VA": 250.8,
+            "WV": 26.1,
+            "MD": 12.0
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 3,
+          "origin": {
+            "stop_type": "second_drop",
+            "location": "Tobyhanna, PA",
+            "state": "PA",
+            "coordinates": [
+              41.177,
+              -75.41819
+            ]
+          },
+          "destination": {
+            "stop_type": "inbound_pu",
+            "location": "Lebanon, PA",
+            "state": "PA",
+            "coordinates": [
+              40.33027,
+              -76.42591
+            ]
+          },
+          "distance_miles": 113.1,
+          "api_used": "HERE",
+          "state_assignment": {
+            "PA": 113.1
+          },
+          "route_analysis_used": true
+        },
+        {
+          "leg_number": 4,
+          "origin": {
+            "stop_type": "inbound_pu",
+            "location": "Lebanon, PA",
+            "state": "PA",
+            "coordinates": [
+              40.33027,
+              -76.42591
+            ]
+          },
+          "destination": {
+            "stop_type": "drop_off",
+            "location": "Mohave Valley, AZ",
+            "state": "AZ",
+            "coordinates": [
+              34.92412,
+              -114.59786
+            ]
+          },
+          "distance_miles": 2379.2,
+          "api_used": "HERE",
+          "state_assignment": {
+            "NM": 373.3,
+            "PA": 257.8,
+            "MO": 292.4,
+            "OK": 361.9,
+            "IN": 156.1,
+            "IL": 160.3,
+            "AZ": 361.2,
+            "TX": 176.8,
+            "OH": 226.1,
+            "WV": 13.3
+          },
+          "route_analysis_used": true
+        }
+      ],
+      "total_legs": 4,
+      "successful_calculations": 4,
+      "total_distance_miles": 5423.6,
+      "state_mileage": [
+        {
+          "state": "NM",
+          "miles": 746.3,
+          "percentage": 13.8
+        },
+        {
+          "state": "AZ",
+          "miles": 720.5,
+          "percentage": 13.3
+        },
+        {
+          "state": "OK",
+          "miles": 692.2,
+          "percentage": 12.8
+        },
+        {
+          "state": "PA",
+          "miles": 563.1,
+          "percentage": 10.4
+        },
+        {
+          "state": "TN",
+          "miles": 500.6,
+          "percentage": 9.2
+        },
+        {
+          "state": "VA",
+          "miles": 365.0,
+          "percentage": 6.7
+        },
+        {
+          "state": "TX",
+          "miles": 353.5,
+          "percentage": 6.5
+        },
+        {
+          "state": "MO",
+          "miles": 292.4,
+          "percentage": 5.4
+        },
+        {
+          "state": "AR",
+          "miles": 284.6,
+          "percentage": 5.2
+        },
+        {
+          "state": "OH",
+          "miles": 226.1,
+          "percentage": 4.2
+        },
+        {
+          "state": "CA",
+          "miles": 222.8,
+          "percentage": 4.1
+        },
+        {
+          "state": "IL",
+          "miles": 160.3,
+          "percentage": 3.0
+        },
+        {
+          "state": "IN",
+          "miles": 156.1,
+          "percentage": 2.9
+        },
+        {
+          "state": "NC",
+          "miles": 88.7,
+          "percentage": 1.6
+        },
+        {
+          "state": "WV",
+          "miles": 39.4,
+          "percentage": 0.7
+        },
+        {
+          "state": "MD",
+          "miles": 12.0,
+          "percentage": 0.2
+        }
+      ],
+      "calculation_success": true,
+      "api_used": "HERE"
+    },
+    "validation_warnings": [
+      "Suspicious total miles: extracted (4751.0) differs from calculated (5423.6) by 12.4%"
+    ],
+    "reference_validation": {
+      "validation_success": false,
+      "reference_found": false,
+      "note": "No reference test file available"
+    }
+  }
+]
