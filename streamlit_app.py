@@ -626,37 +626,29 @@ def show_result_card(result, show_validation_warnings):
         if has_changes:
             st.success("✅ Fields have been modified. Click 'Recalculate Distances' to update calculations.")
         
-        # Display current distance calculations (non-editable)
+        # Distance calculations - Enhanced version from main_branch
         st.markdown("---")
-        st.markdown("### 🗺️ Distance Calculations (FROM HERE API)")
-        
         if 'distance_calculations' in current_edited:
             distance_data = current_edited['distance_calculations']
+            
+            st.write("**🗺️ Distance Calculations:**")
+            st.write(f"📊 **Calculated Distance:** {distance_data.get('total_distance_miles', 0)} miles")
+            st.write(f"🔗 **Successful Legs:** {distance_data.get('successful_calculations', 0)}/{distance_data.get('total_legs', 0)}")
+            
             if distance_data.get('calculation_success'):
-                col_d1, col_d2 = st.columns(2)
+                # Enhanced route analysis info
+                uses_here_api = any(leg.get('api_used') == 'HERE' for leg in distance_data.get('legs', []))
+                uses_route_analysis = any(leg.get('route_analysis_used') for leg in distance_data.get('legs', []))
                 
-                with col_d1:
-                    st.metric("📊 Calculated Distance", f"{distance_data.get('total_distance_miles', 0)} miles")
-                    st.metric("🔗 Successful Legs", f"{distance_data.get('successful_calculations', 0)}/{distance_data.get('total_legs', 0)}")
+                if uses_here_api and uses_route_analysis:
+                    st.success("🗺️ Using HERE Maps with polyline analysis to detect ALL states along the route")
+                elif uses_here_api:
+                    st.success("✅ **HERE API Routing** - Using HERE Maps routing service for accurate distances")
+                    st.warning("⚠️ Route analysis unavailable - showing origin/destination states only")
+                else:
+                    st.info("ℹ️ **Basic Route Analysis** - Simple distance calculation")
                 
-                with col_d2:
-                    # Compare with extracted miles
-                    extracted_miles = current_edited.get('total_miles', '')
-                    if extracted_miles:
-                        try:
-                            extracted_miles_num = float(str(extracted_miles).replace(',', ''))
-                            calculated_miles = distance_data.get('total_distance_miles', 0)
-                            diff_percent = abs((extracted_miles_num - calculated_miles) / calculated_miles * 100) if calculated_miles > 0 else 0
-                            st.metric("📏 Extracted Miles", f"{extracted_miles_num:,.0f}")
-                            st.metric("📊 Difference", f"{diff_percent:.1f}%")
-                        except ValueError:
-                            st.metric("📏 Extracted Miles", extracted_miles)
-                
-                # State mileage breakdown
                 if 'state_mileage' in distance_data and distance_data['state_mileage']:
-                    uses_here_api = any(leg.get('api_used') == 'HERE' for leg in distance_data.get('legs', []))
-                    uses_route_analysis = any(leg.get('route_analysis_used') for leg in distance_data.get('legs', []))
-                    
                     if uses_route_analysis:
                         st.write("**🗺️ Complete Route State Analysis:**")
                         st.caption("This includes ALL states the truck passes through, not just origin/destination")
@@ -712,8 +704,6 @@ def show_result_card(result, show_validation_warnings):
                 
                 **What happens now:** The system will still show extracted data, but without calculated distances and enhanced state analysis.
                 """)
-        else:
-            st.info("ℹ️ No distance calculations available")
         
         # Validation warnings
         if show_validation_warnings and current_edited.get('validation_warnings'):
