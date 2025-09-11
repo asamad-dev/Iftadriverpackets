@@ -692,10 +692,42 @@ def generate_excel_export(results):
     """Generate Excel export data"""
     csv_data = generate_csv_export(results)
     df = pd.read_csv(io.StringIO(csv_data))
-    
+
+    #fuel details added in Excel different sheet Also
+    #if page have multiple state it will create singel rows for that page and Plus Gallons of that state
+    fuel_rows = []
+    for page_num, result in enumerate(results, start=1):
+        if result.get('processing_success') and 'fuel_details' in result:
+            state_gal = {}
+            for fuel in result['fuel_details']:
+                # Extract state from City&State
+                city_state = fuel.get('City&State', '')
+                state = city_state.split(',')[-1].strip() if ',' in city_state else ''
+                gallons = fuel.get('# Gal.', 0)
+                try:
+                    gallons = float(gallons)
+                except Exception:
+                    gallons = 0
+                # Sum gallons per state for this page
+                state_gal[state] = state_gal.get(state, 0) + gallons
+            # Add one row per state per page
+            for state, total_gal in state_gal.items():
+                fuel_rows.append({
+                    'State': state,
+                    'Gallons': total_gal,
+                    'Unit': result.get('unit', ''),
+                    'Trip (Page)': page_num
+                })
+    if fuel_rows:
+        df_fuel = pd.DataFrame(fuel_rows)
+    else:
+        df_fuel = pd.DataFrame([{'No fuel details found': ''}])
+  
     output = io.BytesIO()
     with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
         df.to_excel(writer, sheet_name='Driver Packet Results', index=False)
+        #is used to creat different sheet for fuel details
+        df_fuel.to_excel(writer, sheet_name='Fuel Details', index=False)
     
     return output.getvalue()
 

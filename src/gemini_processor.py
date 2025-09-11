@@ -1122,7 +1122,7 @@ Analyze the image carefully and extract all CLEARLY VISIBLE information with int
                 specific_value = company_yard_map.get(company_name, "").strip().lower()
                 #Replace whole string "Yard" with specific yard location
                 extracted_text= self.replace_word(extracted_text,"Yard",specific_value)
-
+                print(extracted_text)
 
                 # Parse JSON from the response
                 try:
