@@ -10,6 +10,7 @@ service-account*.json
 google-cloud-*.json
 vision-api-*.json
 gcp-*.json
+.vs/
 
 # Gemini API Keys
 .env
