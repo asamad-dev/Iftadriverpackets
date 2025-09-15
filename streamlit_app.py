@@ -176,7 +176,7 @@ def main():
         )
         
         # Initialize processor
-        
+
         if gemini_key:
             try:
                 if not st.session_state.processor or not st.session_state.api_configured:
@@ -485,7 +485,10 @@ def show_result_card(result, show_validation_warnings):
         if 'fuel_details' in result:
             st.write("**Fuel Details State by state:**")
             for fuel in result["fuel_details"]:
-             st.write(f"📍 **City and State:** {fuel['City&State']}, **Number of Gal:** {fuel['# Gal.']}")
+             city_state = fuel.get('City&State') or 'N/A'
+             num_gal = fuel.get('# Gal.') or 'N/A'
+             st.write(f"📍 **City and State:** {city_state}, **Number of Gal:** {num_gal}")
+             #st.write(f"📍 **City and State:** {fuel['City&State']}, **Number of Gal:** {fuel['# Gal.']}")
 
 def validation_report_tab():
     """Validation report tab"""
@@ -712,7 +715,11 @@ def generate_excel_export(results):
             for fuel in result['fuel_details']:
                 # Extract state from City&State
                 city_state = fuel.get('City&State', '')
-                state = city_state.split(',')[-1].strip() if ',' in city_state else ''
+               # state = city_state.split(',')[-1].strip() if ',' in city_state else ''
+                if city_state and ',' in city_state:
+                 state = city_state.split(',')[-1].strip()
+                else:
+                 state = ''
                 gallons = fuel.get('# Gal.', 0)
                 try:
                     gallons = float(gallons)
