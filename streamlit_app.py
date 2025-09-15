@@ -143,8 +143,14 @@ def main():
             help="For enhanced geocoding and distance calculation. Get from: https://developer.here.com/",
             placeholder="Enter your HERE API key..."
         )
+        company_set = st.text_input(
+            "Enter Company Name (ASF Carrier ,INC)",
+            type="default",
+            # help="For enhanced geocoding and distance calculation. Get from: https://developer.here.com/",
+            placeholder="Enter your company name..."
+         )
         yard_Set = st.text_input(
-            "Enter you Yard Value (San Bernardino, CA)",
+            "Enter you Yard Name (San Bernardino, CA)",
             type="default",
            # help="For enhanced geocoding and distance calculation. Get from: https://developer.here.com/",
             placeholder="Enter your YArd Name..."
@@ -179,7 +185,7 @@ def main():
                     st.session_state.processor = GeminiDriverPacketProcessor(
                         api_key=gemini_key,
                         here_api_key=here_key if here_key else None,
-                        yard_location= yard_Set if yard_Set else 'Yard'
+                        #yard_location= yard_Set if yard_Set else 'Yard'
                     )
                     st.session_state.api_configured = True
                     st.success("✅ Processor initialized successfully!")
@@ -190,18 +196,24 @@ def main():
             st.warning("⚠️ Please enter your Gemini API key to continue")
             st.session_state.api_configured = False
 
-        if yard_Set:
+        if 'json_value_added' not in st.session_state:
+            st.session_state.json_value_added = False
+        if yard_Set and company_set:
             try:
-                if not st.session_state.processor :
-                    st.session_state.processor = GeminiDriverPacketProcessor(
-                        yard_location= yard_Set if yard_Set else 'Yard'
-                    )
-                    st.success("✅ Processor initialized successfully!")
+                st.session_state.processor.company_name = company_set
+                st.session_state.processor.yard_location = yard_Set
+                st.success("✅ Processor initialized successfully!")
+                if not st.session_state.json_value_added:
+                    st.session_state.processor.add_yard_data(company_set, yard_Set)
+                    st.session_state.json_value_added = True
+                    st.success("✅ Value added to JSON successfully!")
             except Exception as e:
-                st.error(f"❌ Error initializing processor: {str(e)}")
+                st.error(f"❌ Error in add_value_in_json(): {str(e)}")
                 st.session_state.api_configured = False
         else:
-            st.warning("⚠️ Please enter your Yard Location")
+            if not company_set or not yard_Set:
+                st.warning("⚠️ Please enter both Company Name and Yard Location.")
+
     
     # Main content
     if not st.session_state.api_configured:

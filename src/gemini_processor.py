@@ -26,9 +26,11 @@ class GeminiDriverPacketProcessor:
     Process driver packet images using Gemini API with intelligent prompt engineering
     """
     
-    def __init__(self, api_key: Optional[str] = None, here_api_key: Optional[str] = None, yard_location: Optional[str] = None ):
+    def __init__(self, api_key: Optional[str] = None, here_api_key: Optional[str] = None, yard_location: Optional[str] = None, company_name: Optional[str] = None):
        # self.yard_replace = yard_location or "Yard"
         # Configure Gemini API
+       # self.add_yard_data()  
+
         if api_key:
             genai.configure(api_key=api_key)
         else:
@@ -42,7 +44,9 @@ class GeminiDriverPacketProcessor:
         
         # Configure HERE API key for geocoding
         self.here_api_key = here_api_key or os.getenv('HERE_API_KEY')
-       # self.yard_location = yard_location 
+        #set yard loacation and company name for entry in company_yard_map in JSON
+        self.yard_location = yard_location
+        self.company_name = company_name 
 
       #  print("Sufyiannnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn",self.yard_location)
         # Geocoding cache to avoid repeated API calls
@@ -209,6 +213,41 @@ Return ONLY the JSON object, no additional text or explanation.
 Analyze the image carefully and extract all CLEARLY VISIBLE information with intelligent validation:
 """
     
+    # this function is used to set value in JSON file yard name or company name
+   
+    
+    def add_yard_data(self,company_name,yard_location,json_file='company_yard_map.json'):
+        print("Sufyian check add yard fun call start")
+        company = company_name
+        yard_location = yard_location
+
+        # Step 1: Load existing data or initialize an empty dict
+        data = {}
+        if os.path.exists(json_file):
+            try:
+                with open(json_file, 'r') as file:
+                    data = json.load(file)
+                    if not isinstance(data, dict):
+                        print("Invalid JSON structure (not a dict). Resetting file.")
+                        data = {}
+            except json.JSONDecodeError:
+                print("Corrupted JSON file. Resetting to empty.")
+                data = {}
+
+        # Step 2: Add or update the company entry
+        data[company] = yard_location
+
+        # Step 3: Save updated dictionary back to the file
+        try:
+            with open(json_file, 'w') as file:
+                json.dump(data, file, indent=4)
+                print(f"✅ Company '{company}' with location '{yard_location}' added successfully.")
+        except Exception as e:
+            print(f"❌ Error writing to file: {e}")
+
+
+
+
     def geocode_location_here(self, location: str) -> Optional[Tuple[float, float]]:
         """
         Get coordinates for a location using HERE Geocoding API
@@ -1587,4 +1626,4 @@ Analyze the image carefully and extract all CLEARLY VISIBLE information with int
             else:
                 warnings.append(f"🔵 LOW: {field} formatting difference - extracted: '{extracted}' ≠ reference: '{reference}'")
 
-        return warnings       
+        return warnings
