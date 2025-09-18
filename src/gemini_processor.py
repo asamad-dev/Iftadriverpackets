@@ -204,6 +204,28 @@ TOTAL MILES EXTRACTION:
 - If extracted number seems unreasonable (too high like 23513 or too low like 220), double-check the image
 - Extract the number exactly as written
 
+FUEL DETAILS TABLE EXTRACTION:
+- Look for a table with the heading "FUEL DETAILS" on the form
+- Extract fuel purchase information with these column mappings:
+  1. "Data/Invoice" or "Data/ Invoice" - Date column (not needed for extraction)
+  2. "Vendor" - Ignore this column
+  3. "City&State" or "City & State" - Extract state abbreviation (2 letters)
+  4. "# Gal." - Extract gallons quantity (must be very accurate)
+  5. "Price" - Ignore this column
+  6. "Amount" - Ignore this column  
+  7. "CashAdv." or "Cash Adv." - Ignore this column
+
+FUEL TABLE EXTRACTION RULES:
+- If "Data/Invoice" shows "DEF", use the date from the row above
+- For state extraction from "City&State":
+  * Usually contains state abbreviations (TX, CA, NV, etc.)
+  * Sometimes full state names - convert to 2-letter abbreviations
+  * If state unclear, infer from city name or adjacent rows
+  * If "DEF" appears in other columns and no city/state shown, use state from row above
+- For gallons ("# Gal."), be EXTREMELY accurate with number reading
+- Extract each row as separate fuel purchase
+- Group and sum gallons by state
+
 IMPORTANT: Return ONLY a valid JSON object with these exact field names:
 {
     "drivers_name": "driver's full name - EXACTLY as written, apply common sense spelling corrections",
@@ -219,7 +241,13 @@ IMPORTANT: Return ONLY a valid JSON object with these exact field names:
     "forth_drop": "fourth drop city name and state abbreviation with comma - OPTIONAL, leave empty if not clearly visible",
     "inbound_pu": "inbound pickup city name and state abbreviation with comma (e.g., San Bernardino, CA)",
     "drop_off": "final drop off - can be string or array if multiple values separated by 'to'",
-    "total_miles": "total miles driven from OFFICE USE ONLY section - extract carefully"
+    "total_miles": "total miles driven from OFFICE USE ONLY section - extract carefully",
+    "fuel_purchases": [
+        {
+            "state": "2-letter state abbreviation where fuel was purchased",
+            "gallons": "precise number of gallons purchased"
+        }
+    ]
 }
 
 CRITICAL RULES:
@@ -2218,7 +2246,92 @@ Analyze the image carefully and extract all CLEARLY VISIBLE information with int
             except ValueError:
                 correction_warnings.append(f"Invalid total miles format: {total_miles}")
         
+        # 8. Process fuel purchases data and aggregate by state
+        if corrected_data.get('fuel_purchases'):
+            processed_fuel = self._process_fuel_data(corrected_data['fuel_purchases'])
+            corrected_data['fuel_by_state'] = processed_fuel['aggregated_by_state']
+            corrected_data['total_gallons'] = processed_fuel['total_gallons']
+            
+            if processed_fuel.get('warnings'):
+                correction_warnings.extend(processed_fuel['warnings'])
+        
         return corrected_data, correction_warnings
+    
+    def _process_fuel_data(self, fuel_purchases):
+        """
+        Process fuel purchases data and aggregate by state
+        
+        Args:
+            fuel_purchases: List of fuel purchase dictionaries with 'state' and 'gallons' keys
+            
+        Returns:
+            Dict with aggregated_by_state, total_gallons, and warnings
+        """
+        processed_data = {
+            'aggregated_by_state': {},
+            'total_gallons': 0,
+            'warnings': []
+        }
+        
+        if not fuel_purchases:
+            return processed_data
+        
+        # State name mappings - convert full names to abbreviations
+        state_abbreviations = {
+            'alabama': 'AL', 'alaska': 'AK', 'arizona': 'AZ', 'arkansas': 'AR', 'california': 'CA', 'colorado': 'CO',
+            'connecticut': 'CT', 'delaware': 'DE', 'florida': 'FL', 'georgia': 'GA', 'hawaii': 'HI', 'idaho': 'ID',
+            'illinois': 'IL', 'indiana': 'IN', 'iowa': 'IA', 'kansas': 'KS', 'kentucky': 'KY', 'louisiana': 'LA',
+            'maine': 'ME', 'maryland': 'MD', 'massachusetts': 'MA', 'michigan': 'MI', 'minnesota': 'MN',
+            'mississippi': 'MS', 'missouri': 'MO', 'montana': 'MT', 'nebraska': 'NE', 'nevada': 'NV', 'new hampshire': 'NH',
+            'new jersey': 'NJ', 'new mexico': 'NM', 'new york': 'NY', 'north carolina': 'NC', 'north dakota': 'ND',
+            'ohio': 'OH', 'oklahoma': 'OK', 'oregon': 'OR', 'pennsylvania': 'PA', 'rhode island': 'RI',
+            'south carolina': 'SC', 'south dakota': 'SD', 'tennessee': 'TN', 'texas': 'TX', 'utah': 'UT', 'vermont': 'VT',
+            'virginia': 'VA', 'washington': 'WA', 'west virginia': 'WV', 'wisconsin': 'WI', 'wyoming': 'WY'
+        }
+        
+        # Valid 2-letter state codes
+        valid_states = set(state_abbreviations.values())
+        
+        for purchase in fuel_purchases:
+            if not isinstance(purchase, dict):
+                processed_data['warnings'].append(f"Invalid fuel purchase data format: {purchase}")
+                continue
+                
+            state = purchase.get('state', '').strip().upper()
+            gallons_str = str(purchase.get('gallons', '0')).strip()
+            
+            # Convert state name to abbreviation if needed
+            if state.lower() in state_abbreviations:
+                state = state_abbreviations[state.lower()]
+            
+            # Validate state abbreviation
+            if not state or state not in valid_states:
+                processed_data['warnings'].append(f"Invalid or missing state: '{purchase.get('state', '')}' - skipping fuel entry")
+                continue
+            
+            # Parse gallons
+            try:
+                # Clean gallons string - remove commas and other non-numeric characters except decimal point
+                clean_gallons = ''.join(c for c in gallons_str if c.isdigit() or c == '.')
+                gallons = float(clean_gallons) if clean_gallons else 0.0
+                
+                if gallons <= 0:
+                    processed_data['warnings'].append(f"Invalid gallons amount: '{gallons_str}' for state {state} - skipping")
+                    continue
+                    
+            except (ValueError, TypeError):
+                processed_data['warnings'].append(f"Could not parse gallons: '{gallons_str}' for state {state} - skipping")
+                continue
+            
+            # Aggregate by state
+            if state in processed_data['aggregated_by_state']:
+                processed_data['aggregated_by_state'][state] += gallons
+            else:
+                processed_data['aggregated_by_state'][state] = gallons
+                
+            processed_data['total_gallons'] += gallons
+        
+        return processed_data
     
     def _correct_location(self, location, corrections_dict):
         """

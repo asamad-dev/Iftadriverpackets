@@ -701,6 +701,33 @@ def show_result_card(result, show_validation_warnings):
                 **What happens now:** The system will still show extracted data, but without calculated distances and enhanced state analysis.
                 """)
         
+        # Fuel data display
+        if current_edited.get('fuel_by_state') or current_edited.get('fuel_purchases'):
+            st.markdown("---")
+            st.markdown("**⛽ Fuel Purchases Summary:**")
+            
+            fuel_by_state = current_edited.get('fuel_by_state', {})
+            total_gallons = current_edited.get('total_gallons', 0)
+            
+            if fuel_by_state:
+                col1, col2 = st.columns([2, 1])
+                
+                with col1:
+                    st.write("**Gallons by State:**")
+                    for state, gallons in sorted(fuel_by_state.items()):
+                        st.write(f"  🌎 **{state}:** {gallons:.1f} gallons")
+                
+                with col2:
+                    st.metric("🚛 Total Gallons", f"{total_gallons:.1f}")
+                
+                # Show raw fuel purchases if available
+                if current_edited.get('fuel_purchases'):
+                    with st.expander("🔍 Raw Fuel Purchase Details", expanded=False):
+                        for i, purchase in enumerate(current_edited['fuel_purchases'], 1):
+                            st.write(f"**Purchase {i}:** {purchase.get('gallons', 0)} gallons in {purchase.get('state', 'Unknown')}")
+            else:
+                st.info("No fuel purchase data found in this driver packet")
+        
         # Validation warnings
         if show_validation_warnings and current_edited.get('validation_warnings'):
             st.markdown("---")
@@ -878,7 +905,7 @@ def export_data_tab():
     with col1:
         export_format = st.selectbox(
             "Export Format",
-            ["CSV", "JSON", "Excel"],
+            ["Excel", "CSV (Distance)", "CSV (Fuel)", "JSON"],
             help="Choose the format for exporting results"
         )
     
@@ -897,12 +924,36 @@ def export_data_tab():
         return
     
     # Generate export data
-    if export_format == "CSV":
+    if export_format == "Excel":
+        export_data = generate_excel_export(filtered_results)
+        filename = f"driver_packet_results_{datetime.now().strftime('%Y%m%d_%H%M%S')}.xlsx"
+        
+        st.download_button(
+            label="📥 Download Excel (Both Sheets)",
+            data=export_data,
+            file_name=filename,
+            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            use_container_width=True
+        )
+    
+    elif export_format == "CSV (Distance)":
         export_data = generate_csv_export(filtered_results)
         filename = f"driver_packet_results_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
         
         st.download_button(
-            label="📥 Download CSV",
+            label="📥 Download Distance Data CSV",
+            data=export_data,
+            file_name=filename,
+            mime="text/csv",
+            use_container_width=True
+        )
+    
+    elif export_format == "CSV (Fuel)":
+        export_data = generate_fuel_csv_export(filtered_results)
+        filename = f"gallon_trip_env_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
+        
+        st.download_button(
+            label="📥 Download Fuel Data CSV",
             data=export_data,
             file_name=filename,
             mime="text/csv",
@@ -921,33 +972,34 @@ def export_data_tab():
             use_container_width=True
         )
     
-    elif export_format == "Excel":
-        export_data = generate_excel_export(filtered_results)
-        filename = f"driver_packet_results_{datetime.now().strftime('%Y%m%d_%H%M%S')}.xlsx"
-        
-        st.download_button(
-            label="📥 Download Excel",
-            data=export_data,
-            file_name=filename,
-            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-            use_container_width=True
-        )
-    
     # Preview data
     st.subheader("👀 Data Preview")
     
-    if export_format == "CSV":
+    if export_format == "Excel":
+        # For Excel, show previews of both sheets
+        distance_csv_data = generate_csv_export(filtered_results)
+        df_distance = pd.read_csv(io.StringIO(distance_csv_data))
+        st.write("**Driver Packet Results Sheet Preview:**")
+        st.dataframe(df_distance, use_container_width=True)
+        
+        fuel_csv_data = generate_fuel_csv_export(filtered_results)
+        df_fuel = pd.read_csv(io.StringIO(fuel_csv_data))
+        if not df_fuel.empty:
+            st.write("**Gallon Trip Env Sheet Preview:**")
+            st.dataframe(df_fuel, use_container_width=True)
+        else:
+            st.write("**Gallon Trip Env Sheet:** No fuel data available in processed results")
+    
+    elif export_format == "CSV (Distance)":
+        df = pd.read_csv(io.StringIO(export_data))
+        st.dataframe(df, use_container_width=True)
+    
+    elif export_format == "CSV (Fuel)":
         df = pd.read_csv(io.StringIO(export_data))
         st.dataframe(df, use_container_width=True)
     
     elif export_format == "JSON":
         st.json(filtered_results[:2])  # Show first 2 results as preview
-    
-    elif export_format == "Excel":
-        # For Excel, show CSV preview
-        csv_data = generate_csv_export(filtered_results)
-        df = pd.read_csv(io.StringIO(csv_data))
-        st.dataframe(df, use_container_width=True)
 
 def generate_csv_export(results):
     """Generate CSV export.
@@ -983,6 +1035,19 @@ def generate_csv_export(results):
         # Pull truck/unit and trailer from extracted data
         truck = result.get('unit', '')
         trailer = result.get('trailer', '')
+        
+        # Extract page number from image filename if available
+        source_image = result.get('source_image', '')
+        page_number = idx  # Default to sequential numbering
+        
+        # Try to extract page number from filename (e.g., "Page_8" or "Page 8")
+        import re
+        page_match = re.search(r'[Pp]age[_\s]*(\d+)', source_image)
+        if page_match:
+            try:
+                page_number = int(page_match.group(1))
+            except ValueError:
+                pass  # Use default sequential numbering
 
         # Determine state mileage list
         state_mileage_data = None
@@ -1007,7 +1072,7 @@ def generate_csv_export(results):
 
             writer.writerow({
                 'State': full_name,
-                'Envelop (Page No.)': idx,
+                'Envelop (Page No.)': page_number,
                 'Truck': truck,
                 'Trailer': trailer,
                 'State2': abbr,
@@ -1021,13 +1086,69 @@ def generate_csv_export(results):
 
     return output.getvalue()
 
+def generate_fuel_csv_export(results):
+    """Generate Gallon Trip Env CSV export.
+    
+    Columns: State, Gallons, Unit, Trip (Page No.)
+    """
+    output = io.StringIO()
+    
+    # Header as per plan requirements
+    fields = ['State', 'Gallons', 'Unit', 'Trip (Page No.)']
+    writer = csv.DictWriter(output, fieldnames=fields)
+    writer.writeheader()
+    
+    for idx, result in enumerate(results, start=1):
+        if not result.get('processing_success'):
+            continue
+        
+        # Get unit and trip info
+        unit = result.get('unit', '')
+        
+        # Extract page number from image filename if available
+        source_image = result.get('source_image', '')
+        page_number = idx  # Default to sequential numbering
+        
+        # Try to extract page number from filename (e.g., "Page_8" or "Page 8")
+        import re
+        page_match = re.search(r'[Pp]age[_\s]*(\d+)', source_image)
+        if page_match:
+            try:
+                page_number = int(page_match.group(1))
+            except ValueError:
+                pass  # Use default sequential numbering
+        
+        # Get fuel data
+        fuel_by_state = result.get('fuel_by_state', {})
+        
+        # Write one row per state with fuel purchases
+        for state_abbr, gallons in fuel_by_state.items():
+            writer.writerow({
+                'State': state_abbr,
+                'Gallons': round(gallons, 1),  # Round to 1 decimal place
+                'Unit': unit,
+                'Trip (Page No.)': page_number
+            })
+    
+    return output.getvalue()
+
 def generate_excel_export(results):
-    """Generate Excel export data"""
-    csv_data = generate_csv_export(results)
-    df = pd.read_csv(io.StringIO(csv_data))
+    """Generate Excel export data with multiple sheets"""
     output = io.BytesIO()
+    
+    # Generate both CSV data
+    distance_csv_data = generate_csv_export(results)
+    fuel_csv_data = generate_fuel_csv_export(results)
+    
+    # Create dataframes
+    distance_df = pd.read_csv(io.StringIO(distance_csv_data))
+    fuel_df = pd.read_csv(io.StringIO(fuel_csv_data))
+    
     with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
-        df.to_excel(writer, sheet_name='Driver Packet Results', index=False)
+        distance_df.to_excel(writer, sheet_name='Driver Packet Results', index=False)
+        if not fuel_df.empty:
+            fuel_df.to_excel(writer, sheet_name='Gallon Trip Env', index=False)
+    
     return output.getvalue()
 
 if __name__ == "__main__":
