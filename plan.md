@@ -210,3 +210,44 @@ source_image, State Initials, Milage in state.
 - Better handling of edge cases in handwritten text
 
 This comprehensive plan serves as the definitive guide for system verification and ensures all components work together to deliver accurate, reliable driver packet processing.
+
+
+
+
+# Fuel Table Extraction
+UPDATE Prompt for GEMINI using following information related to fuel details table:
+
+It should read fuel table the heading of table is "FUEL DETAILS", and extract Fuel Gallons and in which state it was filled.
+It has following columns:
+1. "Data/Invoice" or "Data/ Invoice"
+2. "Vendor"
+3. "City&State" or "City & State"
+4. "# Gal."
+5. "Price"
+6. "Amount"
+7. "CashAdv." or "Cash Adv."
+
+Columns explanations
+### 1. "Data/Invoice" or "Data/ Invoice"
+It will be a date in which we are not interested, but some rows will be filed by three letters "DEF" if that is the case then we will take same date from one row above.
+### 2. "Vendor"
+Ignore this column.
+### 3. "City&State" or "City & State"
+We are very interested in State. Mostly there will be Initials of USA States but some times we might have full state name. If state name is not clear we can get the idea from city name or from the row above or below it. If no city and state is mentioned and any of other column show "DEF" then use the state from the above row. 
+### 4. "# Gal."
+It will be a number/quantity and we have to be very very accurate about reading it.
+### 5. "Price"
+Ignore this column.
+### 6. "Amount"
+Ignore this column.
+### 7. "CashAdv." or "Cash Adv."
+Ignore this column.
+
+## Results 
+A new sheet named "Gallon Trip Env" with following columns
+1. "State" : State initials (two letters)
+2. "Gallons" : Cumulative Sum of gallon per state
+3. "Unit" : It is unit number whic is already extracted from image
+4. "Trip (Page No.)" : Image number 
+
+Basically we are calculating gallon per state for all different states in fuel details table.

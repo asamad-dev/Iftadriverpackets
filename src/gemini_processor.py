@@ -119,14 +119,36 @@ TOTAL MILES EXTRACTION:
 - If extracted number seems unreasonable (too high like 23513 or too low like 220), double-check the image
 - Extract the number exactly as written
 
-FUEL Details:
--I Need help fuel details data extraction from image handwritng Doc
--Ensure all numeric values (gallons, price, amount) are returned as numbers (not strings).
--Keep "cash_advance" as "YES" or "NO" exactly as written in the table.
--Extract all rows under the Fuel Details section of the image, excluding the header row.
--Preserve the original order of rows.
--Ensure the city & state are combined as shown (e.g., "Coachella, CA").
--It return JSON formate each Row is a seprate object in array.
+FUEL DETAILS EXTRACTION (CRITICAL SECTION):
+The image contains a "FUEL DETAILS" table that MUST be extracted with extreme accuracy. This table tracks fuel purchases by state.
+
+CRITICAL EXTRACTION RULES:
+
+1. FIND THE FUEL DETAILS TABLE:
+   - Look for table with heading "FUEL DETAILS"
+   - Table has columns like Date/Invoice, Vendor, City&State, # Gal., Price, Amount, CashAdv
+
+2. EXTRACT ONLY WHAT WE NEED:
+   - "City&State" column → Extract the STATE (2-letter abbreviation)
+   - "# Gal." column → Extract GALLONS as accurate numbers
+
+3. STATE EXTRACTION (CRITICAL):
+   - From "City&State" column, extract the 2-letter state abbreviation
+   - Examples: "Bellemont, AZ" → "AZ", "Oklahoma City, OK" → "OK"
+   - If full state name: "CALIFORNIA" → "CA", "TEXAS" → "TX"
+   - If DEF row with no state, use state from row above
+   - Common states: CA, TX, AZ, OK, KS, MO, AR, NM, NV, CO, etc.
+
+4. GALLONS EXTRACTION (EXTREMELY CRITICAL):
+   - From "# Gal." column, extract exact gallon amounts as numbers
+   - Be very accurate with decimals: 100.118, 189.23, 16.905, etc.
+   - Include DEF gallons - they count toward state totals
+   - If unclear, examine handwriting very carefully
+
+SPECIAL HANDLING FOR DEF ROWS:
+- DEF (Diesel Exhaust Fluid) rows should inherit state from the row above
+- DEF purchases still count toward state gallons totals
+- Look for "DEF" in any column to identify these rows
 
 Company Name
 -I need help to extract company name from image
@@ -148,17 +170,13 @@ IMPORTANT: Return ONLY a valid JSON object with these exact field names:
     "forth_drop": "fourth drop city name and state abbreviation with comma - OPTIONAL, leave empty if not clearly visible",
     "inbound_pu": "inbound pickup city name and state abbreviation with comma (e.g., San Bernardino, CA)",
     "drop_off": "final drop off - can be string or array if multiple values separated by 'to'",
-    "total_miles": "total miles driven from OFFICE USE ONLY section - extract carefully"
-
-    FUEL Details:Share as it is in image in JSON array of objects extracted each object contail whole row values
-    "fuel_details": "all of the fuel details rows as array of objects"
-    "Date/Invoice": "Data invoice number MM/DD/YY",
-    "Vendor": "Vendor name from tabel in fuel details section each row",
-    "City&State": "city name and state abbreviation with comma (e.g., south Hutchinson, KS)",
-    "# Gal.": "number of gallons as number",
-    "Price": "Integer value for price per gallon",
-    "Amount": "Total amount as number price * number of gallons",
-    "CashAdv": "Cash in advance - YES or NO"
+    "total_miles": "total miles driven from OFFICE USE ONLY section - extract carefully",
+    "fuel_details": [
+        {
+            "state": "2-letter state abbreviation (AZ, OK, MO, etc.)",
+            "gallons": numeric_value_of_gallons_as_number
+        }
+    ]
 }
 
 CRITICAL RULES:
@@ -1016,6 +1034,16 @@ Analyze the image carefully and extract all CLEARLY VISIBLE information with int
             except ValueError:
                 correction_warnings.append(f"Invalid total miles format: {total_miles}")
         
+        # 7. Validate and correct fuel details
+        if corrected_data.get('fuel_details'):
+            print("🔧 Validating and correcting fuel details...")
+            corrected_fuel_details, fuel_correction_warnings = self._validate_and_correct_fuel_details(corrected_data['fuel_details'])
+            corrected_data['fuel_details'] = corrected_fuel_details
+            correction_warnings.extend(fuel_correction_warnings)
+            
+            if fuel_correction_warnings:
+                print(f"✅ Applied {len(fuel_correction_warnings)} fuel data corrections")
+        
         return corrected_data, correction_warnings
     
     def _correct_location(self, location, corrections_dict):
@@ -1627,3 +1655,81 @@ Analyze the image carefully and extract all CLEARLY VISIBLE information with int
                 warnings.append(f"🔵 LOW: {field} formatting difference - extracted: '{extracted}' ≠ reference: '{reference}'")
 
         return warnings
+
+    def _validate_and_correct_fuel_details(self, fuel_details: List[Dict]) -> Tuple[List[Dict], List[str]]:
+        """
+        Simplified validation for fuel details - only state and gallons needed
+        
+        Args:
+            fuel_details: List of fuel detail dictionaries with 'state' and 'gallons' keys
+            
+        Returns:
+            Tuple of (corrected_fuel_details, correction_warnings)
+        """
+        if not fuel_details or not isinstance(fuel_details, list):
+            return [], ["No fuel details found or invalid format"]
+        
+        corrected_fuel_details = []
+        correction_warnings = []
+        previous_state = None
+        
+        # US State abbreviations for validation
+        valid_states = {
+            'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA',
+            'KS', 'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ',
+            'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT',
+            'VA', 'WA', 'WV', 'WI', 'WY'
+        }
+        
+        for i, fuel_row in enumerate(fuel_details):
+            if not isinstance(fuel_row, dict):
+                correction_warnings.append(f"Row {i+1}: Invalid fuel row format - skipping")
+                continue
+            
+            corrected_row = {}
+            
+            # 1. Validate state
+            state = str(fuel_row.get('state', '')).strip().upper()
+            if not state and previous_state:
+                # Inherit from previous row (for DEF cases)
+                state = previous_state
+                correction_warnings.append(f"Row {i+1}: State inherited from previous row: {state}")
+            
+            if state and len(state) == 2 and state in valid_states:
+                corrected_row['state'] = state
+                previous_state = state
+            elif state:
+                correction_warnings.append(f"Row {i+1}: Invalid state '{state}' - skipping row")
+                continue
+            else:
+                correction_warnings.append(f"Row {i+1}: No state found - skipping row")
+                continue
+            
+            # 2. Validate gallons
+            gallons = fuel_row.get('gallons', 0)
+            try:
+                if isinstance(gallons, str):
+                    clean_gallons = gallons.replace(',', '').replace('$', '').strip()
+                    gallons_float = float(clean_gallons) if clean_gallons else 0.0
+                else:
+                    gallons_float = float(gallons)
+                
+                if gallons_float < 0:
+                    correction_warnings.append(f"Row {i+1}: Negative gallons corrected to 0")
+                    gallons_float = 0.0
+                elif gallons_float > 500:
+                    correction_warnings.append(f"Row {i+1}: Suspicious high gallons ({gallons_float}) - verify accuracy")
+                elif gallons_float == 0:
+                    correction_warnings.append(f"Row {i+1}: Zero gallons - skipping row")
+                    continue
+                
+                corrected_row['gallons'] = gallons_float
+                
+            except (ValueError, TypeError):
+                correction_warnings.append(f"Row {i+1}: Invalid gallons '{gallons}' - skipping row")
+                continue
+            
+            corrected_fuel_details.append(corrected_row)
+        
+        return corrected_fuel_details, correction_warnings
+    

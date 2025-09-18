@@ -481,14 +481,18 @@ def show_result_card(result, show_validation_warnings):
             for warning in result['validation_warnings']:
                 st.warning(warning)
 
-        # fuel_details
+        # fuel_details (simplified format)
         if 'fuel_details' in result:
-            st.write("**Fuel Details State by state:**")
+            st.write("**Fuel Details by State:**")
+            # Group by state and sum gallons
+            state_totals = {}
             for fuel in result["fuel_details"]:
-             city_state = fuel.get('City&State') or 'N/A'
-             num_gal = fuel.get('# Gal.') or 'N/A'
-             st.write(f"📍 **City and State:** {city_state}, **Number of Gal:** {num_gal}")
-             #st.write(f"📍 **City and State:** {fuel['City&State']}, **Number of Gal:** {fuel['# Gal.']}")
+                state = fuel.get('state', 'N/A')
+                gallons = fuel.get('gallons', 0)
+                state_totals[state] = state_totals.get(state, 0) + gallons
+            
+            for state, total_gallons in sorted(state_totals.items()):
+                st.write(f"📍 **{state}:** {total_gallons:.3f} gallons")
 
 def validation_report_tab():
     """Validation report tab"""
@@ -706,45 +710,56 @@ def generate_excel_export(results):
     csv_data = generate_csv_export(results)
     df = pd.read_csv(io.StringIO(csv_data))
 
-    #fuel details added in Excel different sheet Also
-    #if page have multiple state it will create singel rows for that page and Plus Gallons of that state
+    # Generate "Gallon Trip Env" sheet as specified in plan.md
+    # Fuel details added in Excel different sheet - cumulative gallons per state
     fuel_rows = []
     for page_num, result in enumerate(results, start=1):
         if result.get('processing_success') and 'fuel_details' in result:
-            state_gal = {}
+            state_gallons = {}
+            unit_number = result.get('unit', '')
+            
             for fuel in result['fuel_details']:
-                # Extract state from City&State
-                city_state = fuel.get('City&State', '')
-               # state = city_state.split(',')[-1].strip() if ',' in city_state else ''
-                if city_state and ',' in city_state:
-                 state = city_state.split(',')[-1].strip()
-                else:
-                 state = ''
-                gallons = fuel.get('# Gal.', 0)
+                # Simplified format: direct state and gallons extraction
+                state = fuel.get('state', '').strip().upper()
+                gallons = fuel.get('gallons', 0)
+                
+                # Validate gallons
                 try:
                     gallons = float(gallons)
-                except Exception:
-                    gallons = 0
-                # Sum gallons per state for this page
-                state_gal[state] = state_gal.get(state, 0) + gallons
-            # Add one row per state per page
-            for state, total_gal in state_gal.items():
-                fuel_rows.append({
-                    'State': state,
-                    'Gallons': total_gal,
-                    'Unit': result.get('unit', ''),
-                    'Trip (Page)': page_num
-                })
+                except (ValueError, TypeError):
+                    gallons = 0.0
+                
+                # Only count if we have a valid state and positive gallons
+                if state and gallons > 0:
+                    state_gallons[state] = state_gallons.get(state, 0) + gallons
+            
+            # Create one row per state per page (as specified in plan.md)
+            for state, total_gallons in state_gallons.items():
+                if total_gallons > 0:  # Only include states with actual fuel purchases
+                    fuel_rows.append({
+                        'State': state,
+                        'Gallons': round(total_gallons, 3),  # Round to 3 decimal places for accuracy
+                        'Unit': unit_number,
+                        'Trip (Page No.)': page_num
+                    })
+    
+    # Create DataFrame for fuel details
     if fuel_rows:
         df_fuel = pd.DataFrame(fuel_rows)
+        df_fuel = df_fuel.sort_values(['Trip (Page No.)', 'State']).reset_index(drop=True)
     else:
-        df_fuel = pd.DataFrame([{'No fuel details found': ''}])
+        df_fuel = pd.DataFrame([{
+            'State': 'N/A',
+            'Gallons': 0,
+            'Unit': 'N/A',
+            'Trip (Page No.)': 'No fuel details found'
+        }])
   
     output = io.BytesIO()
     with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
         df.to_excel(writer, sheet_name='Driver Packet Results', index=False)
-        #is used to creat different sheet for fuel details
-        df_fuel.to_excel(writer, sheet_name='Fuel Details', index=False)
+        # Create "Gallon Trip Env" sheet as specified in plan.md
+        df_fuel.to_excel(writer, sheet_name='Gallon Trip Env', index=False)
     
     return output.getvalue()
 
