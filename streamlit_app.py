@@ -11,6 +11,7 @@ import json
 import csv
 import pandas as pd
 from datetime import datetime
+import time
 import sys
 import traceback
 from typing import Dict, List, Any
@@ -230,32 +231,65 @@ def show_setup_instructions():
     """)
 
 def upload_and_process_tab(processor, use_here_api):
-    """Upload and process images tab"""
-    st.header("📤 Upload Driver Packet Images")
+    """Upload and process images/CSV tab"""
+    st.header("📤 Upload Driver Packet Data")
     
-    # File uploader
-    uploaded_files = st.file_uploader(
-        "Choose driver packet images",
-        type=['png', 'jpg', 'jpeg'],
-        accept_multiple_files=True,
-        help="Upload one or more driver packet images for processing"
+    # Input type selection
+    input_type = st.radio(
+        "Select Input Type:",
+        ["Images (Driver Packets)", "CSV Files (Pre-processed Data)"],
+        help="Choose whether to upload images for AI processing or CSV files for direct processing"
     )
+    
+    if input_type == "Images (Driver Packets)":
+        st.subheader("🖼️ Upload Driver Packet Images")
+        # File uploader for images
+        uploaded_files = st.file_uploader(
+            "Choose driver packet images",
+            type=['png', 'jpg', 'jpeg'],
+            accept_multiple_files=True,
+            help="Upload one or more driver packet images for AI processing"
+        )
+    else:
+        st.subheader("📊 Upload CSV Files")
+        # File uploader for CSV
+        uploaded_files = st.file_uploader(
+            "Choose CSV files",
+            type=['csv'],
+            accept_multiple_files=True,
+            help="Upload CSV files with distance or fuel data"
+        )
     
     if uploaded_files:
         st.success(f"✅ {len(uploaded_files)} file(s) uploaded successfully")
         
         # Display uploaded files
-        with st.expander("📁 Uploaded Files", expanded=True):
-            cols = st.columns(min(len(uploaded_files), 4))
-            for i, uploaded_file in enumerate(uploaded_files):
-                with cols[i % 4]:
-                    st.image(uploaded_file, caption=uploaded_file.name, use_container_width=True)
+        if input_type == "Images (Driver Packets)":
+            with st.expander("📁 Uploaded Files", expanded=True):
+                cols = st.columns(min(len(uploaded_files), 4))
+                for i, uploaded_file in enumerate(uploaded_files):
+                    with cols[i % 4]:
+                        st.image(uploaded_file, caption=uploaded_file.name, use_container_width=True)
+        else:
+            with st.expander("📁 Uploaded CSV Files", expanded=True):
+                st.info("📋 **Supported CSV Formats:**")
+                st.write("• **Format 1**: `State,Country,Unit,Distance` - Simple distance data")
+                st.write("• **Format 2**: `Card #,Tran Date,Invoice,Unit,Driver Name,...,State/ Prov,...,Qty,...` - Fuel transactions")
+                st.write("• **Format 3**: `Account Code,...,Unit Number,...,Truck Stop State,...,Number of Tractor Gallons,...` - Complex fuel data")
+                st.write("")
+                
+                for uploaded_file in uploaded_files:
+                    st.write(f"📄 {uploaded_file.name}")
         
         # Process button
-        if st.button("🚀 Process Images", type="primary", use_container_width=True):
+        button_text = "🚀 Process Images" if input_type == "Images (Driver Packets)" else "🚀 Process CSV Files"
+        if st.button(button_text, type="primary", use_container_width=True):
             # Store use_here_api setting in session state for later use
             st.session_state['use_here_api'] = use_here_api
-            process_images(uploaded_files, processor, use_here_api)
+            if input_type == "Images (Driver Packets)":
+                process_images(uploaded_files, processor, use_here_api)
+            else:
+                process_csv_files(uploaded_files)
 
 def process_images(uploaded_files, processor, use_here_api):
     """Process uploaded images"""
@@ -319,6 +353,320 @@ def process_images(uploaded_files, processor, use_here_api):
     
     if failed > 0:
         st.error(f"⚠️ {failed} images failed to process. Check the Results Dashboard for details.")
+
+def process_csv_files(uploaded_files):
+    """Process uploaded CSV files"""
+    st.header("🔄 Processing CSV Files...")
+    
+    # Create progress bar
+    progress_bar = st.progress(0)
+    status_text = st.empty()
+    
+    results = []
+    
+    for i, uploaded_file in enumerate(uploaded_files):
+        # Update progress
+        progress = (i + 1) / len(uploaded_files)
+        progress_bar.progress(progress)
+        status_text.text(f"Processing {uploaded_file.name}... ({i + 1}/{len(uploaded_files)})")
+        
+        try:
+            # Read CSV file
+            csv_content = uploaded_file.getvalue().decode('utf-8')
+            
+            # Detect format and process
+            result = detect_and_process_csv(csv_content, uploaded_file.name)
+            results.append(result)
+            
+            # Show processing summary
+            if result.get('processing_success'):
+                if result.get('fuel_by_state'):
+                    states = list(result['fuel_by_state'].keys())
+                    st.success(f"✅ {uploaded_file.name}: Found fuel data for {len(states)} states: {', '.join(states[:3])}")
+                elif result.get('distance_calculations', {}).get('state_mileage'):
+                    state_mileage = result['distance_calculations']['state_mileage']
+                    states = [s['state'] for s in state_mileage]
+                    st.success(f"✅ {uploaded_file.name}: Found distance data for {len(states)} states: {', '.join(states[:3])}")
+                else:
+                    st.success(f"✅ {uploaded_file.name}: Processed successfully")
+            
+        except Exception as e:
+            st.error(f"❌ Error processing {uploaded_file.name}: {str(e)}")
+            results.append({
+                'source_image': uploaded_file.name,
+                'processing_success': False,
+                'error': str(e)
+            })
+    
+    # Complete processing
+    progress_bar.progress(1.0)
+    status_text.text("✅ Processing complete!")
+    
+    # Store results in session state
+    st.session_state.processing_results = results
+    
+    # Show summary
+    successful = sum(1 for r in results if r.get('processing_success'))
+    failed = len(results) - successful
+    
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.metric("📊 Total Files", len(results))
+    with col2:
+        st.metric("✅ Successful", successful)
+    with col3:
+        st.metric("❌ Failed", failed)
+    
+    if successful > 0:
+        st.success(f"🎉 Successfully processed {successful} out of {len(results)} CSV files!")
+    
+    if failed > 0:
+        st.error(f"⚠️ {failed} files failed to process. Check the Results Dashboard for details.")
+
+def detect_and_process_csv(csv_content, filename):
+    """Detect CSV format and process accordingly"""
+    try:
+        # Parse CSV
+        import io
+        import csv
+        
+        # Read first few lines to detect format
+        lines = csv_content.strip().split('\n')
+        if not lines:
+            raise ValueError("Empty CSV file")
+        
+        header = lines[0].lower()
+        
+        # Detect format based on headers (case insensitive, flexible matching)
+        header_clean = header.replace(' ', '').replace('_', '')
+        
+        # Format 1: State,Country,Unit,Distance
+        if all(col in header_clean for col in ['state', 'country', 'unit', 'distance']):
+            st.info(f"🔍 Detected Format 1 (Distance Data): {filename}")
+            return process_format1_csv(csv_content, filename)
+        
+        # Format 2: Fuel card transactions (Card #, State/ Prov, Qty)
+        elif ('card#' in header_clean or 'cardno' in header_clean) and ('state/prov' in header_clean or 'stateprov' in header_clean) and 'qty' in header_clean:
+            st.info(f"🔍 Detected Format 2 (Fuel Transactions): {filename}")
+            return process_format2_csv(csv_content, filename)
+        
+        # Format 3: Complex fuel data (Truck Stop State, Number of Tractor Gallons)
+        elif 'truckstopstate' in header_clean and 'numberoftractorgallons' in header_clean:
+            st.info(f"🔍 Detected Format 3 (Complex Fuel Data): {filename}")
+            return process_format3_csv(csv_content, filename)
+        
+        # Additional detection patterns for variations
+        elif 'unit' in header_clean and 'distance' in header_clean and len([col for col in ['state', 'miles', 'mi'] if col in header_clean]) > 0:
+            return process_format1_csv(csv_content, filename)
+        
+        else:
+            # Show available columns for debugging
+            available_cols = header.split(',')[:10]  # Show first 10 columns
+            raise ValueError(f"Unknown CSV format. Available columns: {', '.join(available_cols)}... Please ensure your CSV matches one of the supported formats.")
+            
+    except Exception as e:
+        return {
+            'source_image': filename,
+            'processing_success': False,
+            'error': f"CSV detection failed: {str(e)}"
+        }
+
+def process_format1_csv(csv_content, filename):
+    """Process Format 1: State,Country,Unit,Distance"""
+    try:
+        import io
+        import csv
+        import re
+        
+        # Parse CSV
+        reader = csv.DictReader(io.StringIO(csv_content))
+        
+        # Extract data
+        state_mileage = {}
+        unit = None
+        
+        for row in reader:
+            state = row.get('State', '').strip().upper()
+            distance_str = row.get('Distance', '').strip()
+            unit_val = row.get('Unit', '').strip()
+            
+            if not unit:
+                unit = unit_val
+            
+            # Parse distance (remove 'mi' and convert to int)
+            distance_match = re.search(r'(\d+(?:\.\d+)?)', distance_str)
+            if distance_match and state:
+                miles = float(distance_match.group(1))
+                
+                if state in state_mileage:
+                    state_mileage[state] += miles
+                else:
+                    state_mileage[state] = miles
+        
+        # Convert to expected format
+        state_mileage_list = []
+        total_miles = 0
+        for state, miles in state_mileage.items():
+            miles_int = int(round(miles))
+            state_mileage_list.append({
+                'state': state,
+                'miles': miles_int,
+                'percentage': 0  # Calculate if needed
+            })
+            total_miles += miles_int
+        
+        # Calculate percentages
+        for state_data in state_mileage_list:
+            if total_miles > 0:
+                state_data['percentage'] = round((state_data['miles'] / total_miles) * 100, 1)
+        
+        return {
+            'source_image': filename,
+            'processing_success': True,
+            'processing_timestamp': time.strftime('%Y-%m-%d %H:%M:%S'),
+            'unit': unit,
+            'total_miles': str(total_miles),
+            'distance_calculations': {
+                'calculation_success': True,
+                'total_distance_miles': total_miles,
+                'state_mileage': state_mileage_list
+            }
+        }
+        
+    except Exception as e:
+        return {
+            'source_image': filename,
+            'processing_success': False,
+            'error': f"Format 1 processing failed: {str(e)}"
+        }
+
+def process_format2_csv(csv_content, filename):
+    """Process Format 2: Fuel card transactions"""
+    try:
+        import io
+        import csv
+        
+        # Parse CSV
+        reader = csv.DictReader(io.StringIO(csv_content))
+        
+        # Extract fuel data
+        fuel_purchases = []
+        unit = None
+        
+        for row in reader:
+            state = row.get('State/ Prov', '').strip().upper()
+            qty_str = row.get('Qty', '').strip()
+            unit_val = row.get('Unit', '').strip()
+            
+            if not unit:
+                unit = unit_val
+            
+            # Parse quantity (gallons)
+            try:
+                gallons = float(qty_str) if qty_str else 0
+                if gallons > 0 and state:
+                    fuel_purchases.append({
+                        'state': state,
+                        'gallons': gallons
+                    })
+            except ValueError:
+                continue
+        
+        # Process fuel data (aggregate by state)
+        fuel_by_state = {}
+        total_gallons = 0
+        
+        for purchase in fuel_purchases:
+            state = purchase['state']
+            gallons = purchase['gallons']
+            
+            if state in fuel_by_state:
+                fuel_by_state[state] += gallons
+            else:
+                fuel_by_state[state] = gallons
+            
+            total_gallons += gallons
+        
+        return {
+            'source_image': filename,
+            'processing_success': True,
+            'processing_timestamp': time.strftime('%Y-%m-%d %H:%M:%S'),
+            'unit': unit,
+            'fuel_purchases': fuel_purchases,
+            'fuel_by_state': fuel_by_state,
+            'total_gallons': total_gallons
+        }
+        
+    except Exception as e:
+        return {
+            'source_image': filename,
+            'processing_success': False,
+            'error': f"Format 2 processing failed: {str(e)}"
+        }
+
+def process_format3_csv(csv_content, filename):
+    """Process Format 3: Complex fuel data"""
+    try:
+        import io
+        import csv
+        
+        # Parse CSV
+        reader = csv.DictReader(io.StringIO(csv_content))
+        
+        # Extract fuel data
+        fuel_purchases = []
+        unit = None
+        
+        for row in reader:
+            state = row.get('Truck Stop State', '').strip().upper()
+            gallons_str = row.get('Number of Tractor Gallons', '').strip()
+            unit_val = row.get('Unit Number', '').strip()
+            
+            if not unit:
+                unit = unit_val
+            
+            # Parse gallons
+            try:
+                gallons = float(gallons_str) if gallons_str else 0
+                if gallons > 0 and state:
+                    fuel_purchases.append({
+                        'state': state,
+                        'gallons': gallons
+                    })
+            except ValueError:
+                continue
+        
+        # Process fuel data (aggregate by state)
+        fuel_by_state = {}
+        total_gallons = 0
+        
+        for purchase in fuel_purchases:
+            state = purchase['state']
+            gallons = purchase['gallons']
+            
+            if state in fuel_by_state:
+                fuel_by_state[state] += gallons
+            else:
+                fuel_by_state[state] = gallons
+            
+            total_gallons += gallons
+        
+        return {
+            'source_image': filename,
+            'processing_success': True,
+            'processing_timestamp': time.strftime('%Y-%m-%d %H:%M:%S'),
+            'unit': unit,
+            'fuel_purchases': fuel_purchases,
+            'fuel_by_state': fuel_by_state,
+            'total_gallons': total_gallons
+        }
+        
+    except Exception as e:
+        return {
+            'source_image': filename,
+            'processing_success': False,
+            'error': f"Format 3 processing failed: {str(e)}"
+        }
 
 def results_dashboard_tab():
     """Results dashboard tab"""
@@ -1040,9 +1388,13 @@ def generate_csv_export(results):
         source_image = result.get('source_image', '')
         page_number = idx  # Default to sequential numbering
         
-        # Try to extract page number from filename (e.g., "Page_8" or "Page 8")
+        # Try to extract page number from filename (e.g., "Page_8", "Page 8", or any number)
         import re
         page_match = re.search(r'[Pp]age[_\s]*(\d+)', source_image)
+        if not page_match:
+            # Try to find any number in the filename as fallback
+            page_match = re.search(r'(\d+)', source_image)
+        
         if page_match:
             try:
                 page_number = int(page_match.group(1))
@@ -1109,9 +1461,13 @@ def generate_fuel_csv_export(results):
         source_image = result.get('source_image', '')
         page_number = idx  # Default to sequential numbering
         
-        # Try to extract page number from filename (e.g., "Page_8" or "Page 8")
+        # Try to extract page number from filename (e.g., "Page_8", "Page 8", or any number)
         import re
         page_match = re.search(r'[Pp]age[_\s]*(\d+)', source_image)
+        if not page_match:
+            # Try to find any number in the filename as fallback
+            page_match = re.search(r'(\d+)', source_image)
+        
         if page_match:
             try:
                 page_number = int(page_match.group(1))

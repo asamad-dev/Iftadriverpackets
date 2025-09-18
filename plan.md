@@ -251,3 +251,37 @@ A new sheet named "Gallon Trip Env" with following columns
 4. "Trip (Page No.)" : Image number 
 
 Basically we are calculating gallon per state for all different states in fuel details table.
+
+
+
+# Different Input formats
+Other then image we have few different formats that will not going to use gemini API 
+ther are following 
+
+## New format 1:
+State,Country,Unit,Distance
+AL,USA,1104,214 mi
+AZ,USA,1104,1841 mi
+CA,USA,1104,1033 mi
+
+This is very very simple we just need to rearrange few column and we will get the output fast, 
+if input file is like this then we will not calcualte gallon and not have gallon in results
+
+## New format 2:
+Card #,Tran Date,Invoice,Unit,Driver Name,Odometer,Location Name,City,State/ Prov,Fees,Item,Unit Price,Qty,Amt,DB,Currency
+*0541,2025-01-09,13504,,JITENDER SINGH 10813697,0,TA ELOY,ELOY,AZ,0.00,ULSD,3.499,97.9,342.54,N,USD/Gallons
+*0541,2025-01-09,13504,,JITENDER SINGH 10813697,0,TA ELOY,ELOY,AZ,0.00,DEFD,4.459,2.95,13.17,N,USD/Gallons
+*0541,2025-01-10,89430,,JITENDER SINGH 10813697,0,LOVES #542 TRAVEL STOP,FT STOCKTON,TX,0.00,ULSD,3.689,101.85,375.71,N,USD/Gallons
+
+This will me mostly same as first one but in this one we will not calculate any state miles we will onyl calcualte gallons and display results fo gallon table only
+
+# NEW Format 3:
+Account Code,Customer ID,Transaction Date,Date of Original,Transaction Time,Transaction Number Indicator,Transaction Number,Transaction Day,Comchek Card Number,Driver's Name,Employee Number,Driver's License State,Driver's License Number,Unit Number,Hubometer Reading,Previous Hub Reading,Trip Number,Year To Date MPG,MPG for this Fill Up,Purchase Order Number,Trailer Number,Trailer Hub Reading,Truck Stop Code,Service Center Chain Code,Truck Stop Name,Service Center Address,Truck Stop City,Truck Stop State,Service Center Zip Code,Truck Stop Invoice Number,Total Amount Due,Fees for Fuel & Oil & Products,Service Used,Number of Tractor Gallons,Tractor Fuel Price Per Gallon,Cost of Tractor Fuel,Tractor Fuel Billing Flag,Number of Reefer Gallons,Reefer Price Per Gallon,Cost of Reefer Fuel,Reefer Fuel Billing Flag,Number of Quarts of Oil,Total Cost of Oil,Oil Billing Flag,Cash Advance Amount,Charges for Cash Advance,Cash Billing Flag,Non-Funded Item,Product Code 1,Product Amount 1,Product 1 Billing Flag,Product Code 2,Product Amount 2,Product 2 Billing Flag,Product Code 3,Product Amount 3,Product 3 Billing Flag,Rebate Amount,Cancel flag,Rebate Indicator,Automated Transaction,Bulk Fuel Flag,Number 1 Fuel Gallons,Number 1 Fuel PPG,Other Fuel PPG,Canadian Tax Amount US Dollars,Number 1 Fuel Cost,Other Fuel Gallons,Other Fuel Cost,Canadian Tax Amount Canadian Dollars,Canadian Tax Paid Flag,Adjusted Transaction Number,Total Amount Due Comdata,#2 Diesel Gallons,#2 Diesel Cost,#2 Diesel Cost Net Cost,#1 Diesel Cost Net Cost,Reefer Cost  Net Cost,Other Fuel Cost Net Cost,Oil Cost Net Cost,#2 Diesel,#1 Diesel,Reefer Cost,Other Fuel Cost,Product 1 Net Cost,Product 2 Net Cost,Product 3 Net Cost,Billable Currency,Express Cash Billing Flag,Express Cash Load Pick Up Flag,Cost Plus Relationship Type,Rack Type,OPIS Rack City Number,OPIS Supplier Number,OPIS Rack City Description,OPIS Rack State,OPIS Supplier Name,Rack Price #1 Diesel,Rack Price #2 Diesel,Rack Date,Diesel - Federal Tax PPG,Diesel - State Tax PPG,Diesel - State Superfund Rate PPG,Diesel - LUST Rate PPG,Diesel - Sales Tax Applies to Markup,Diesel - Transportation Rate PPG,Diesel - Miscellaneous Rate PPG,Diesel - Sales Tax Applies to Rack Price,Reefer - Federal Tax PPG,Diesel - Sales Tax Applies to Federal Tax,Diesel - Sales Tax Applies to State Tax,Diesel - Sales Tax Applies to Superfund Rate,Diesel - Sales Tax Applies to LUST Rate,Diesel - Sales Tax Applies to Transportation Rate,Diesel-Sales Tax Applies to Misc Rate,Diesel - Sales Tax Rate Percent,#2 Diesel - Cost Plus Price,#1 Diesel - Cost Plus Price,Reefer - State Tax PPG,Reefer - State Superfund Rate PPG,Reefer - LUST Rate PPG,Reefer - Transportation Rate PPG,Reefer - Miscellaneous Rate PPG,Reefer - Sales Tax Applies to Rack Price,Reefer - Sales Tax Applies to State Tax,Reefer - Sales Tax Applies to Federal Tax,Reefer - Sales Tax Applies to Transportation Rate,Reefer - Sales Tax Applies to Miscellaneous Rate,Reefer - Sales Tax Applies to Markup,Reefer - Sales Tax Applies to Superfund Rate,Reefer - Cost Plus Price,Reefer - Sales Tax Applies to LUST Rate,Miscellaneous Rate Description,Truck Stop Markup PPG,#2 Diesel - Total Cost Plus Price,#1 Diesel - Total Cost Plus Price,#2 Diesel Retail PPG,#1 Diesel Retail PPG,#2 Diesel - Gross Margin ,Reefer - Retail PPG,#2 Diesel - Net Margin,#1 Diesel - Net Margin,#1 Diesel - Gross Margin,Reefer - Sales Tax Rate Percent,Reefer - Net Margin,Other Markup PPG,Reefer - Total Cost Plus Price,Reefer - Gross Margin,RFID Number,Diesel 1 Sales Tax Per Gallon,Diesel 2 Sales Tax Per Gallon,MISC 1,MISC 2,License Plate,VIN,Vehicle Description,Expanded Unit Number,Not Limited Network Flag,Card Token,Alt Card Number
+JJ068,98647,04/01/2025,00/00/00,02:24,0,17836,1,560017XXXXXX5373,GARADO,RIDWAN,ACCOUNT 33,MO,177C340001,1104,0,0,,0.00,0.00,,,0 ,OH976,MU001,LOVES #892,9901 SCHUSTER WAY,ETNA,OH,43018,19842,$494.56,$0.00,S,140.14,$3.529 ,$494.560 ,D,0.00,$0.000,$0.00,,0 ,$0.00,,$0.00,$0.00,,D,,$0.00,,,$0.00,,,$0.00,,$63.89,N,C,Y,N,0.00 ,$0.00000,$0.00000,$0.00,$0.00000,0.00,$0.00,$0.00,Y,00000000,$0.00,140.14 ,$494.56000,$430.67000,$0.00000,$0.00,$0.00,$0.00,$3.07300,$0.00000,$0.00,$0.00,$0.00,$0.00,$0.00,U,,,B,P,315,007,,,,$0.00000,$2.26740,31/25/03,$0.25020,$0.47000,$0.00000,$0.00000,Y,$0.06120,$0.01430,Y,$0.00000,Y,N,N,N,Y,Y,0.000%,$3.06310,$0.01000,$0.00000,$0.00000,$0.00000,$0.00000,$0.00000,,,,,Y,,,$0.01000,,OTHER TAX,$0.01000,$3.07310,$0.00000,$3.52900,$0.00000,$0.466,$0.00000,$0.010,$0.000,$0.000,0.00000%,$0.000,$0.00000,$0.000,$0.000,,0.00,0.72,,,,,,1104,Out Of Network,393J66G4R9,
+JJ068,98647,04/01/2025,00/00/00,07:46,3,324212,1,560017XXXXXX5373,COX,TYRONE LEE,ACCOUNT 33,CA,C4368668,1150,0,0,,0.00,0.00,,,0 ,OK268,MU001,LOVES #255,214 SOUTH HWY 100,WEBBERS FALL,OK,74470 0479,45766,$792.16,$0.00,B,214.53,$3.458 ,$741.910 ,D,0.00,$0.000,$0.00,,0 ,$0.00,,$50.00,$0.25,D,D,,$0.00,,,$0.00,,,$0.00,,$113.71,N,C,Y,N,0.00 ,$0.00000,$4.19100,$0.00,$0.00000,8.24,$34.53,$0.00,Y,00000000,$0.25,206.29 ,$707.38000,$593.67000,$0.00000,$0.00,$34.53,$0.00,$2.87800,$0.00000,$0.00,$34.53,$0.00,$0.00,$0.00,U,,,B,P,645,007,,,,$0.00000,$2.35390,31/25/03,$0.25020,$0.19000,$0.00000,$0.00000,Y,$0.06370,$0.01000,Y,$0.00000,Y,N,N,N,Y,Y,0.000%,$2.86780,$0.01000,$0.00000,$0.00000,$0.00000,$0.00000,$0.00000,,,,,Y,,,$0.01000,,OTHER TAX,$0.01000,$2.87780,$0.00000,$3.42900,$0.00000,$0.561,$0.00000,$0.010,$0.000,$0.000,0.00000%,$0.000,$0.00000,$0.000,$0.000,,0.00,0.44,,,,,,1150,Out Of Network,393J66G4R9,
+
+
+
+This will be same as 2nd one it will onyl give us gallons 
+we have to get "Number of Tractor Gallons" field and "Truck Stop State" mainly 
+
