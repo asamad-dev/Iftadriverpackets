@@ -14,7 +14,7 @@ jobs:
     
     strategy:
       matrix:
-        python-version: [3.9, 3.10, 3.11, 3.12]
+        python-version: ["3.9", "3.10", "3.11", "3.12"]
     
     steps:
     - name: 📥 Checkout code
@@ -87,7 +87,7 @@ jobs:
     - name: 🐍 Set up Python 3.11
       uses: actions/setup-python@v4
       with:
-        python-version: 3.11
+        python-version: "3.11"
         
     - name: ⚙️ Install dependencies
       run: |
@@ -116,7 +116,7 @@ jobs:
     - name: 🐍 Set up Python 3.11
       uses: actions/setup-python@v4
       with:
-        python-version: 3.11
+        python-version: "3.11"
         
     - name: 🔒 Run security scan with bandit
       run: |
