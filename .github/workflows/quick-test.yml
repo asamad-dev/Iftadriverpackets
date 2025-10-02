@@ -1,11 +1,9 @@
 name: 🚀 Quick Tests
 
-# Lightweight workflow for faster feedback
+# Lightweight workflow for faster feedback on pushes
 on:
   push:
-    branches: [ main, develop ]
-  pull_request:
-    branches: [ main, develop ]
+    branches: [ main ]
 
 jobs:
   quick-test:

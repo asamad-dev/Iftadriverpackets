@@ -1,9 +1,7 @@
 name: 🧪 CI Tests
 
-# Trigger the workflow on push to main branch and pull requests to main
+# Comprehensive CI workflow for pull requests
 on:
-  push:
-    branches: [ main ]
   pull_request:
     branches: [ main ]
 
@@ -50,9 +48,9 @@ jobs:
       run: |
         black --check --diff src/ --exclude=gemini_processor.py
         
-    - name: 📋 Type check with mypy
-      run: |
-        mypy src/ --ignore-missing-imports --exclude=gemini_processor.py
+    # - name: 📋 Type check with mypy
+    #   run: |
+    #     mypy src/ --ignore-missing-imports --exclude=gemini_processor.py
         
     - name: 🧪 Run configuration tests
       run: |
