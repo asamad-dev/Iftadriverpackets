@@ -19,46 +19,48 @@ class GeminiDataExtractor:
     """
     Extract data from driver packet images using Google's Gemini multimodal AI
     """
-    
+
     def __init__(self, api_key: Optional[str] = None):
         """
         Initialize the Gemini data extractor
-        
+
         Args:
             api_key: Gemini API key (if not provided, will use config.GEMINI_API_KEY)
         """
         self.logger = get_logger()
-        
+
         # Configure Gemini API
         if api_key:
             genai.configure(api_key=api_key)
         else:
             api_key = config.GEMINI_API_KEY
             if not api_key:
-                raise ValueError("GEMINI_API_KEY not found in configuration. Please set it in .env file or pass it directly.")
+                raise ValueError(
+                    "GEMINI_API_KEY not found in configuration. Please set it in .env file or pass it directly."
+                )
             genai.configure(api_key=api_key)
-        
+
         # Initialize the model using configuration with fallback
         self.model = self._initialize_model_with_fallback()
-        
+
         # Define the extraction prompt
         self.extraction_prompt = self._build_extraction_prompt()
-    
+
     def _initialize_model_with_fallback(self):
         """Initialize Gemini model with automatic fallback to working alternatives"""
         # Try models in order of preference
         model_candidates = [
-            config.GEMINI_MODEL,           # User's configured model
-            'gemini-1.5-pro',              # Stable pro model
-            'gemini-1.5-flash-latest',     # Latest flash model
-            'gemini-2.5-flash',            # Newer version
-            'gemini-flash-latest',         # Generic latest
-            'gemini-pro-latest',           # Generic pro latest
-            'gemini-1.5-flash',            # Original flash model
-            'gemini-pro-vision',           # Vision capable
-            'gemini-pro'                   # Basic pro
+            config.GEMINI_MODEL,  # User's configured model
+            "gemini-1.5-pro",  # Stable pro model
+            "gemini-1.5-flash-latest",  # Latest flash model
+            "gemini-2.5-flash",  # Newer version
+            "gemini-flash-latest",  # Generic latest
+            "gemini-pro-latest",  # Generic pro latest
+            "gemini-1.5-flash",  # Original flash model
+            "gemini-pro-vision",  # Vision capable
+            "gemini-pro",  # Basic pro
         ]
-        
+
         # Remove duplicates while preserving order
         seen = set()
         unique_models = []
@@ -66,31 +68,39 @@ class GeminiDataExtractor:
             if model not in seen:
                 seen.add(model)
                 unique_models.append(model)
-        
+
         last_error = None
         for model_name in unique_models:
             try:
                 self.logger.info(f"Trying Gemini model: {model_name}")
                 model = genai.GenerativeModel(model_name)
-                
+
                 # Test the model with a simple request to ensure it works
                 test_response = model.generate_content("Test")
                 if test_response and test_response.text:
-                    self.logger.info(f"✅ Successfully initialized Gemini model: {model_name}")
+                    self.logger.info(
+                        f"✅ Successfully initialized Gemini model: {model_name}"
+                    )
                     if model_name != config.GEMINI_MODEL:
-                        self.logger.warning(f"⚠️  Using fallback model '{model_name}' instead of configured '{config.GEMINI_MODEL}'")
+                        self.logger.warning(
+                            f"⚠️  Using fallback model '{model_name}' instead of configured '{config.GEMINI_MODEL}'"
+                        )
                     return model
                 else:
-                    self.logger.warning(f"Model {model_name} initialized but failed test generation")
-                    
+                    self.logger.warning(
+                        f"Model {model_name} initialized but failed test generation"
+                    )
+
             except Exception as e:
                 last_error = e
                 self.logger.warning(f"Failed to initialize model '{model_name}': {e}")
                 continue
-        
+
         # If all models failed, raise the last error
-        raise ValueError(f"Failed to initialize any Gemini model. Last error: {last_error}")
-    
+        raise ValueError(
+            f"Failed to initialize any Gemini model. Last error: {last_error}"
+        )
+
     def _build_extraction_prompt(self) -> str:
         """Build the comprehensive extraction prompt for Gemini"""
         return """
@@ -258,97 +268,101 @@ Return ONLY the JSON object, no additional text or explanation.
 
 Analyze the image carefully and extract all CLEARLY VISIBLE information with intelligent validation:
 """
-    
+
     def extract_data(self, image_path: str) -> Dict:
         """
         Extract data from a driver packet image
-        
+
         Args:
             image_path: Path to the image file
-            
+
         Returns:
             Dictionary with extracted data or error information
         """
         try:
-            self.logger.info(f"Starting data extraction from: {os.path.basename(image_path)}")
-            
+            self.logger.info(
+                f"Starting data extraction from: {os.path.basename(image_path)}"
+            )
+
             # Check if file exists
             if not os.path.isfile(image_path):
                 return {
-                    'extraction_success': False,
-                    'error': f"File not found: {image_path}",
-                    'source_image': os.path.basename(image_path)
+                    "extraction_success": False,
+                    "error": f"File not found: {image_path}",
+                    "source_image": os.path.basename(image_path),
                 }
-            
+
             # Load image with proper resource management
             try:
                 with Image.open(image_path) as img:
                     self.logger.info(f"Image loaded: {img.size}")
-                    
+
                     # # Convert to RGB if necessary (some formats need this)
                     # if img.mode != 'RGB':
                     #     img = img.convert('RGB')
-                    
+
                     # Generate content using Gemini
                     try:
                         self.logger.info("Sending image to Gemini API...")
-                        response = self.model.generate_content([self.extraction_prompt, img])
+                        response = self.model.generate_content(
+                            [self.extraction_prompt, img]
+                        )
                         extracted_text = response.text
                         self.logger.info("✅ Received response from Gemini API")
-                        
+
                         # Image is automatically closed when exiting the 'with' block
-                        
+
                     except Exception as e:
                         self.logger.error(f"Gemini API error: {e}")
                         return {
-                            'extraction_success': False,
-                            'error': f"Gemini API error: {e}",
-                            'source_image': os.path.basename(image_path)
+                            "extraction_success": False,
+                            "error": f"Gemini API error: {e}",
+                            "source_image": os.path.basename(image_path),
                         }
-                        
+
             except Exception as e:
                 return {
-                    'extraction_success': False,
-                    'error': f"Error loading image: {e}",
-                    'source_image': os.path.basename(image_path)
+                    "extraction_success": False,
+                    "error": f"Error loading image: {e}",
+                    "source_image": os.path.basename(image_path),
                 }
-            
+
             # Parse JSON response
             try:
                 # Clean up response text
-                if '```json' in extracted_text:
-                    extracted_text = extracted_text.split('```json')[1]
-                if '```' in extracted_text:
-                    extracted_text = extracted_text.split('```')[0]
-                
+                if "```json" in extracted_text:
+                    extracted_text = extracted_text.split("```json")[1]
+                if "```" in extracted_text:
+                    extracted_text = extracted_text.split("```")[0]
+
                 extracted_data = json.loads(extracted_text.strip())
-                
+
                 # Return raw extracted data with basic metadata
                 result = {
-                    'extraction_success': True,
-                    'extraction_timestamp': time.strftime('%Y-%m-%d %H:%M:%S'),
-                    'source_image': os.path.basename(image_path),
-                    **extracted_data
+                    "extraction_success": True,
+                    "extraction_timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
+                    "source_image": os.path.basename(image_path),
+                    **extracted_data,
                 }
-                
-                self.logger.info(f"Successfully extracted data from {os.path.basename(image_path)}")
+
+                self.logger.info(
+                    f"Successfully extracted data from {os.path.basename(image_path)}"
+                )
                 return result
-                
+
             except json.JSONDecodeError as e:
                 self.logger.error(f"JSON parsing error: {e}")
                 return {
-                    'extraction_success': False,
-                    'error': f"JSON parsing error: {e}",
-                    'source_image': os.path.basename(image_path),
-                    'raw_response': extracted_text
+                    "extraction_success": False,
+                    "error": f"JSON parsing error: {e}",
+                    "source_image": os.path.basename(image_path),
+                    "raw_response": extracted_text,
                 }
-                
+
         except Exception as e:
             self.logger.error(f"Unexpected error in data extraction: {e}")
             return {
-                'extraction_success': False,
-                'error': f"Unexpected error: {e}",
-                'source_image': os.path.basename(image_path)
+                "extraction_success": False,
+                "error": f"Unexpected error: {e}",
+                "source_image": os.path.basename(image_path),
             }
-    
-    

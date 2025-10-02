@@ -1,11 +1,9 @@
 name: 🚀 Quick Tests
 
-# Lightweight workflow for faster feedback
+# Lightweight workflow for faster feedback on pushes
 on:
   push:
-    branches: [ main, develop ]
-  pull_request:
-    branches: [ main, develop ]
+    branches: [ main ]
 
 jobs:
   quick-test:
@@ -19,7 +17,7 @@ jobs:
     - name: 🐍 Set up Python 3.11
       uses: actions/setup-python@v4
       with:
-        python-version: 3.11
+        python-version: "3.11"
         
     - name: ⚙️ Install dependencies
       run: |
@@ -34,19 +32,16 @@ jobs:
     - name: ✅ Test imports
       run: |
         python -c "
-        import sys
-        sys.path.append('src')
-        
-        # Test all module imports
-        from config import config
-        from main_processor import DriverPacketProcessor
-        from data_extractor import GeminiDataExtractor
-        from geocoding_service import GeocodingService
-        from route_analyzer import RouteAnalyzer
-        from state_analyzer import StateAnalyzer
-        from data_validator import DataValidator
-        from reference_validator import ReferenceValidator
-        from logging_utils import setup_logging
+        # Test all module imports using proper package imports
+        from src.config import config
+        from src.main_processor import DriverPacketProcessor
+        from src.data_extractor import GeminiDataExtractor
+        from src.geocoding_service import GeocodingService
+        from src.route_analyzer import RouteAnalyzer
+        from src.state_analyzer import StateAnalyzer
+        from src.data_validator import DataValidator
+        from src.reference_validator import ReferenceValidator
+        from src.logging_utils import setup_logging
         
         print('✅ All imports successful!')
         "
@@ -66,20 +61,3 @@ jobs:
             print('Warnings:', result['warnings'])
         "
 
-  pr-comment:
-    name: PR Comment
-    runs-on: ubuntu-latest
-    needs: quick-test
-    if: github.event_name == 'pull_request'
-    
-    steps:
-    - name: 💬 Comment on PR
-      uses: actions/github-script@v6
-      with:
-        script: |
-          github.rest.issues.createComment({
-            issue_number: context.issue.number,
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            body: '✅ **Tests passed!** Your modular architecture is working correctly. 🚛'
-          })

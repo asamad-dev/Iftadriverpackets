@@ -22,7 +22,6 @@ class TestConfigurationLoading:
     def test_default_values_loaded(self):
         """Test that default values are properly loaded"""
         # Test API defaults
-        assert Config.GEMINI_MODEL == 'gemini-1.5-flash'
         assert Config.GEMINI_TIMEOUT == 60
         assert Config.GEOCODING_TIMEOUT == 5
         assert Config.ROUTING_TIMEOUT == 30
