@@ -13,19 +13,68 @@ import pandas as pd
 from datetime import datetime
 import time
 import sys
+import tempfile
+import gc
+
+# Add src to Python path for imports
+sys.path.append('src')
+
+from src import DriverPacketProcessor, config
+
+
+def cleanup_temp_file(file_path: str, max_retries: int = 3, delay: float = 0.5) -> bool:
+    """
+    Clean up temporary file with retry logic for Windows file locking issues
+    
+    Args:
+        file_path: Path to file to delete
+        max_retries: Maximum number of retry attempts
+        delay: Delay between retries in seconds
+        
+    Returns:
+        True if file was successfully deleted, False otherwise
+    """
+    if not os.path.exists(file_path):
+        return True
+        
+    for attempt in range(max_retries):
+        try:
+            # Force garbage collection to release any file handles
+            gc.collect()
+            
+            # Try to delete the file
+            os.unlink(file_path)
+            return True
+            
+        except PermissionError:
+            # File is still being used, wait and retry
+            if attempt < max_retries - 1:
+                time.sleep(delay)
+                delay *= 2  # Exponential backoff
+            else:
+                st.warning(f"⚠️ Could not clean up temporary file: {file_path}")
+                return False
+                
+        except FileNotFoundError:
+            # File already deleted
+            return True
+            
+        except Exception as e:
+            st.warning(f"⚠️ Unexpected error cleaning up {file_path}: {e}")
+            return False
+    
+    return False
+
+
 import traceback
 from typing import Dict, List, Any
 from PIL import Image
-import tempfile
 import zipfile
 
-# Add src directory to path
-sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
-
 try:
-    from gemini_processor import GeminiDriverPacketProcessor
+    from src.main_processor import DriverPacketProcessor
 except ImportError:
-    st.error("❌ Could not import GeminiDriverPacketProcessor. Please check your setup.")
+    st.error("❌ Could not import DriverPacketProcessor. Please check your setup.")
     st.stop()
 
 # Page configuration
@@ -174,8 +223,8 @@ def main():
         if gemini_key:
             try:
                 if not st.session_state.processor or not st.session_state.api_configured:
-                    st.session_state.processor = GeminiDriverPacketProcessor(
-                        api_key=gemini_key,
+                    st.session_state.processor = DriverPacketProcessor(
+                        gemini_api_key=gemini_key,
                         here_api_key=here_key if here_key else None
                     )
                     st.session_state.api_configured = True
@@ -307,19 +356,18 @@ def process_images(uploaded_files, processor, use_here_api):
         progress_bar.progress(progress)
         status_text.text(f"Processing {uploaded_file.name}... ({i + 1}/{len(uploaded_files)})")
         
+        temp_files_to_cleanup = []
         try:
             # Save uploaded file temporarily
             with tempfile.NamedTemporaryFile(delete=False, suffix='.png') as tmp_file:
                 tmp_file.write(uploaded_file.getvalue())
                 tmp_file_path = tmp_file.name
+                temp_files_to_cleanup.append(tmp_file_path)
             
             # Process image
             result = processor.process_image_with_distances(tmp_file_path, use_here_api)
             result['source_image'] = uploaded_file.name  # Update source image name
             results.append(result)
-            
-            # Clean up temporary file
-            os.unlink(tmp_file_path)
             
         except Exception as e:
             st.error(f"❌ Error processing {uploaded_file.name}: {str(e)}")
@@ -328,6 +376,10 @@ def process_images(uploaded_files, processor, use_here_api):
                 'processing_success': False,
                 'error': str(e)
             })
+        finally:
+            # Clean up temporary files with retry logic
+            for temp_file_path in temp_files_to_cleanup:
+                cleanup_temp_file(temp_file_path)
     
     # Complete processing
     progress_bar.progress(1.0)

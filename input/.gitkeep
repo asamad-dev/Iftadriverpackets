@@ -1,0 +1,16 @@
+# Input Directory
+
+This directory is for driver packet images and reference CSV files.
+
+## Structure
+```
+input/
+├── driver - Sheet1.csv          # Reference validation data
+├── page_001.jpg                 # Driver packet images
+├── page_002.png                 # ...
+└── ...
+```
+
+## Security Note
+Actual image files and CSV data are **gitignored** for privacy and security.
+Only place test/sample files here for development.

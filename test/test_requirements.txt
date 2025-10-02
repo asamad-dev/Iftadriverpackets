@@ -1,0 +1,29 @@
+# Testing Requirements
+# Install with: pip install -r test_requirements.txt
+
+# Core testing framework
+pytest>=7.0.0
+pytest-cov>=4.0.0
+pytest-mock>=3.10.0
+pytest-xdist>=3.0.0  # For parallel test execution
+
+# Test utilities
+coverage>=7.0.0
+mock>=4.0.0
+freezegun>=1.2.0  # For mocking time/dates
+responses>=0.20.0  # For mocking HTTP requests
+
+# Development utilities
+black>=22.0.0  # Code formatting
+flake8>=5.0.0  # Linting
+mypy>=1.0.0  # Type checking
+isort>=5.10.0  # Import sorting
+
+# Optional: For integration testing with real APIs
+requests-mock>=1.9.0
+pytest-env>=0.8.0
+pytest-timeout>=2.1.0
+
+# API dependencies for diagnostic tests
+google-generativeai>=0.3.0  # For Gemini API diagnostics
+python-dotenv>=1.0.0  # For environment variable loading
