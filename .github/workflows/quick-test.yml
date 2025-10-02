@@ -34,19 +34,16 @@ jobs:
     - name: ✅ Test imports
       run: |
         python -c "
-        import sys
-        sys.path.append('src')
-        
-        # Test all module imports
-        from config import config
-        from main_processor import DriverPacketProcessor
-        from data_extractor import GeminiDataExtractor
-        from geocoding_service import GeocodingService
-        from route_analyzer import RouteAnalyzer
-        from state_analyzer import StateAnalyzer
-        from data_validator import DataValidator
-        from reference_validator import ReferenceValidator
-        from logging_utils import setup_logging
+        # Test all module imports using proper package imports
+        from src.config import config
+        from src.main_processor import DriverPacketProcessor
+        from src.data_extractor import GeminiDataExtractor
+        from src.geocoding_service import GeocodingService
+        from src.route_analyzer import RouteAnalyzer
+        from src.state_analyzer import StateAnalyzer
+        from src.data_validator import DataValidator
+        from src.reference_validator import ReferenceValidator
+        from src.logging_utils import setup_logging
         
         print('✅ All imports successful!')
         "

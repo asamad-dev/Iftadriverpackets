@@ -103,7 +103,7 @@ jobs:
     - name: ✅ Test streamlit app import
       run: |
         # Test that streamlit app can be imported without errors
-        python -c "import sys; sys.path.append('src'); from main_processor import DriverPacketProcessor; print('✅ Import successful!')"
+        python -c "from src.main_processor import DriverPacketProcessor; print('✅ Import successful!')"
 
   security-scan:
     name: Security Scan
