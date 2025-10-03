@@ -38,7 +38,7 @@ class Config:
 
     # Gemini API Configuration
     GEMINI_API_KEY: str = os.getenv("GEMINI_API_KEY", "")
-    GEMINI_MODEL: str = os.getenv("GEMINI_MODEL", "gemini-1.5-pro")
+    GEMINI_MODEL: str = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
 
     # HERE API Configuration
     HERE_API_KEY: str = os.getenv("HERE_API_KEY", "")

@@ -46,7 +46,7 @@ class TestGeminiModelDiagnostics:
             
             assert len(models) > 0, "No models returned from Gemini API"
             
-            print(f"\n📋 Found {len(models)} available Gemini models:")
+            print(f"\nFound {len(models)} available Gemini models:")
             
             # Filter and display text generation models
             text_models = []
@@ -54,12 +54,12 @@ class TestGeminiModelDiagnostics:
                 if hasattr(model, 'supported_generation_methods'):
                     if 'generateContent' in model.supported_generation_methods:
                         text_models.append(model)
-                        print(f"  ✅ {model.name}")
+                        print(f"  - {model.name}")
                         if hasattr(model, 'display_name'):
                             print(f"      Display: {model.display_name}")
             
             assert len(text_models) > 0, "No text generation models found"
-            print(f"\n🎯 Total text generation models: {len(text_models)}")
+            print(f"\nTotal text generation models: {len(text_models)}")
             
         except Exception as e:
             pytest.fail(f"Failed to list Gemini models: {str(e)}")
@@ -85,23 +85,23 @@ class TestGeminiModelDiagnostics:
         successful_models = []
         failed_models = []
         
-        print(f"\n🧪 Testing model initialization:")
+        print(f"\nTesting model initialization:")
         
         for model_name in test_models:
             try:
                 model = genai.GenerativeModel(model_name)
                 successful_models.append(model_name)
-                print(f"  ✅ {model_name} - SUCCESS")
+                print(f"  - {model_name} - SUCCESS")
             except Exception as e:
                 failed_models.append((model_name, str(e)))
-                print(f"  ❌ {model_name} - FAILED: {e}")
+                print(f"  - {model_name} - FAILED: {e}")
         
         # Assert that at least one model works
         assert len(successful_models) > 0, f"No models could be initialized. Failures: {failed_models}"
         
         # Check if our default model works
         if config.GEMINI_MODEL in [m for m in successful_models]:
-            print(f"\n✅ Default model '{config.GEMINI_MODEL}' is working correctly")
+            print(f"\nDefault model '{config.GEMINI_MODEL}' is working correctly")
         else:
             print(f"\n⚠️  Default model '{config.GEMINI_MODEL}' failed. Consider updating config.")
             if successful_models:
@@ -116,14 +116,14 @@ class TestGeminiModelDiagnostics:
             genai.configure(api_key=config.GEMINI_API_KEY)
             model = genai.GenerativeModel(config.GEMINI_MODEL)
             
-            print(f"\n✅ Current configured model '{config.GEMINI_MODEL}' initialized successfully")
+            print(f"\nCurrent configured model '{config.GEMINI_MODEL}' initialized successfully")
             
             # Test a simple generation to ensure it's fully functional
             test_prompt = "Say 'Hello, World!' in JSON format."
             response = model.generate_content(test_prompt)
             
             assert response.text, "Model returned empty response"
-            print(f"✅ Model response test passed: {response.text[:50]}...")
+            print(f"Model response test passed: {response.text[:50]}...")
             
         except Exception as e:
             pytest.fail(f"Current configured model '{config.GEMINI_MODEL}' failed: {str(e)}")
