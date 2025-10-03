@@ -728,7 +728,8 @@ def results_dashboard_tab():
         st.info("No results available. Please process some images first.")
         return
     
-    results = st.session_state.processing_results
+    # Get the most current results (including any edited values)
+    results = get_current_results_with_edits()
     
     # Summary metrics
     show_summary_metrics(results)
@@ -737,17 +738,19 @@ def results_dashboard_tab():
     st.subheader("📋 Detailed Results")
     
     # Filter options
-    col1, col2 = st.columns(2)
+    col1, col2, col3 = st.columns(3)
     with col1:
         show_only_successful = st.checkbox("Show only successful", value=True)
     with col2:
         show_validation_warnings = st.checkbox("Show validation warnings", value=True)
+    with col3:
+        show_debug_info = st.checkbox("Show debug info", value=False, help="Show technical details about state data")
     
     # Display results
     filtered_results = [r for r in results if r.get('processing_success')] if show_only_successful else results
     
     for result in filtered_results:
-        show_result_card(result, show_validation_warnings)
+        show_result_card(result, show_validation_warnings, show_debug_info)
 
 def show_summary_metrics(results):
     """Show summary metrics"""
@@ -873,7 +876,7 @@ def show_summary_metrics(results):
                 st.info(f"✅ HERE Maps API used for {here_api_count} out of {len(successful)} trips ({here_api_rate:.1f}%) for accurate routing.")
                 st.warning("⚠️ Route analysis unavailable - install required GIS dependencies (geopandas, shapely, flexpolyline) for full state detection.")
 
-def show_result_card(result, show_validation_warnings):
+def show_result_card(result, show_validation_warnings, show_debug_info=False):
     """Show individual result card with editable fields"""
     source_image = result['source_image']
     
@@ -1015,7 +1018,17 @@ def show_result_card(result, show_validation_warnings):
                 key=f"reset_{source_image}",
                 help="Reset all fields to original Gemini extracted values"
             ):
+                # Reset to original values
                 st.session_state[f"edited_{source_image}"] = original_result.copy()
+                
+                # Also update the main processing results
+                for i, result in enumerate(st.session_state.processing_results):
+                    if result.get('source_image') == source_image:
+                        st.session_state.processing_results[i] = original_result.copy()
+                        break
+                
+                st.success(f"✅ Reset {source_image} to original values!")
+                time.sleep(0.5)  # Brief pause to ensure state is updated
                 st.rerun()
         
         # Show changes indicator
@@ -1134,6 +1147,12 @@ def show_result_card(result, show_validation_warnings):
             st.markdown("**⚠️ Validation Warnings:**")
             for warning in current_edited['validation_warnings']:
                 st.warning(warning)
+        
+        # Debug information
+        if show_debug_info:
+            st.markdown("---")
+            st.markdown("**🔧 Debug Information:**")
+            debug_result_state_data(current_edited, source_image)
 
 def recalculate_distances_for_result(source_image):
     """Recalculate distances for a specific result using edited values"""
@@ -1156,11 +1175,23 @@ def recalculate_distances_for_result(source_image):
                 
                 # Step 6: Calculate distances using new coordinates
                 distance_data = st.session_state.processor.calculate_trip_distances(coordinates_data)
-                edited_result['distance_calculations'] = distance_data
+                
+                # Step 7: Analyze state mileage distribution (MISSING STEP!)
+                polylines = (
+                    distance_data.get("trip_polylines", [])
+                    if distance_data.get("calculation_success")
+                    else []
+                )
+                enhanced_distance_data = st.session_state.processor.state_analyzer.add_state_mileage_to_trip_data(
+                    distance_data, polylines
+                )
+                
+                # Use the enhanced data with complete state analysis
+                edited_result['distance_calculations'] = enhanced_distance_data
                 
                 # Compare extracted miles with new calculated miles
                 extracted_miles = edited_result.get('total_miles', '')
-                calculated_miles = distance_data.get('total_distance_miles', 0)
+                calculated_miles = enhanced_distance_data.get('total_distance_miles', 0)
                 
                 if extracted_miles and calculated_miles > 0:
                     try:
@@ -1194,20 +1225,25 @@ def recalculate_distances_for_result(source_image):
                         break
                 
                 st.success(f"✅ Distances recalculated successfully for {source_image}!")
-                st.balloons()
                 
-                # Display summary of new calculations
-                if distance_data.get('calculation_success'):
-                    st.info(f"📊 New calculated distance: **{calculated_miles} miles** with {distance_data.get('successful_calculations', 0)} successful route calculations")
+                # Display summary of new calculations before refresh
+                if enhanced_distance_data.get('calculation_success'):
+                    st.info(f"📊 New calculated distance: **{calculated_miles} miles** with {enhanced_distance_data.get('successful_calculations', 0)} successful route calculations")
                     
                     # Show state mileage summary
-                    if distance_data.get('state_mileage'):
-                        state_summary = ", ".join([f"{s['state']}: {s['miles']}mi" for s in distance_data['state_mileage'][:3]])
-                        if len(distance_data['state_mileage']) > 3:
-                            state_summary += f" + {len(distance_data['state_mileage']) - 3} more states"
+                    if enhanced_distance_data.get('state_mileage'):
+                        state_summary = ", ".join([f"{s['state']}: {s['miles']}mi" for s in enhanced_distance_data['state_mileage'][:3]])
+                        if len(enhanced_distance_data['state_mileage']) > 3:
+                            state_summary += f" + {len(enhanced_distance_data['state_mileage']) - 3} more states"
                         st.info(f"🇺🇸 State breakdown: {state_summary}")
                 else:
                     st.warning("⚠️ Distance recalculation completed but some routes failed")
+                
+                st.balloons()
+                
+                # Force UI refresh to show updated data
+                time.sleep(0.5)  # Brief pause to ensure state is updated
+                st.rerun()
             else:
                 st.error("❌ Failed to get coordinates for the edited locations")
                 
@@ -1224,7 +1260,8 @@ def validation_report_tab():
         st.info("No results available. Please process some images first.")
         return
     
-    results = st.session_state.processing_results
+    # Get the most current results (including any edited values)
+    results = get_current_results_with_edits()
     successful_results = [r for r in results if r.get('processing_success')]
     
     # Validation summary
@@ -1289,6 +1326,49 @@ def validation_report_tab():
                     
                     st.write(f"{severity_color} **{discrepancy['field']}:** `{discrepancy['extracted']}` ≠ `{discrepancy['reference']}`")
 
+def get_current_results_with_edits():
+    """Get current results with any edited values applied"""
+    current_results = []
+    
+    for result in st.session_state.processing_results:
+        source_image = result.get('source_image', '')
+        
+        # Check if there's an edited version in session state
+        edited_key = f"edited_{source_image}"
+        if edited_key in st.session_state:
+            # Use the edited version
+            edited_result = st.session_state[edited_key].copy()
+            current_results.append(edited_result)
+        else:
+            # Use the original result
+            current_results.append(result.copy())
+    
+    return current_results
+
+def debug_result_state_data(result, source_image):
+    """Debug function to show what state data is available"""
+    st.write(f"**Debug info for {source_image}:**")
+    
+    # Check distance_calculations
+    dc = result.get('distance_calculations', {})
+    if dc and isinstance(dc, dict):
+        st.write(f"- distance_calculations exists: {bool(dc)}")
+        st.write(f"- calculation_success: {dc.get('calculation_success', 'N/A')}")
+        st.write(f"- total_distance_miles: {dc.get('total_distance_miles', 'N/A')}")
+        st.write(f"- state_mileage exists: {bool(dc.get('state_mileage'))}")
+        if dc.get('state_mileage'):
+            st.write(f"- state_mileage count: {len(dc['state_mileage'])}")
+            st.write(f"- states: {[s.get('state') for s in dc['state_mileage'][:3]]}")
+    else:
+        st.write("- distance_calculations: Missing or invalid")
+    
+    # Check root level state_mileage
+    root_sm = result.get('state_mileage')
+    if root_sm:
+        st.write(f"- Root level state_mileage: {len(root_sm)} states")
+    else:
+        st.write("- Root level state_mileage: None")
+
 def export_data_tab():
     """Export data tab"""
     st.header("💾 Export Data")
@@ -1297,7 +1377,8 @@ def export_data_tab():
         st.info("No results available. Please process some images first.")
         return
     
-    results = st.session_state.processing_results
+    # Get the most current results (including any edited values)
+    results = get_current_results_with_edits()
     
     # Export options
     col1, col2 = st.columns(2)
@@ -1462,6 +1543,19 @@ def generate_csv_export(results):
             state_mileage_data = result['state_mileage']
         else:
             state_mileage_data = []
+
+        # If no state mileage data, create a placeholder row to ensure the result appears
+        if not state_mileage_data:
+            # Add a row with basic info but no state data
+            writer.writerow({
+                'State': 'NO_STATE_DATA',
+                'Envelop (Page No.)': page_number,
+                'Truck': truck,
+                'Trailer': trailer,
+                'State2': '',
+                'Total Miles': 0
+            })
+            continue
 
         # Write one row per state
         for state_item in state_mileage_data:

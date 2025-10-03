@@ -29,10 +29,6 @@ cp .env.template .env
 nano .env  # or code .env or notepad .env
 ```
 
-**Required API Keys:**
-- **Gemini API Key**: [Get from Google AI Studio](https://makersuite.google.com/app/apikey)
-- **HERE API Key**: [Get from HERE Developer](https://developer.here.com/)
-
 ### 2. Test Configuration
 ```bash
 python config_demo.py

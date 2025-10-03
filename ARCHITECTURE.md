@@ -153,3 +153,48 @@ logging_utils (config - optional)
 - **Centralized Configuration**: All settings managed in one place
 - **Comprehensive Logging**: Full audit trail of all operations
 - **Error Recovery**: Robust error handling with detailed reporting
+
+## 🔄 **HERE API Integration Flow**
+
+When recalculating distances after editing location values in the Streamlit UI, the system makes these API calls:
+
+### **Function Call Sequence:**
+```
+Edited Location Values
+        ↓
+🌍 Geocoding Service → HERE Geocoding API
+        ↓
+📏 Route Analyzer → HERE Routing API  
+        ↓
+🗺️ State Analyzer → HERE Reverse Geocoding API
+        ↓
+✅ Updated Results with State Mileage
+```
+
+### **Specific HERE API Endpoints:**
+
+1. **HERE Geocoding API** (for each edited location):
+   ```
+   GET https://geocode.search.hereapi.com/v1/geocode
+   ?q={location_text}&apikey={here_api_key}
+   ```
+
+2. **HERE Routing API** (for each route leg):
+   ```
+   GET https://router.hereapi.com/v8/routes
+   ?origin={lat},{lng}&destination={lat},{lng}
+   &transportMode=truck&return=summary,polyline
+   &apikey={here_api_key}
+   ```
+
+3. **HERE Reverse Geocoding API** (for state analysis):
+   ```
+   GET https://revgeocode.search.hereapi.com/v1/revgeocode
+   ?at={lat},{lng}&apikey={here_api_key}
+   ```
+
+### **Key Features:**
+- **Truck-Optimized Routing**: Uses `transportMode=truck` for accurate commercial vehicle routes
+- **Complete State Analysis**: Analyzes polyline data to detect ALL states along the route
+- **Rate Limiting**: Built-in delays between API calls to respect HERE's limits
+- **Fallback Support**: Falls back to Nominatim if HERE API is unavailable
