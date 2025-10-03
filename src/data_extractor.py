@@ -51,12 +51,11 @@ class GeminiDataExtractor:
         # Try models in order of preference
         model_candidates = [
             config.GEMINI_MODEL,  # User's configured model
-            "gemini-1.5-pro",  # Stable pro model
-            "gemini-1.5-flash-latest",  # Latest flash model
-            "gemini-2.5-flash",  # Newer version
-            "gemini-flash-latest",  # Generic latest
+            "gemini-2.5-flash",  # Latest stable flash model
+            "gemini-flash-latest",  # Generic latest flash
+            "gemini-2.0-flash",  # Stable 2.0 flash
             "gemini-pro-latest",  # Generic pro latest
-            "gemini-1.5-flash",  # Original flash model
+            "gemini-2.5-pro",  # Latest pro model
             "gemini-pro-vision",  # Vision capable
             "gemini-pro",  # Basic pro
         ]

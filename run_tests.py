@@ -26,8 +26,18 @@ def run_api_tests():
 
 def run_diagnostic_tests():
     """Run diagnostic tests for troubleshooting"""
-    print("🔧 Running Diagnostic Tests...")
+    print("Running Diagnostic Tests...")
     cmd = [sys.executable, "-m", "pytest", "test/test_gemini_diagnostics.py", "-v", "-s"]
+    return subprocess.run(cmd).returncode
+
+
+def run_recalculation_tests():
+    """Run recalculation functionality tests"""
+    print("Running Recalculation Tests...")
+    cmd = [sys.executable, "-m", "pytest", 
+           "test/test_recalculation_core.py", 
+           "test/test_streamlit_recalculation.py", 
+           "-v", "-m", "not integration"]
     return subprocess.run(cmd).returncode
 
 
@@ -85,6 +95,7 @@ def main():
         print("  config    - Run configuration tests only")
         print("  api       - Run API validation tests (real connectivity)")
         print("  diagnose  - Run diagnostic tests (troubleshooting)")
+        print("  recalc    - Run recalculation functionality tests")
         print("  unit      - Run unit tests")
         print("  all       - Run all tests")
         print("  coverage  - Run tests with coverage")
@@ -110,6 +121,8 @@ def main():
         return run_api_tests()
     elif command == "diagnose":
         return run_diagnostic_tests()
+    elif command == "recalc":
+        return run_recalculation_tests()
     elif command == "unit":
         return run_unit_tests()
     elif command == "all":

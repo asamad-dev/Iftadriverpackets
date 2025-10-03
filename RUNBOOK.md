@@ -29,10 +29,6 @@ cp .env.template .env
 nano .env  # or code .env or notepad .env
 ```
 
-**Required API Keys:**
-- **Gemini API Key**: [Get from Google AI Studio](https://makersuite.google.com/app/apikey)
-- **HERE API Key**: [Get from HERE Developer](https://developer.here.com/)
-
 ### 2. Test Configuration
 ```bash
 python config_demo.py
@@ -52,29 +48,6 @@ venv\Scripts\activate  # Windows
 # Start the web app
 streamlit run streamlit_app.py
 ```
-
-**Expected Output:**
-```
-You can now view your Streamlit app in your browser.
-Local URL: http://localhost:8501
-Network URL: http://192.168.1.xxx:8501
-```
-
-### Using the Web Interface
-
-1. **📁 Upload Images** - Drag & drop driver packet images
-2. **⚙️ Configure Settings** - Adjust processing parameters
-3. **🚀 Process** - Click to analyze uploaded images
-4. **📊 View Results** - See extracted data, coordinates, distances
-5. **💾 Download** - Export results as JSON or CSV
-
-### Web App Features
-
-- ✅ **Real-time processing** - Watch extraction in progress
-- ✅ **Interactive maps** - Visualize routes and locations
-- ✅ **Batch processing** - Handle multiple images at once
-- ✅ **Configuration validation** - Check API keys and settings
-- ✅ **Error handling** - Clear error messages and troubleshooting
 
 ### Troubleshooting Web App
 
@@ -108,7 +81,7 @@ OVERRIDE_PRINT=false
 
 ## 🧪 Testing
 
-### Run Configuration Tests
+### Run Test Suites
 ```bash
 # Setup test environment (first time only)
 # This installs pytest and other testing dependencies from test/test_requirements.txt
@@ -120,8 +93,17 @@ python run_tests.py config
 # Run API validation tests (requires real API keys in .env)
 python run_tests.py api
 
+# Run diagnostic tests (troubleshooting)
+python run_tests.py diagnose
+
+# Run recalculation functionality tests (NEW!)
+python run_tests.py recalc
+
 # Run all unit tests
 python run_tests.py unit
+
+# Run all tests
+python run_tests.py all
 
 # Run with coverage report
 python run_tests.py coverage
@@ -150,6 +132,34 @@ python run_tests.py api
 ```
 
 **Note:** API tests require **real API keys** in your `.env` file and **internet connection**.
+
+### Recalculation Tests (NEW!)
+
+**`test/test_recalculation_core.py`** - **Core recalculation logic**:
+- ✅ **Processor initialization** - Tests DriverPacketProcessor setup for recalculation
+- ✅ **Coordinate retrieval** - Tests `get_coordinates_for_stops()` with edited locations
+- ✅ **Distance calculation** - Tests `calculate_trip_distances()` with new coordinates
+- ✅ **State analysis integration** - Tests enhanced state mileage distribution
+- ✅ **Data flow validation** - Tests data transformation through recalculation chain
+
+**`test/test_streamlit_recalculation.py`** - **Streamlit UI recalculation**:
+- ✅ **Session state management** - Tests `get_current_results_with_edits()`
+- ✅ **Debug functionality** - Tests `debug_result_state_data()`
+- ✅ **Recalculation integration** - Tests full recalculation workflow
+- ✅ **Error handling** - Tests geocoding and distance calculation failures
+- ✅ **Export data integration** - Tests CSV export with recalculated data
+
+**Run recalculation tests:**
+```bash
+python run_tests.py recalc
+```
+
+**What these tests validate:**
+- **Edit → Recalculate workflow** works correctly
+- **State mileage breakdown** appears after recalculation
+- **Export data** includes recalculated results
+- **Session state sync** between edited and main results
+- **Error handling** for API failures during recalculation
 
 ### Manual Testing
 ```python
@@ -270,6 +280,32 @@ tar -czf logs_backup_$(date +%Y%m%d).tar.gz temp/*.log*
 2. Clear caches
 3. Reduce sample point limits
 4. Use great circle fallback (disable HERE API temporarily)
+
+### Recalculation Issues (NEW!)
+
+**Problem: State breakdown not showing after recalculation**
+1. Enable "Show debug info" in Results Dashboard
+2. Check if `distance_calculations.state_mileage` exists
+3. Verify state analyzer is running: `enhanced_distance_data` should have state data
+4. Run diagnostic: `python run_tests.py recalc`
+
+**Problem: Export data hiding recalculated results**
+1. Check if results have `processing_success: true`
+2. Verify `get_current_results_with_edits()` returns edited data
+3. Look for "NO_STATE_DATA" placeholder in CSV exports
+4. Test with: `python -c "from streamlit_app import get_current_results_with_edits; print('Function exists')"`
+
+**Problem: UI not refreshing after recalculation**
+1. Check browser console for JavaScript errors
+2. Verify `st.rerun()` is being called
+3. Clear browser cache and reload
+4. Check session state sync in debug info
+
+**Problem: Recalculation taking too long**
+1. Check HERE API rate limits (default: 0.1s between calls)
+2. Reduce state analysis sample points in config
+3. Monitor API quota usage
+4. Use fallback geocoding if HERE API is slow
 
 ---
 
