@@ -325,6 +325,7 @@ def upload_and_process_tab(processor, use_here_api):
                 st.write("• **Format 1**: `State,Country,Unit,Distance` - Simple distance data")
                 st.write("• **Format 2**: `Card #,Tran Date,Invoice,Unit,Driver Name,...,State/ Prov,...,Qty,...` - Fuel transactions")
                 st.write("• **Format 3**: `Account Code,...,Unit Number,...,Truck Stop State,...,Number of Tractor Gallons,...` - Complex fuel data")
+                st.write("• **Format 4**: `Load No,Shipper City,Shipper State,Delivery City,Delivery State` - Load-based route data")
                 st.write("")
                 
                 for uploaded_file in uploaded_files:
@@ -506,6 +507,11 @@ def detect_and_process_csv(csv_content, filename):
         elif 'truckstopstate' in header_clean and 'numberoftractorgallons' in header_clean:
             st.info(f"🔍 Detected Format 3 (Complex Fuel Data): {filename}")
             return process_format3_csv(csv_content, filename)
+        
+        # Format 4: Load-based route data (Shipper City, Shipper State, Delivery City, Delivery State)
+        elif detect_format4_pattern(lines, filename):
+            st.info(f"🔍 Detected Format 4 (Load-based Route Data): {filename}")
+            return process_format4_csv(csv_content, filename)
         
         # Additional detection patterns for variations
         elif 'unit' in header_clean and 'distance' in header_clean and len([col for col in ['state', 'miles', 'mi'] if col in header_clean]) > 0:
@@ -718,6 +724,351 @@ def process_format3_csv(csv_content, filename):
             'source_image': filename,
             'processing_success': False,
             'error': f"Format 3 processing failed: {str(e)}"
+        }
+
+def detect_format4_pattern(lines, filename):
+    """Detect Format 4: Load-based route data with flexible header location"""
+    try:
+        # Check first 3 rows for headers (as per plan.md)
+        for row_idx in range(min(3, len(lines))):
+            if not lines[row_idx].strip():
+                continue
+                
+            header = lines[row_idx].lower()
+            header_clean = header.replace(' ', '').replace('_', '')
+            
+            # Required columns for Format 4
+            required_cols = ['loadno', 'shippercity', 'shipperstate', 'deliverycity', 'deliverystate']
+            
+            # Check if all required columns are present
+            if all(col in header_clean for col in required_cols):
+                st.info(f"📍 Found Format 4 headers on row {row_idx + 1}")
+                return True
+                
+            # Alternative column names
+            alt_required = ['load', 'shipper', 'delivery', 'city', 'state']
+            if sum(1 for col in alt_required if col in header_clean) >= 4:
+                st.info(f"📍 Found Format 4 alternative headers on row {row_idx + 1}")
+                return True
+        
+        return False
+        
+    except Exception as e:
+        st.warning(f"Error detecting Format 4 pattern: {e}")
+        return False
+
+def process_format4_csv(csv_content, filename):
+    """Process Format 4: Load-based route data with HERE API distance calculation"""
+    try:
+        import io
+        import csv
+        
+        # Find the header row (can be on row 1, 2, or 3)
+        lines = csv_content.strip().split('\n')
+        header_row_idx = None
+        
+        for row_idx in range(min(3, len(lines))):
+            if not lines[row_idx].strip():
+                continue
+                
+            header = lines[row_idx].lower()
+            header_clean = header.replace(' ', '').replace('_', '')
+            
+            # Check for Format 4 pattern
+            required_cols = ['loadno', 'shippercity', 'shipperstate', 'deliverycity', 'deliverystate']
+            if all(col in header_clean for col in required_cols):
+                header_row_idx = row_idx
+                break
+                
+            # Alternative pattern
+            alt_required = ['load', 'shipper', 'delivery', 'city', 'state']
+            if sum(1 for col in alt_required if col in header_clean) >= 4:
+                header_row_idx = row_idx
+                break
+        
+        if header_row_idx is None:
+            raise ValueError("Could not find Format 4 headers in first 3 rows")
+        
+        # Parse CSV starting from header row
+        csv_data_from_header = '\n'.join(lines[header_row_idx:])
+        reader = csv.DictReader(io.StringIO(csv_data_from_header))
+        
+        # Initialize processor if available in session state
+        processor = st.session_state.get('processor')
+        if not processor:
+            st.error("❌ Processor not initialized. Please configure API keys first.")
+            return {
+                'source_image': filename,
+                'processing_success': False,
+                'error': 'Processor not initialized'
+            }
+        
+        # Process each row as a separate route
+        route_results = []
+        state_mileage_totals = {}
+        total_calculated_miles = 0
+        successful_routes = 0
+        original_csv_data = []  # Store original CSV data for export
+        
+        # Progress tracking
+        rows = list(reader)
+        total_rows = len(rows)
+        
+        if total_rows == 0:
+            raise ValueError("No data rows found after header")
+        
+        st.info(f"🚛 Processing {total_rows} routes from {filename}")
+        
+        # Create progress bar for Format 4 processing
+        progress_container = st.container()
+        with progress_container:
+            progress_bar = st.progress(0)
+            status_text = st.empty()
+        
+        for i, row in enumerate(rows):
+            # Update progress
+            progress = (i + 1) / total_rows
+            progress_bar.progress(progress)
+            status_text.text(f"Calculating route {i + 1}/{total_rows}...")
+            
+            # Store original row data for later export
+            original_row_data = dict(row)  # Make a copy of the original row
+            
+            try:
+                # Extract route information
+                load_no = row.get('Load No', '').strip()
+                shipper_city = row.get('Shipper City', '').strip()
+                shipper_state = row.get('Shipper State', '').strip()
+                delivery_city = row.get('Delivery City', '').strip()
+                delivery_state = row.get('Delivery State', '').strip()
+                
+                if not all([shipper_city, shipper_state, delivery_city, delivery_state]):
+                    missing_fields = []
+                    if not shipper_city: missing_fields.append('Shipper City')
+                    if not shipper_state: missing_fields.append('Shipper State')
+                    if not delivery_city: missing_fields.append('Delivery City')
+                    if not delivery_state: missing_fields.append('Delivery State')
+                    
+                    error_msg = f"Missing required location data: {', '.join(missing_fields)}"
+                    st.warning(f"⚠️ Skipping row {i+1} (Load {load_no}): {error_msg}")
+                    route_results.append({
+                        'load_no': load_no,
+                        'success': False,
+                        'error': error_msg
+                    })
+                    continue
+                
+                # Format locations for geocoding
+                origin_location = f"{shipper_city}, {shipper_state}"
+                destination_location = f"{delivery_city}, {delivery_state}"
+                
+                # Get coordinates using individual geocoding methods
+                use_here_api = st.session_state.get('use_here_api', True)
+                try:
+                    if hasattr(processor, 'geocoding_service'):
+                        origin_coords = processor.geocoding_service.geocode_location(origin_location, use_here_api)
+                        destination_coords = processor.geocoding_service.geocode_location(destination_location, use_here_api)
+                    else:
+                        # Fallback to processor methods if available
+                        origin_coords = getattr(processor, 'geocode_location_here', lambda x: None)(origin_location)
+                        destination_coords = getattr(processor, 'geocode_location_here', lambda x: None)(destination_location)
+                except Exception as geocoding_error:
+                    error_msg = f"Geocoding service error: {str(geocoding_error)}"
+                    st.error(f"❌ Route {i+1} (Load {load_no}): {error_msg}")
+                    route_results.append({
+                        'load_no': load_no,
+                        'origin': origin_location,
+                        'destination': destination_location,
+                        'success': False,
+                        'error': error_msg
+                    })
+                    continue
+                
+                if not origin_coords or not destination_coords:
+                    missing_coords = []
+                    if not origin_coords: missing_coords.append(f"origin ({origin_location})")
+                    if not destination_coords: missing_coords.append(f"destination ({destination_location})")
+                    
+                    error_msg = f"Could not geocode: {', '.join(missing_coords)}"
+                    st.warning(f"⚠️ Skipping route {i+1} (Load {load_no}): {error_msg}")
+                    route_results.append({
+                        'load_no': load_no,
+                        'origin': origin_location,
+                        'destination': destination_location,
+                        'success': False,
+                        'error': error_msg
+                    })
+                    continue
+                
+                # Calculate route distance using route analyzer
+                try:
+                    if hasattr(processor, 'route_analyzer'):
+                        route_result = processor.route_analyzer.calculate_route_distance(origin_coords, destination_coords)
+                    else:
+                        # Fallback to processor method
+                        route_result = getattr(processor, 'calculate_route_distance_here', lambda x, y: None)(origin_coords, destination_coords)
+                except Exception as route_error:
+                    error_msg = f"Route calculation service error: {str(route_error)}"
+                    st.error(f"❌ Route {i+1} (Load {load_no}): {error_msg}")
+                    route_results.append({
+                        'load_no': load_no,
+                        'origin': origin_location,
+                        'destination': destination_location,
+                        'success': False,
+                        'error': error_msg
+                    })
+                    continue
+                
+                if route_result and route_result.get('distance_miles', 0) > 0:
+                    distance_miles = route_result.get('distance_miles', 0)
+                    polyline = route_result.get('polyline')
+                    
+                    # Calculate state mileage using state analyzer if available
+                    state_mileage = []
+                    if hasattr(processor, 'state_analyzer') and polyline:
+                        try:
+                            state_miles_dict = processor.state_analyzer.calculate_state_miles_from_polyline(polyline, distance_miles)
+                            # Convert to expected format
+                            for state, miles in state_miles_dict.items():
+                                state_mileage.append({
+                                    'state': state,
+                                    'miles': int(round(miles)),
+                                    'percentage': round((miles / distance_miles) * 100, 1) if distance_miles > 0 else 0
+                                })
+                        except Exception as e:
+                            st.warning(f"State analysis failed for route {i+1}: {e}")
+                            # Fallback - use origin and destination states
+                            if shipper_state and shipper_state != delivery_state:
+                                state_mileage.append({'state': shipper_state, 'miles': int(distance_miles // 2), 'percentage': 50.0})
+                                state_mileage.append({'state': delivery_state, 'miles': int(distance_miles // 2), 'percentage': 50.0})
+                            else:
+                                state_mileage.append({'state': shipper_state or delivery_state, 'miles': int(distance_miles), 'percentage': 100.0})
+                    
+                    # Accumulate state mileage totals
+                    for state_data in state_mileage:
+                        state = state_data['state']
+                        miles = state_data['miles']
+                        
+                        if state in state_mileage_totals:
+                            state_mileage_totals[state] += miles
+                        else:
+                            state_mileage_totals[state] = miles
+                    
+                    total_calculated_miles += distance_miles
+                    successful_routes += 1
+                    
+                    route_results.append({
+                        'load_no': load_no,
+                        'origin': origin_location,
+                        'destination': destination_location,
+                        'distance_miles': distance_miles,
+                        'state_mileage': state_mileage,
+                        'original_row_data': original_row_data,  # Include original CSV data
+                        'success': True
+                    })
+                    
+                    # Show progress for successful routes
+                    if i % 10 == 0 or i == total_rows - 1:  # Update every 10 routes or at the end
+                        st.success(f"✅ Route {i+1}: {origin_location} → {destination_location} = {distance_miles} miles")
+                
+                else:
+                    st.warning(f"⚠️ Route {i+1}: Distance calculation failed")
+                    route_results.append({
+                        'load_no': load_no,
+                        'origin': origin_location,
+                        'destination': destination_location,
+                        'success': False,
+                        'error': 'Distance calculation failed'
+                    })
+                
+                # Small delay to respect API rate limits
+                time.sleep(0.1)
+                
+            except Exception as e:
+                error_msg = f"Unexpected error processing route: {str(e)}"
+                st.error(f"❌ Error processing route {i+1} (Load {row.get('Load No', 'Unknown')}): {error_msg}")
+                
+                # Add to logger if available
+                if hasattr(processor, 'logger'):
+                    processor.logger.error(f"Format 4 route processing error for row {i+1}: {error_msg}")
+                
+                route_results.append({
+                    'load_no': row.get('Load No', ''),
+                    'success': False,
+                    'error': error_msg
+                })
+        
+        # Complete progress
+        progress_bar.progress(1.0)
+        status_text.text("✅ Route processing complete!")
+        
+        # Convert state totals to expected format
+        state_mileage_list = []
+        for state, miles in state_mileage_totals.items():
+            miles_int = int(round(miles))
+            percentage = round((miles / total_calculated_miles) * 100, 1) if total_calculated_miles > 0 else 0
+            state_mileage_list.append({
+                'state': state,
+                'miles': miles_int,
+                'percentage': percentage
+            })
+        
+        # Sort by miles descending
+        state_mileage_list.sort(key=lambda x: x['miles'], reverse=True)
+        
+        # Show summary
+        st.success(f"🎉 Format 4 Processing Complete!")
+        st.info(f"📊 Processed {successful_routes}/{total_rows} routes successfully")
+        st.info(f"🗺️ Total calculated distance: {total_calculated_miles:,.0f} miles across {len(state_mileage_list)} states")
+        
+        # Show failure summary if there were failures
+        failed_routes = total_rows - successful_routes
+        if failed_routes > 0:
+            st.warning(f"⚠️ {failed_routes} routes failed to process. Check error messages above for details.")
+            
+            # Show error breakdown
+            error_types = {}
+            for result in route_results:
+                if not result.get('success'):
+                    error = result.get('error', 'Unknown error')
+                    error_type = error.split(':')[0] if ':' in error else error
+                    error_types[error_type] = error_types.get(error_type, 0) + 1
+            
+            if error_types:
+                st.write("**Error Breakdown:**")
+                for error_type, count in sorted(error_types.items(), key=lambda x: x[1], reverse=True):
+                    st.write(f"  • {error_type}: {count} routes")
+        
+        # Log summary to processor logger if available
+        if hasattr(processor, 'logger'):
+            processor.logger.info(f"Format 4 processing complete: {successful_routes}/{total_rows} routes successful, {total_calculated_miles:.0f} total miles")
+            if failed_routes > 0:
+                processor.logger.warning(f"Format 4 processing had {failed_routes} failures")
+                for error_type, count in error_types.items():
+                    processor.logger.warning(f"  {error_type}: {count} routes")
+        
+        return {
+            'source_image': filename,
+            'processing_success': True,
+            'processing_timestamp': time.strftime('%Y-%m-%d %H:%M:%S'),
+            'format_type': 'Format 4 - Load-based Route Data',
+            'total_routes_processed': total_rows,
+            'successful_routes': successful_routes,
+            'total_miles': str(int(total_calculated_miles)),
+            'distance_calculations': {
+                'calculation_success': True,
+                'total_distance_miles': total_calculated_miles,
+                'state_mileage': state_mileage_list
+            },
+            'route_details': route_results,
+            'header_found_at_row': header_row_idx + 1
+        }
+        
+    except Exception as e:
+        return {
+            'source_image': filename,
+            'processing_success': False,
+            'error': f"Format 4 processing failed: {str(e)}"
         }
 
 def results_dashboard_tab():
@@ -1380,107 +1731,198 @@ def export_data_tab():
     # Get the most current results (including any edited values)
     results = get_current_results_with_edits()
     
-    # Export options
-    col1, col2 = st.columns(2)
+    # Check if we have Format 4 data
+    format4_results = [r for r in results if r.get('format_type', '').startswith('Format 4')]
+    has_format4 = len(format4_results) > 0
     
-    with col1:
-        export_format = st.selectbox(
-            "Export Format",
-            ["Excel", "CSV (Distance)", "CSV (Fuel)", "JSON"],
-            help="Choose the format for exporting results"
-        )
-    
-    with col2:
-        include_failed = st.checkbox(
-            "Include Failed Results",
-            value=False,
-            help="Include images that failed to process"
-        )
-    
-    # Filter results
-    filtered_results = results if include_failed else [r for r in results if r.get('processing_success')]
-    
-    if not filtered_results:
-        st.warning("No results to export with current filters.")
-        return
-    
-    # Generate export data
-    if export_format == "Excel":
-        export_data = generate_excel_export(filtered_results)
-        filename = f"driver_packet_results_{datetime.now().strftime('%Y%m%d_%H%M%S')}.xlsx"
+    if has_format4:
+        st.info("🚛 **Format 4 (Load-based Route Data) Detected**")
+        st.write("Format 4 uses a different export structure where each route is expanded into multiple rows - one per state.")
         
-        st.download_button(
-            label="📥 Download Excel (Both Sheets)",
-            data=export_data,
-            file_name=filename,
-            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-            use_container_width=True
-        )
-    
-    elif export_format == "CSV (Distance)":
-        export_data = generate_csv_export(filtered_results)
-        filename = f"driver_packet_results_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
+        # Export options for Format 4
+        col1, col2 = st.columns(2)
         
-        st.download_button(
-            label="📥 Download Distance Data CSV",
-            data=export_data,
-            file_name=filename,
-            mime="text/csv",
-            use_container_width=True
-        )
-    
-    elif export_format == "CSV (Fuel)":
-        export_data = generate_fuel_csv_export(filtered_results)
-        filename = f"gallon_trip_env_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
+        with col1:
+            export_format = st.selectbox(
+                "Export Format",
+                ["Excel (Format 4)", "CSV (Format 4)", "JSON"],
+                help="Choose the format for exporting Format 4 results"
+            )
         
-        st.download_button(
-            label="📥 Download Fuel Data CSV",
-            data=export_data,
-            file_name=filename,
-            mime="text/csv",
-            use_container_width=True
-        )
-    
-    elif export_format == "JSON":
-        export_data = json.dumps(filtered_results, indent=2, ensure_ascii=False)
-        filename = f"driver_packet_results_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+        with col2:
+            include_failed = st.checkbox(
+                "Include Failed Routes",
+                value=False,
+                help="Include routes that failed to process"
+            )
         
-        st.download_button(
-            label="📥 Download JSON",
-            data=export_data,
-            file_name=filename,
-            mime="application/json",
-            use_container_width=True
-        )
-    
-    # Preview data
-    st.subheader("👀 Data Preview")
-    
-    if export_format == "Excel":
-        # For Excel, show previews of both sheets
-        distance_csv_data = generate_csv_export(filtered_results)
-        df_distance = pd.read_csv(io.StringIO(distance_csv_data))
-        st.write("**Driver Packet Results Sheet Preview:**")
-        st.dataframe(df_distance, use_container_width=True)
+        # Filter results
+        filtered_results = results if include_failed else [r for r in results if r.get('processing_success')]
         
-        fuel_csv_data = generate_fuel_csv_export(filtered_results)
-        df_fuel = pd.read_csv(io.StringIO(fuel_csv_data))
-        if not df_fuel.empty:
-            st.write("**Gallon Trip Env Sheet Preview:**")
-            st.dataframe(df_fuel, use_container_width=True)
-        else:
-            st.write("**Gallon Trip Env Sheet:** No fuel data available in processed results")
+        if not filtered_results:
+            st.warning("No results to export with current filters.")
+            return
+        
+        # Generate export data for Format 4
+        if export_format == "Excel (Format 4)":
+            export_data = generate_format4_excel_export(filtered_results)
+            filename = f"format4_route_details_{datetime.now().strftime('%Y%m%d_%H%M%S')}.xlsx"
+            
+            st.download_button(
+                label="📥 Download Format 4 Excel",
+                data=export_data,
+                file_name=filename,
+                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                use_container_width=True
+            )
+        
+        elif export_format == "CSV (Format 4)":
+            export_data = generate_format4_csv_export(filtered_results)
+            filename = f"format4_route_details_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
+            
+            st.download_button(
+                label="📥 Download Format 4 CSV",
+                data=export_data,
+                file_name=filename,
+                mime="text/csv",
+                use_container_width=True
+            )
+        
+        elif export_format == "JSON":
+            export_data = json.dumps(filtered_results, indent=2, ensure_ascii=False)
+            filename = f"format4_results_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+            
+            st.download_button(
+                label="📥 Download JSON",
+                data=export_data,
+                file_name=filename,
+                mime="application/json",
+                use_container_width=True
+            )
+        
+        # Preview data for Format 4
+        st.subheader("👀 Format 4 Data Preview")
+        
+        if export_format in ["Excel (Format 4)", "CSV (Format 4)"]:
+            csv_data = generate_format4_csv_export(filtered_results)
+            if not csv_data.startswith("No Format 4 data") and not csv_data.startswith("Error"):
+                df = pd.read_csv(io.StringIO(csv_data))
+                st.write("**Format 4 Route Details Preview:**")
+                st.write(f"Each route is expanded into {len(df)} rows (one per state per route)")
+                st.dataframe(df.head(20), use_container_width=True)  # Show first 20 rows
+                if len(df) > 20:
+                    st.info(f"Showing first 20 rows out of {len(df)} total rows")
+            else:
+                st.error(csv_data)
+        
+        elif export_format == "JSON":
+            st.json(filtered_results[:1])  # Show first result as preview
     
-    elif export_format == "CSV (Distance)":
-        df = pd.read_csv(io.StringIO(export_data))
-        st.dataframe(df, use_container_width=True)
-    
-    elif export_format == "CSV (Fuel)":
-        df = pd.read_csv(io.StringIO(export_data))
-        st.dataframe(df, use_container_width=True)
-    
-    elif export_format == "JSON":
-        st.json(filtered_results[:2])  # Show first 2 results as preview
+    else:
+        # Regular export for other formats
+        st.info("📊 **Standard Format Processing Results**")
+        
+        # Export options
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            export_format = st.selectbox(
+                "Export Format",
+                ["Excel", "CSV (Distance)", "CSV (Fuel)", "JSON"],
+                help="Choose the format for exporting results"
+            )
+        
+        with col2:
+            include_failed = st.checkbox(
+                "Include Failed Results",
+                value=False,
+                help="Include images that failed to process"
+            )
+        
+        # Filter results
+        filtered_results = results if include_failed else [r for r in results if r.get('processing_success')]
+        
+        if not filtered_results:
+            st.warning("No results to export with current filters.")
+            return
+        
+        # Generate export data
+        if export_format == "Excel":
+            export_data = generate_excel_export(filtered_results)
+            filename = f"driver_packet_results_{datetime.now().strftime('%Y%m%d_%H%M%S')}.xlsx"
+            
+            st.download_button(
+                label="📥 Download Excel (Both Sheets)",
+                data=export_data,
+                file_name=filename,
+                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                use_container_width=True
+            )
+        
+        elif export_format == "CSV (Distance)":
+            export_data = generate_csv_export(filtered_results)
+            filename = f"driver_packet_results_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
+            
+            st.download_button(
+                label="📥 Download Distance Data CSV",
+                data=export_data,
+                file_name=filename,
+                mime="text/csv",
+                use_container_width=True
+            )
+        
+        elif export_format == "CSV (Fuel)":
+            export_data = generate_fuel_csv_export(filtered_results)
+            filename = f"gallon_trip_env_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
+            
+            st.download_button(
+                label="📥 Download Fuel Data CSV",
+                data=export_data,
+                file_name=filename,
+                mime="text/csv",
+                use_container_width=True
+            )
+        
+        elif export_format == "JSON":
+            export_data = json.dumps(filtered_results, indent=2, ensure_ascii=False)
+            filename = f"driver_packet_results_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+            
+            st.download_button(
+                label="📥 Download JSON",
+                data=export_data,
+                file_name=filename,
+                mime="application/json",
+                use_container_width=True
+            )
+        
+        # Preview data
+        st.subheader("👀 Data Preview")
+        
+        if export_format == "Excel":
+            # For Excel, show previews of both sheets
+            distance_csv_data = generate_csv_export(filtered_results)
+            df_distance = pd.read_csv(io.StringIO(distance_csv_data))
+            st.write("**Driver Packet Results Sheet Preview:**")
+            st.dataframe(df_distance, use_container_width=True)
+            
+            fuel_csv_data = generate_fuel_csv_export(filtered_results)
+            df_fuel = pd.read_csv(io.StringIO(fuel_csv_data))
+            if not df_fuel.empty:
+                st.write("**Gallon Trip Env Sheet Preview:**")
+                st.dataframe(df_fuel, use_container_width=True)
+            else:
+                st.write("**Gallon Trip Env Sheet:** No fuel data available in processed results")
+        
+        elif export_format == "CSV (Distance)":
+            df = pd.read_csv(io.StringIO(export_data))
+            st.dataframe(df, use_container_width=True)
+        
+        elif export_format == "CSV (Fuel)":
+            df = pd.read_csv(io.StringIO(export_data))
+            st.dataframe(df, use_container_width=True)
+        
+        elif export_format == "JSON":
+            st.json(filtered_results[:2])  # Show first 2 results as preview
 
 def generate_csv_export(results):
     """Generate CSV export.
@@ -1634,11 +2076,133 @@ def generate_fuel_csv_export(results):
     
     return output.getvalue()
 
+def generate_format4_csv_export(results):
+    """Generate Format 4 specific CSV export with expanded route data.
+    
+    For Format 4, each route gets expanded into multiple rows - one per state.
+    Columns: Original CSV columns + State + Miles (for that state)
+    """
+    output = io.StringIO()
+    
+    # Find Format 4 results
+    format4_results = [r for r in results if r.get('format_type', '').startswith('Format 4')]
+    
+    if not format4_results:
+        # No Format 4 data, return empty CSV
+        output.write("No Format 4 data available\n")
+        return output.getvalue()
+    
+    # Get the first Format 4 result to determine structure
+    format4_result = format4_results[0]
+    route_details = format4_result.get('route_details', [])
+    
+    if not route_details:
+        output.write("No route details available\n")
+        return output.getvalue()
+    
+    # Determine CSV headers by looking at successful route data
+    # We need to reconstruct the original CSV structure plus State and Miles columns
+    sample_route = None
+    for route in route_details:
+        if route.get('success') and route.get('load_no'):
+            sample_route = route
+            break
+    
+    if not sample_route:
+        output.write("No successful routes found\n")
+        return output.getvalue()
+    
+    # Read the original CSV to get all column names and data
+    # We'll need to match load numbers to get the original row data
+    try:
+        # Get the original CSV headers from the first successful route
+        sample_route = None
+        for route in route_details:
+            if route.get('success') and route.get('original_row_data'):
+                sample_route = route
+                break
+        
+        if not sample_route:
+            output.write("No successful routes with original data found\n")
+            return output.getvalue()
+        
+        # Get original CSV headers and add State and Miles columns
+        original_headers = list(sample_route['original_row_data'].keys())
+        
+        # Create new headers: original columns + State + Miles (replacing the empty Miles column if it exists)
+        if 'Miles' in original_headers:
+            # Replace the existing Miles column position
+            new_headers = []
+            for header in original_headers:
+                if header == 'Miles':
+                    new_headers.extend(['State', 'Miles'])
+                else:
+                    new_headers.append(header)
+        else:
+            # Add State and Miles at the end
+            new_headers = original_headers + ['State', 'Miles']
+        
+        writer = csv.DictWriter(output, fieldnames=new_headers)
+        writer.writeheader()
+        
+        # Process each successful route
+        for route in route_details:
+            if not route.get('success') or not route.get('original_row_data'):
+                continue
+                
+            original_data = route['original_row_data']
+            state_mileage = route.get('state_mileage', [])
+            
+            # Create one row per state for this route
+            for state_data in state_mileage:
+                state_code = state_data.get('state', '')
+                miles = state_data.get('miles', 0)
+                
+                # Create new row with original data + state info
+                new_row = original_data.copy()
+                new_row['State'] = state_code
+                new_row['Miles'] = miles
+                
+                writer.writerow(new_row)
+        
+        return output.getvalue()
+        
+    except Exception as e:
+        output.write(f"Error generating Format 4 CSV: {str(e)}\n")
+        return output.getvalue()
+
+def generate_format4_excel_export(results):
+    """Generate Format 4 specific Excel export"""
+    output = io.BytesIO()
+    
+    # Generate CSV data first
+    csv_data = generate_format4_csv_export(results)
+    
+    # Convert to DataFrame
+    if csv_data.startswith("No Format 4 data") or csv_data.startswith("Error"):
+        # Handle error cases
+        df = pd.DataFrame({'Error': [csv_data.strip()]})
+    else:
+        df = pd.read_csv(io.StringIO(csv_data))
+    
+    # Write to Excel
+    with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
+        df.to_excel(writer, sheet_name='Format 4 Route Details', index=False)
+    
+    return output.getvalue()
+
 def generate_excel_export(results):
     """Generate Excel export data with multiple sheets"""
     output = io.BytesIO()
     
-    # Generate both CSV data
+    # Check if we have Format 4 data
+    format4_results = [r for r in results if r.get('format_type', '').startswith('Format 4')]
+    
+    if format4_results:
+        # Use Format 4 specific export
+        return generate_format4_excel_export(results)
+    
+    # Generate both CSV data for regular formats
     distance_csv_data = generate_csv_export(results)
     fuel_csv_data = generate_fuel_csv_export(results)
     

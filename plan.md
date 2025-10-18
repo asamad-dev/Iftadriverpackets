@@ -275,7 +275,7 @@ Card #,Tran Date,Invoice,Unit,Driver Name,Odometer,Location Name,City,State/ Pro
 
 This will me mostly same as first one but in this one we will not calculate any state miles we will onyl calcualte gallons and display results fo gallon table only
 
-# NEW Format 3:
+## NEW Format 3:
 Account Code,Customer ID,Transaction Date,Date of Original,Transaction Time,Transaction Number Indicator,Transaction Number,Transaction Day,Comchek Card Number,Driver's Name,Employee Number,Driver's License State,Driver's License Number,Unit Number,Hubometer Reading,Previous Hub Reading,Trip Number,Year To Date MPG,MPG for this Fill Up,Purchase Order Number,Trailer Number,Trailer Hub Reading,Truck Stop Code,Service Center Chain Code,Truck Stop Name,Service Center Address,Truck Stop City,Truck Stop State,Service Center Zip Code,Truck Stop Invoice Number,Total Amount Due,Fees for Fuel & Oil & Products,Service Used,Number of Tractor Gallons,Tractor Fuel Price Per Gallon,Cost of Tractor Fuel,Tractor Fuel Billing Flag,Number of Reefer Gallons,Reefer Price Per Gallon,Cost of Reefer Fuel,Reefer Fuel Billing Flag,Number of Quarts of Oil,Total Cost of Oil,Oil Billing Flag,Cash Advance Amount,Charges for Cash Advance,Cash Billing Flag,Non-Funded Item,Product Code 1,Product Amount 1,Product 1 Billing Flag,Product Code 2,Product Amount 2,Product 2 Billing Flag,Product Code 3,Product Amount 3,Product 3 Billing Flag,Rebate Amount,Cancel flag,Rebate Indicator,Automated Transaction,Bulk Fuel Flag,Number 1 Fuel Gallons,Number 1 Fuel PPG,Other Fuel PPG,Canadian Tax Amount US Dollars,Number 1 Fuel Cost,Other Fuel Gallons,Other Fuel Cost,Canadian Tax Amount Canadian Dollars,Canadian Tax Paid Flag,Adjusted Transaction Number,Total Amount Due Comdata,#2 Diesel Gallons,#2 Diesel Cost,#2 Diesel Cost Net Cost,#1 Diesel Cost Net Cost,Reefer Cost  Net Cost,Other Fuel Cost Net Cost,Oil Cost Net Cost,#2 Diesel,#1 Diesel,Reefer Cost,Other Fuel Cost,Product 1 Net Cost,Product 2 Net Cost,Product 3 Net Cost,Billable Currency,Express Cash Billing Flag,Express Cash Load Pick Up Flag,Cost Plus Relationship Type,Rack Type,OPIS Rack City Number,OPIS Supplier Number,OPIS Rack City Description,OPIS Rack State,OPIS Supplier Name,Rack Price #1 Diesel,Rack Price #2 Diesel,Rack Date,Diesel - Federal Tax PPG,Diesel - State Tax PPG,Diesel - State Superfund Rate PPG,Diesel - LUST Rate PPG,Diesel - Sales Tax Applies to Markup,Diesel - Transportation Rate PPG,Diesel - Miscellaneous Rate PPG,Diesel - Sales Tax Applies to Rack Price,Reefer - Federal Tax PPG,Diesel - Sales Tax Applies to Federal Tax,Diesel - Sales Tax Applies to State Tax,Diesel - Sales Tax Applies to Superfund Rate,Diesel - Sales Tax Applies to LUST Rate,Diesel - Sales Tax Applies to Transportation Rate,Diesel-Sales Tax Applies to Misc Rate,Diesel - Sales Tax Rate Percent,#2 Diesel - Cost Plus Price,#1 Diesel - Cost Plus Price,Reefer - State Tax PPG,Reefer - State Superfund Rate PPG,Reefer - LUST Rate PPG,Reefer - Transportation Rate PPG,Reefer - Miscellaneous Rate PPG,Reefer - Sales Tax Applies to Rack Price,Reefer - Sales Tax Applies to State Tax,Reefer - Sales Tax Applies to Federal Tax,Reefer - Sales Tax Applies to Transportation Rate,Reefer - Sales Tax Applies to Miscellaneous Rate,Reefer - Sales Tax Applies to Markup,Reefer - Sales Tax Applies to Superfund Rate,Reefer - Cost Plus Price,Reefer - Sales Tax Applies to LUST Rate,Miscellaneous Rate Description,Truck Stop Markup PPG,#2 Diesel - Total Cost Plus Price,#1 Diesel - Total Cost Plus Price,#2 Diesel Retail PPG,#1 Diesel Retail PPG,#2 Diesel - Gross Margin ,Reefer - Retail PPG,#2 Diesel - Net Margin,#1 Diesel - Net Margin,#1 Diesel - Gross Margin,Reefer - Sales Tax Rate Percent,Reefer - Net Margin,Other Markup PPG,Reefer - Total Cost Plus Price,Reefer - Gross Margin,RFID Number,Diesel 1 Sales Tax Per Gallon,Diesel 2 Sales Tax Per Gallon,MISC 1,MISC 2,License Plate,VIN,Vehicle Description,Expanded Unit Number,Not Limited Network Flag,Card Token,Alt Card Number
 JJ068,98647,04/01/2025,00/00/00,02:24,0,17836,1,560017XXXXXX5373,GARADO,RIDWAN,ACCOUNT 33,MO,177C340001,1104,0,0,,0.00,0.00,,,0 ,OH976,MU001,LOVES #892,9901 SCHUSTER WAY,ETNA,OH,43018,19842,$494.56,$0.00,S,140.14,$3.529 ,$494.560 ,D,0.00,$0.000,$0.00,,0 ,$0.00,,$0.00,$0.00,,D,,$0.00,,,$0.00,,,$0.00,,$63.89,N,C,Y,N,0.00 ,$0.00000,$0.00000,$0.00,$0.00000,0.00,$0.00,$0.00,Y,00000000,$0.00,140.14 ,$494.56000,$430.67000,$0.00000,$0.00,$0.00,$0.00,$3.07300,$0.00000,$0.00,$0.00,$0.00,$0.00,$0.00,U,,,B,P,315,007,,,,$0.00000,$2.26740,31/25/03,$0.25020,$0.47000,$0.00000,$0.00000,Y,$0.06120,$0.01430,Y,$0.00000,Y,N,N,N,Y,Y,0.000%,$3.06310,$0.01000,$0.00000,$0.00000,$0.00000,$0.00000,$0.00000,,,,,Y,,,$0.01000,,OTHER TAX,$0.01000,$3.07310,$0.00000,$3.52900,$0.00000,$0.466,$0.00000,$0.010,$0.000,$0.000,0.00000%,$0.000,$0.00000,$0.000,$0.000,,0.00,0.72,,,,,,1104,Out Of Network,393J66G4R9,
 JJ068,98647,04/01/2025,00/00/00,07:46,3,324212,1,560017XXXXXX5373,COX,TYRONE LEE,ACCOUNT 33,CA,C4368668,1150,0,0,,0.00,0.00,,,0 ,OK268,MU001,LOVES #255,214 SOUTH HWY 100,WEBBERS FALL,OK,74470 0479,45766,$792.16,$0.00,B,214.53,$3.458 ,$741.910 ,D,0.00,$0.000,$0.00,,0 ,$0.00,,$50.00,$0.25,D,D,,$0.00,,,$0.00,,,$0.00,,$113.71,N,C,Y,N,0.00 ,$0.00000,$4.19100,$0.00,$0.00000,8.24,$34.53,$0.00,Y,00000000,$0.25,206.29 ,$707.38000,$593.67000,$0.00000,$0.00,$34.53,$0.00,$2.87800,$0.00000,$0.00,$34.53,$0.00,$0.00,$0.00,U,,,B,P,645,007,,,,$0.00000,$2.35390,31/25/03,$0.25020,$0.19000,$0.00000,$0.00000,Y,$0.06370,$0.01000,Y,$0.00000,Y,N,N,N,Y,Y,0.000%,$2.86780,$0.01000,$0.00000,$0.00000,$0.00000,$0.00000,$0.00000,,,,,Y,,,$0.01000,,OTHER TAX,$0.01000,$2.87780,$0.00000,$3.42900,$0.00000,$0.561,$0.00000,$0.010,$0.000,$0.000,0.00000%,$0.000,$0.00000,$0.000,$0.000,,0.00,0.44,,,,,,1150,Out Of Network,393J66G4R9,
@@ -285,3 +285,77 @@ JJ068,98647,04/01/2025,00/00/00,07:46,3,324212,1,560017XXXXXX5373,COX,TYRONE LEE
 This will be same as 2nd one it will onyl give us gallons 
 we have to get "Number of Tractor Gallons" field and "Truck Stop State" mainly 
 
+## NEW format 4
+we are going to have an .csv format in which first we have to search for headers 
+some times these are on 1st row but some times these are on 3rd row (for example (test\input\csvFormat4\08.2 Quantum Jan to Sept 25-For Miles Update.xlsx - Sheet1.csv) )
+In this we will have some key columns like
+Load No, Shipper City,Shipper State,Delivery City,Delivery State
+you will see that in input file Miles are empty.
+now main thing to do is take each row as single input and take these column (Shipper City,Shipper State,Delivery City) and use here API to get the route and calcualte how many miles it traveled in each state, we have to use already present function in files like [src\route_analyzer.py](src\route_analyzer.py) and [src\state_analyzer.py](src\state_analyzer.py) and any other file related to HERE API. 
+The process is simple in NEW format 4 take single row as input and calcualte miles in each state.
+with respect to [streamlit_app.py](streamlit_app.py) we will not use result dashboard in this and display some results in export data UI tab but the output format will be xlsx and csv both and json could be empty.
+we will only work with miles here and not with fuel gallons.
+
+### Performance Optimization Features
+Based on performance analysis (5067 routes in 2h 14min = 38 routes/min):
+
+#### 1. Progressive Export Feature
+- **Auto-save every 500 routes**: System automatically downloads partial CSV results every 500 processed routes
+- **Resume capability**: If processing is interrupted, user can upload the partial result and system will detect completed routes
+- **Battery protection**: Prevents data loss from laptop battery issues or crashes
+- **Progress persistence**: Maintains processing state across interruptions
+
+#### 2. Smart Re-processing Mode
+When user uploads a CSV that already has State column with data:
+- **Detection logic**: System detects if State column exists and has valid state abbreviations (CA, TX, NY, etc.)
+- **Selective processing**: Only processes routes where:
+  - State column is empty/blank
+  - State column contains "WARNING" or "ERROR" or "FAILED"
+  - State column has invalid values (not 2-letter state codes)
+  - Multiple state entries exist for same Load No (indicating incomplete processing)
+- **Skip completed routes**: Routes with valid state data are preserved and skipped
+- **Merge results**: Combines existing valid data with newly calculated routes
+- **Validation**: Ensures each Load No has multiple state entries as expected
+
+#### 3. Failure Handling Strategy
+For routes that fail distance calculation (~1% failure rate based on logs):
+- **Retry logic**: 2-3 attempts with exponential backoff
+- **Fallback estimation**: Use straight-line distance × truck routing factor (1.3x)
+- **Error categorization**: 
+  - "No route found": Geographic/routing issues
+  - "Distance calculation failed": API/service issues
+  - "Missing location data": Data quality issues
+- **Manual review queue**: Failed routes exported separately for manual processing
+
+### output format for new format 4
+for sample input 
+Load No,PU Date,Del Date,Inv Date,Shipper City,Shipper State,Delivery City,Delivery State,Miles,Remarks
+179758,11/04/24,11/10/24,01/02/25,MORENO VALLEY,CA,SAN ANTONIO ,TX,,
+180442,12/06/24,12/12/24,01/02/25,MORENO VALLEY,CA,NEW BRAUNFELS ,TX,,
+
+output will be 
+Load No,PU Date,Del Date,Inv Date,Shipper City,Shipper State,Delivery City,Delivery State,State,Miles,Remarks
+179758,11/04/24,11/10/24,01/02/25,MORENO VALLEY,CA,SAN ANTONIO ,TX, state 1, miles of state 1,,
+179758,11/04/24,11/10/24,01/02/25,MORENO VALLEY,CA,SAN ANTONIO ,TX, state 2, miles of state 2,,
+179758,11/04/24,11/10/24,01/02/25,MORENO VALLEY,CA,SAN ANTONIO ,TX, state 3, miles of state 3,,
+179758,11/04/24,11/10/24,01/02/25,MORENO VALLEY,CA,SAN ANTONIO ,TX, state 4, miles of state 4,,
+180442,12/06/24,12/12/24,01/02/25,MORENO VALLEY,CA,NEW BRAUNFELS ,TX, state 1, miles of state 1,,
+180442,12/06/24,12/12/24,01/02/25,MORENO VALLEY,CA,NEW BRAUNFELS ,TX, state 2, miles of state 2,,
+180442,12/06/24,12/12/24,01/02/25,MORENO VALLEY,CA,NEW BRAUNFELS ,TX, state 3, miles of state 3,,
+180442,12/06/24,12/12/24,01/02/25,MORENO VALLEY,CA,NEW BRAUNFELS ,TX, state 4, miles of state 4,,
+180442,12/06/24,12/12/24,01/02/25,MORENO VALLEY,CA,NEW BRAUNFELS ,TX, state 5, miles of state 5,,
+180442,12/06/24,12/12/24,01/02/25,MORENO VALLEY,CA,NEW BRAUNFELS ,TX, state 6, miles of state 6,,
+
+State column will be two letter for state like CA for california
+
+### Implementation Priority
+1. **Phase 1**: Progressive export every 500 routes
+2. **Phase 2**: Smart re-processing mode for interrupted sessions
+3. **Phase 3**: Enhanced failure handling with fallback estimation
+4. **Phase 4**: Route caching and deduplication for performance
+
+### Expected Performance Improvements
+- **Progressive export**: 0% data loss from interruptions
+- **Smart re-processing**: 50-90% time savings on resumed sessions
+- **Failure handling**: 99.5%+ completion rate vs current 99.1%
+- **Route caching**: 3-5x speed improvement for duplicate routes
